@@ -1,0 +1,9 @@
+.DS_Store
+obj
+bin
+*.user
+*.suo
+*.userprefs
+*.unityproj
+*.pidb
+/storages
