@@ -152,7 +152,7 @@ namespace Dnz
         /// <param name="type">当前类型。</param>
         /// <param name="fullName">是否显示全名。</param>
         /// <returns>返回当前类型的名称。</returns>
-        public static string DisplayName(this Type type, bool fullName = true)
+        public static string GetDisplayName(this Type type, bool fullName = true)
         {
             var sb = new StringBuilder();
             ProcessTypeName(type, sb, fullName);
