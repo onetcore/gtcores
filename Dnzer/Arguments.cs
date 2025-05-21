@@ -121,9 +121,8 @@ public class Arguments
     {
         get
         {
-            if (_args.TryGetValue(key, out var value))
-                return value;
-            return null;
+            _args.TryGetValue(key, out var value);
+            return value;
         }
     }
 
@@ -135,8 +134,7 @@ public class Arguments
     /// <returns>返回参数值。</returns>
     public string? GetValue(string key)
     {
-        if (_args.TryGetValue(key, out var value))
-            return value;
-        return null;
+        _args.TryGetValue(key, out var value);
+        return value;
     }
 }
