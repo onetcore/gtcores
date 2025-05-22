@@ -1,7 +1,6 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
-using Microsoft.Extensions.DependencyModel;
 using Microsoft.Extensions.Hosting;
 using System.Reflection;
 
@@ -80,7 +79,7 @@ public static class ServiceExtensions
 
     private static IEnumerable<Type> GetExportedTypes(IConfiguration configuration)
     {
-        var types = GetServices(configuration).ToList();
+        var types = GetServiceTypes(configuration).ToList();
         var susppendServices = types.Select(type => type.GetTypeInfo())
             .Where(type => type.IsDefined(typeof(SuppressAttribute)))
             .ToList();
@@ -96,7 +95,7 @@ public static class ServiceExtensions
             .ToList();
     }
 
-    private static IEnumerable<Type> GetServices(IConfiguration configuration)
+    private static IEnumerable<Type> GetServiceTypes(IConfiguration configuration)
     {
         var types = GetAssemblies(configuration)
             .SelectMany(assembly => assembly.GetTypes())
@@ -116,11 +115,13 @@ public static class ServiceExtensions
         return configuration.GetSection("Excludes").AsList() ?? new List<string?>();
     }
 
-    private static bool IsGtCoresDependency(this RuntimeLibrary library)
+    private static bool IsDependency(this Assembly assembly, List<string> excludes)
     {
-        if (library.Name == "GtCores" || library.Name.StartsWith("GtCores.") || library.Type == "project")
-            return true;
-        return library.Dependencies.Any(x => x.Name == "GtCores" || x.Name.StartsWith("GtCores."));
+        var name = assembly.GetName().Name;
+        if (excludes.Contains(name, StringComparer.OrdinalIgnoreCase))
+            return false;
+        return assembly.GetReferencedAssemblies()
+            .Any(x => x.Name == "GtCores" || x.Name?.StartsWith("GtCores.", StringComparison.OrdinalIgnoreCase) == true);
     }
 
     /// <summary>
@@ -130,18 +131,10 @@ public static class ServiceExtensions
     /// <returns>返回应用程序集列表。</returns>
     public static IEnumerable<Assembly> GetAssemblies(this IConfiguration configuration)
     {
-        var assemblies = new List<Assembly>();
         var excludes = GetExcludeAssemblies(configuration);
-        foreach (var library in DependencyContext.Default!.RuntimeLibraries)
-        {
-            if (excludes.Contains(library.Name, StringComparer.OrdinalIgnoreCase) || !library.IsGtCoresDependency())
-            {//尽量减少不需要的程序集
-                continue;
-            }
-
-            assemblies.Add(Assembly.Load(new AssemblyName(library.Name)));
-        }
-
+        var assemblies = AppDomain.CurrentDomain.GetAssemblies()
+            .Where(x => x.IsDependency(excludes!))
+            .ToList();
         return assemblies;
     }
 

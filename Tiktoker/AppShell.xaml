@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Shell
+    x:Class="Tiktoker.AppShell"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:local="clr-namespace:Tiktoker"
+    Shell.FlyoutBehavior="Flyout"
+    Title="Tiktoker">
+
+    <ShellContent
+        Title="Home"
+        ContentTemplate="{DataTemplate local:MainPage}"
+        Route="MainPage"/>
+
+    <ShellContent
+        Title="下载抖音无水印视频"
+        ContentTemplate="{DataTemplate local:DVideoPage}"
+        Route="DVideoPage"/>
+</Shell>
