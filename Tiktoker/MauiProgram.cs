@@ -1,5 +1,7 @@
 ﻿using GtCores;
+#if DEBUG
 using Microsoft.Extensions.Logging;
+#endif
 
 namespace Tiktoker;
 
