@@ -1,4 +1,4 @@
-namespace Dnzer;
+namespace GtCores.Tools;
 
 /// <summary>
 /// 参数实例类。

@@ -1,4 +1,4 @@
-namespace Dnzer;
+namespace GtCores.Tools;
 
 /// <summary>
 /// 执行接口。

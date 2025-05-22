@@ -1,7 +1,7 @@
 using System.Reflection;
 using System.Xml;
 
-namespace Dnzer;
+namespace GtCores.Tools;
 
 /// <summary>
 /// 资源生成方法。

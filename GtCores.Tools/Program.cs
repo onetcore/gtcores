@@ -1,5 +1,5 @@
 ﻿using System.Reflection;
-using Dnzer;
+using GtCores.Tools;
 
 var currentDirectory = GetCurrentDirectory();
 Console.WriteLine($"当前目录: {currentDirectory.FullName}");
