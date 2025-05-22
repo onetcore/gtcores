@@ -3,19 +3,42 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Tiktoker.DVideoPage"
              Title="下载抖音无水印视频">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem
+            x:Name="downloadButton1"
+            IconImageSource="person_fill.png"/>
+    </ContentPage.ToolbarItems>
     <ScrollView>
-        <VerticalStackLayout>
+        <VerticalStackLayout
+            Padding="20,0">
             <Label
+                FontSize="18"
                 Text="请输入抖音视频分享链接"
                 VerticalOptions="Center"
-                HorizontalOptions="Center"/>
-
-            <Entry
-                x:Name="urlEntry"
-                Placeholder="https://www.douyin.com/video/1234567890"
-                Keyboard="Url"
-                VerticalOptions="Center"
-                HorizontalOptions="Center"/>
+                HorizontalOptions="Start"/>
+            <Border
+                StrokeShape="RoundRectangle 10"
+                StrokeThickness="1"
+                Padding="0"
+                Margin="0,10,0,0">
+                <Editor
+                    x:Name="SharedLinkEditor"
+                    Placeholder="请输入抖音视频分享链接..."
+                    Keyboard="Url"
+                    HeightRequest="200"
+                    VerticalOptions="Center"
+                    HorizontalOptions="Fill"
+                    Margin="5,0"
+                    FontSize="18"/>
+            </Border>
+            <Button
+                FontSize="18"
+                x:Name="DownloadButton"
+                Text="下载视频"
+                SemanticProperties.Hint="点击下载视频"
+                Clicked="OnDownloadButtonClicked"
+                HorizontalOptions="Fill"
+                Margin="0,10,0,0"/>
         </VerticalStackLayout>
     </ScrollView>
 </ContentPage>

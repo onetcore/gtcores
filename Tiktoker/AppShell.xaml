@@ -6,14 +6,61 @@
     xmlns:local="clr-namespace:Tiktoker"
     Shell.FlyoutBehavior="Flyout"
     Title="Tiktoker">
+    <FlyoutItem FlyoutDisplayOptions="AsMultipleItems">
+        <Tab
+            Title="首页"
+            Icon="x_diamond.svg">
+            <ShellContent Title="推荐"
+                          ContentTemplate="{DataTemplate local:MainPage}"/>
+            <ShellContent Title="关注"
+                          ContentTemplate="{DataTemplate local:MainPage}"/>
+            <ShellContent Title="任务"
+                          ContentTemplate="{DataTemplate local:MainPage}"/>
+            <ShellContent Title="热门"
+                          ContentTemplate="{DataTemplate local:MainPage}"/>
+            <ShellContent Title="热门1"
+                          ContentTemplate="{DataTemplate local:DVideoPage}"/>
+            <ShellContent Title="热门2"
+                          ContentTemplate="{DataTemplate local:DVideoPage}"/>
+            <ShellContent Title="热门3"
+                          ContentTemplate="{DataTemplate local:DVideoPage}"/>
+            <ShellContent Title="热门4"
+                          ContentTemplate="{DataTemplate local:DVideoPage}"/>
+            <ShellContent Title="热门5"
+                          ContentTemplate="{DataTemplate local:DVideoPage}"/>
+            <ShellContent Title="热门6"
+                          ContentTemplate="{DataTemplate local:DVideoPage}"/>
+        </Tab>
+        <ShellContent
+            Title="视频"
+            Icon="camera_video.svg"
+            ContentTemplate="{DataTemplate local:DVideoPage}"/>
+        <ShellContent
+            Title="音频"
+            Icon="volume_up.svg"
+            ContentTemplate="{DataTemplate local:DVideoPage}"/>
+        <ShellContent
+            Title="任务"
+            Icon="layers.svg"
+            ContentTemplate="{DataTemplate local:DVideoPage}"/>
+        <ShellContent
+            Title="我的"
+            Icon="person.svg"
+            Route="Profile"
+            ContentTemplate="{DataTemplate local:DVideoPage}"/>
+    </FlyoutItem>
 
-    <ShellContent
-        Title="Home"
-        ContentTemplate="{DataTemplate local:MainPage}"
-        Route="MainPage"/>
-
-    <ShellContent
-        Title="下载抖音无水印视频"
-        ContentTemplate="{DataTemplate local:DVideoPage}"
-        Route="DVideoPage"/>
+    <ShellContent Title="我的"
+                  Icon="person.svg"
+                  Route="Profile"
+                  ContentTemplate="{DataTemplate local:MainPage}"/>
+    <ShellContent Title="设置"
+                  Icon="gear.svg"
+                  ContentTemplate="{DataTemplate local:MainPage}"/>
+    <ShellContent Title="帮助"
+                  Icon="help.svg"
+                  ContentTemplate="{DataTemplate local:MainPage}"/>
+    <ShellContent Title="关于我们"
+                  Icon="info.png"
+                  ContentTemplate="{DataTemplate local:MainPage}"/>
 </Shell>
