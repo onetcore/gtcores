@@ -124,11 +124,11 @@ public class StorageDirectory : IStorageDirectory
     /// </summary>
     /// <param name="file">表单文件实例。</param>
     /// <returns>返回文件实例。</returns>
-    public virtual async Task<FileInfo> SaveToTempAsync(Stream file)
+    public virtual async Task<FileInfo> SaveToTempAsync(Stream file, CancellationToken cancellationToken = default)
     {
         var info = new FileInfo(Path.Combine(_tempDirectory, Guid.NewGuid().ToString("N")));
         using var fs = new FileStream(info.FullName, FileMode.Create, FileAccess.Write);
-        await file.CopyToAsync(fs);
+        await file.CopyToAsync(fs, cancellationToken);
         return info;
     }
 
@@ -168,5 +168,16 @@ public class StorageDirectory : IStorageDirectory
                 }
             }
         }
+    }
+
+    /// <summary>
+    /// 判断文件是否存在。
+    /// </summary>
+    /// <param name="filePath">文件路径。</param>
+    /// <returns>返回判断结果。</returns>
+    public bool Exists(string filePath)
+    {
+        filePath = GetFullPath(filePath);
+        return File.Exists(filePath);
     }
 }

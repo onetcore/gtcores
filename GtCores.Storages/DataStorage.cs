@@ -1,6 +1,5 @@
 using System.Collections.Concurrent;
 using System.Reflection;
-using Microsoft.Extensions.Logging;
 
 namespace GtCores.Storages;
 
@@ -11,7 +10,7 @@ namespace GtCores.Storages;
 public class DataStorage<TModel> : IDataStorage<TModel>
 {
     private readonly IStorageDirectory _storageDirectory;
-    private readonly ILogger<TModel> _logger;
+    private readonly Mutex _mutex = new(true, typeof(TModel).FullName);
     private ConcurrentDictionary<string, TModel>? _storages;
     /// <summary>
     /// 当前存储的数据列表。
@@ -25,15 +24,19 @@ public class DataStorage<TModel> : IDataStorage<TModel>
             return _storages!;
         }
     }
+
     /// <summary>
     /// 当前存储的物理路径。
     /// </summary>
     protected string FullPath { get; }
 
-    public DataStorage(IStorageDirectory storageDirectory, ILogger<TModel> logger)
+    /// <summary>
+    /// 初始化类<see cref="DataStorage{TModel}"/>的新实例。
+    /// </summary>
+    /// <param name="storageDirectory">存储接口。</param>
+    public DataStorage(IStorageDirectory storageDirectory)
     {
         _storageDirectory = storageDirectory;
-        _logger = logger;
         var type = typeof(TModel);
         var name = type.GetCustomAttribute<StorageAttribute>()?.Name ?? type.Name;
         FullPath = $"data/{type.Assembly.GetName().Name}/{name.ToLower()}.db";
@@ -97,7 +100,7 @@ public class DataStorage<TModel> : IDataStorage<TModel>
     {
         var key = model.GetKey();
         Storeages.AddOrUpdate(key, _ => model, (_, __) => model);
-        if (saved) Save();
+        if (saved) SaveFile();
     }
 
     /// <summary>
@@ -108,17 +111,25 @@ public class DataStorage<TModel> : IDataStorage<TModel>
     public void UpdateData(Action<IEnumerable<TModel>> action, bool saved = true)
     {
         action(Storeages.Values);
-        if (saved) Save();
+        if (saved) SaveFile();
     }
 
     /// <summary>
     /// 保存存储文件。
     /// </summary>
-    protected void Save()
+    protected void SaveFile()
     {
-        var json = _storages.ToJsonString()!;
-        json = Cores.Encrypto(json);
-        _storageDirectory.SaveFile(FullPath, json);
+        try
+        {
+            _mutex.WaitOne();
+            var json = _storages.ToJsonString()!;
+            json = Cores.Encrypto(json);
+            _storageDirectory.SaveFile(FullPath, json);
+        }
+        finally
+        {
+            _mutex.ReleaseMutex();
+        }
     }
 
     /// <summary>
@@ -133,7 +144,7 @@ public class DataStorage<TModel> : IDataStorage<TModel>
         {
             Storeages.TryRemove(key, out _);
         }
-        if (saved) Save();
+        if (saved) SaveFile();
     }
 
     /// <summary>

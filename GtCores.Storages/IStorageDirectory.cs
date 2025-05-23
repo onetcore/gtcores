@@ -58,11 +58,19 @@ public interface IStorageDirectory : ISingletonService
     /// 将文件实例保存到临时文件夹中。
     /// </summary>
     /// <param name="file">表单文件实例。</param>
+    /// <param name="cancellationToken">取消令牌。</param>
     /// <returns>返回文件实例。</returns>
-    Task<FileInfo> SaveToTempAsync(Stream file);
+    Task<FileInfo> SaveToTempAsync(Stream file, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// 清理文件夹。
     /// </summary>
     void CleanStorages();
+
+    /// <summary>
+    /// 判断文件是否存在。
+    /// </summary>
+    /// <param name="filePath">文件路径。</param>
+    /// <returns>返回判断结果。</returns>
+    bool Exists(string filePath);
 }
