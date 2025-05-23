@@ -15,7 +15,7 @@ public class DataStorage<TModel> : IDataStorage<TModel>
     /// <summary>
     /// 当前存储的数据列表。
     /// </summary>
-    protected ConcurrentDictionary<string, TModel> Storeages
+    protected ConcurrentDictionary<string, TModel> StorageData
     {
         get
         {
@@ -87,7 +87,7 @@ public class DataStorage<TModel> : IDataStorage<TModel>
     /// <returns>返回模型实例对象。</returns>
     public TModel? GetData(string key)
     {
-        Storeages.TryGetValue(key, out var model);
+        StorageData.TryGetValue(key, out var model);
         return model;
     }
 
@@ -99,7 +99,7 @@ public class DataStorage<TModel> : IDataStorage<TModel>
     public void UpdateData(TModel model, bool saved = true)
     {
         var key = model.GetKey();
-        Storeages.AddOrUpdate(key, _ => model, (_, __) => model);
+        StorageData.AddOrUpdate(key, _ => model, (_, __) => model);
         if (saved) SaveFile();
     }
 
@@ -110,7 +110,7 @@ public class DataStorage<TModel> : IDataStorage<TModel>
     /// <param name="saved">是否直接保存到存储文件中</param>
     public void UpdateData(Action<IEnumerable<TModel>> action, bool saved = true)
     {
-        action(Storeages.Values);
+        action(StorageData.Values);
         if (saved) SaveFile();
     }
 
@@ -139,10 +139,10 @@ public class DataStorage<TModel> : IDataStorage<TModel>
     /// <param name="saved">是否保存到存储中。</param>
     public void DeleteData(Func<TModel, bool> predicate, bool saved = true)
     {
-        var deletings = Storeages.Values.Where(predicate).Select(x => x.GetKey());
+        var deletings = StorageData.Values.Where(predicate).Select(x => x.GetKey());
         foreach (var key in deletings)
         {
-            Storeages.TryRemove(key, out _);
+            StorageData.TryRemove(key, out _);
         }
         if (saved) SaveFile();
     }
@@ -153,6 +153,17 @@ public class DataStorage<TModel> : IDataStorage<TModel>
     /// <returns>返回数据列表实例。</returns>
     public IEnumerable<TModel> AsEnumerable()
     {
-        return Storeages.Values;
+        return StorageData.Values;
+    }
+
+    /// <summary>
+    /// 获取当前键的最大值。
+    /// </summary>
+    /// <typeparam name="TKey">键类型。</typeparam>
+    /// <param name="func">获取当前实例的方法。</param>
+    /// <returns>返回最大值。</returns>
+    public TKey? GetKey<TKey>(Func<TModel, TKey> func)
+    {
+        return StorageData.Values.Max(func);
     }
 }

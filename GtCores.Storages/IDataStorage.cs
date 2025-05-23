@@ -50,4 +50,12 @@ public interface IDataStorage<TModel>
     /// </summary>
     /// <returns>返回数据列表实例。</returns>
     IEnumerable<TModel> AsEnumerable();
+
+    /// <summary>
+    /// 获取当前键的最大值。
+    /// </summary>
+    /// <typeparam name="TKey">键类型。</typeparam>
+    /// <param name="func">获取当前实例的方法。</param>
+    /// <returns>返回最大值。</returns>
+    TKey? GetKey<TKey>(Func<TModel, TKey> func);
 }
