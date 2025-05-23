@@ -64,5 +64,5 @@ public interface IStorageDirectory : ISingletonService
     /// <summary>
     /// 清理文件夹。
     /// </summary>
-    void ClearDirectories();
+    void CleanStorages();
 }

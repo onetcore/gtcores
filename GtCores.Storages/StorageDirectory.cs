@@ -135,7 +135,7 @@ public class StorageDirectory : IStorageDirectory
     /// <summary>
     /// 清理文件夹。
     /// </summary>
-    public virtual void ClearDirectories()
+    public virtual void CleanStorages()
     {
         var infos = new DirectoryInfo(_currentDirectory).GetDirectories("*", SearchOption.TopDirectoryOnly);
         foreach (var info in infos)
