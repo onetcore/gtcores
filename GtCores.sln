@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GtCores.Consoles", "GtCores
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gt", "Gt\Gt.csproj", "{25170537-84B8-456D-A230-058509F0810C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gd", "Gd\Gd.csproj", "{17DD1387-4AAE-46C9-9AF7-9AE478C1EE42}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -69,6 +71,18 @@ Global
 		{25170537-84B8-456D-A230-058509F0810C}.Release|x64.Build.0 = Release|Any CPU
 		{25170537-84B8-456D-A230-058509F0810C}.Release|x86.ActiveCfg = Release|Any CPU
 		{25170537-84B8-456D-A230-058509F0810C}.Release|x86.Build.0 = Release|Any CPU
+		{17DD1387-4AAE-46C9-9AF7-9AE478C1EE42}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{17DD1387-4AAE-46C9-9AF7-9AE478C1EE42}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{17DD1387-4AAE-46C9-9AF7-9AE478C1EE42}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{17DD1387-4AAE-46C9-9AF7-9AE478C1EE42}.Debug|x64.Build.0 = Debug|Any CPU
+		{17DD1387-4AAE-46C9-9AF7-9AE478C1EE42}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{17DD1387-4AAE-46C9-9AF7-9AE478C1EE42}.Debug|x86.Build.0 = Debug|Any CPU
+		{17DD1387-4AAE-46C9-9AF7-9AE478C1EE42}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{17DD1387-4AAE-46C9-9AF7-9AE478C1EE42}.Release|Any CPU.Build.0 = Release|Any CPU
+		{17DD1387-4AAE-46C9-9AF7-9AE478C1EE42}.Release|x64.ActiveCfg = Release|Any CPU
+		{17DD1387-4AAE-46C9-9AF7-9AE478C1EE42}.Release|x64.Build.0 = Release|Any CPU
+		{17DD1387-4AAE-46C9-9AF7-9AE478C1EE42}.Release|x86.ActiveCfg = Release|Any CPU
+		{17DD1387-4AAE-46C9-9AF7-9AE478C1EE42}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
