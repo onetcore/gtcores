@@ -5,11 +5,50 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:local="clr-namespace:Gd"
     Shell.FlyoutBehavior="Flyout"
-    Title="Gd">
-
+    Title="首页">
+    <FlyoutItem FlyoutDisplayOptions="AsMultipleItems">
+        <Tab Title="首页"
+             Icon="home.svg">
+            <ShellContent
+                Title="首页"
+                Icon="home.svg"
+                ContentTemplate="{DataTemplate local:MainPage}"
+                Route="MainPage"/>
+            <ShellContent
+                Icon="video.svg"
+                Title="视频"
+                ContentTemplate="{DataTemplate local:MainPage}"
+                Route="VideoPage"/>
+            <ShellContent
+                Icon="task.svg"
+                Title="任务"
+                ContentTemplate="{DataTemplate local:MainPage}"
+                Route="VideoPage"/>
+            <ShellContent
+                Icon="music.svg"
+                Title="音频"
+                ContentTemplate="{DataTemplate local:MainPage}"
+                Route="MusicPage"/>
+            <ShellContent
+                Icon="profile.svg"
+                Title="我的"
+                ContentTemplate="{DataTemplate local:MainPage}"
+                Route="ProfilePage"/>
+        </Tab>
+    </FlyoutItem>
     <ShellContent
-        Title="Home"
+        Icon="settings.svg"
+        Title="设置"
         ContentTemplate="{DataTemplate local:MainPage}"
-        Route="MainPage" />
-
+        Route="SettingsPage"/>
+    <ShellContent
+        Icon="info.svg"
+        Title="关于我们"
+        ContentTemplate="{DataTemplate local:MainPage}"
+        Route="AboutPage"/>
+    <ShellContent
+        Icon="help.svg"
+        Title="帮助与反馈"
+        ContentTemplate="{DataTemplate local:MainPage}"
+        Route="HelpPage"/>
 </Shell>
