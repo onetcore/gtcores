@@ -47,7 +47,6 @@ public abstract class CommandHandler : ICommandHandler
     protected void ShowLine(string parameter, string help)
     {
         ConsoleCore.Write("  ");
-        Console.BackgroundColor = ConsoleColor.DarkGray;
         ConsoleCore.Write(parameter);
         Console.ResetColor();
         ConsoleCore.Write("：");

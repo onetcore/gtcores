@@ -65,6 +65,7 @@ public class CommandHandlerFactory : ICommandHandlerFactory
                 }
                 else if (_commandHandlers.TryGetValue(command, out var cmdx))
                 {
+                    ConsoleCore.WriteLine(ConsoleColor.DarkGray, cmdx.Description);
                     cmdx!.ShowHelp();
                 }
                 else

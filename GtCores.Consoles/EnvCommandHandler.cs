@@ -8,7 +8,7 @@ public class EnvCommandHandler : CommandHandler
     /// <summary>
     /// 描述。
     /// </summary>
-    public override string Description => throw new NotImplementedException();
+    public override string Description => "全局环境变量处理器。";
 
     /// <summary>
     /// 执行方法。
