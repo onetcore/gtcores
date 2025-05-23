@@ -1,9 +1,0 @@
-﻿namespace Dnz
-{
-    /// <summary>
-    /// 服务接口。
-    /// </summary>
-    public interface IService
-    {
-    }
-}
