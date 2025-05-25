@@ -8,46 +8,53 @@
     Title="首页">
     <FlyoutItem FlyoutDisplayOptions="AsMultipleItems">
         <Tab Title="首页"
-             Icon="home.svg">
+             Icon="home.png">
             <ShellContent
-                Title="首页"
-                Icon="home.svg"
+                Title="推荐"
                 ContentTemplate="{DataTemplate local:MainPage}"
-                Route="MainPage"/>
+                Route="Tj"/>
             <ShellContent
-                Icon="video.svg"
-                Title="视频"
+                Title="关注"
                 ContentTemplate="{DataTemplate local:MainPage}"
-                Route="VideoPage"/>
+                Route="Gz"/>
             <ShellContent
-                Icon="task.svg"
-                Title="任务"
-                ContentTemplate="{DataTemplate local:MainPage}"
-                Route="VideoPage"/>
-            <ShellContent
-                Icon="music.svg"
-                Title="音频"
-                ContentTemplate="{DataTemplate local:MainPage}"
-                Route="MusicPage"/>
-            <ShellContent
-                Icon="profile.svg"
-                Title="我的"
-                ContentTemplate="{DataTemplate local:MainPage}"
-                Route="ProfilePage"/>
+                Title="抖音"
+                ContentTemplate="{DataTemplate local:DouyinPage}"
+                Route="Dy"/>
         </Tab>
+        <ShellContent
+            Icon="task.png"
+            Title="任务"
+            ContentTemplate="{DataTemplate local:MainPage}"
+            Route="VideoPage"/>
+        <ShellContent
+            Icon="video.png"
+            Title="视频"
+            ContentTemplate="{DataTemplate local:MainPage}"
+            Route="VideoPage"/>
+        <ShellContent
+            Icon="music.png"
+            Title="音频"
+            ContentTemplate="{DataTemplate local:MainPage}"
+            Route="MusicPage"/>
+        <ShellContent
+            Icon="profile.png"
+            Title="我的"
+            ContentTemplate="{DataTemplate local:MainPage}"
+            Route="ProfilePage"/>
     </FlyoutItem>
     <ShellContent
-        Icon="settings.svg"
+        Icon="settings.png"
         Title="设置"
         ContentTemplate="{DataTemplate local:MainPage}"
         Route="SettingsPage"/>
     <ShellContent
-        Icon="info.svg"
+        Icon="info.png"
         Title="关于我们"
         ContentTemplate="{DataTemplate local:MainPage}"
         Route="AboutPage"/>
     <ShellContent
-        Icon="help.svg"
+        Icon="help.png"
         Title="帮助与反馈"
         ContentTemplate="{DataTemplate local:MainPage}"
         Route="HelpPage"/>
