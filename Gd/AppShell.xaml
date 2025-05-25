@@ -7,21 +7,11 @@
     Shell.FlyoutBehavior="Flyout"
     Title="首页">
     <FlyoutItem FlyoutDisplayOptions="AsMultipleItems">
-        <Tab Title="首页"
-             Icon="home.png">
-            <ShellContent
-                Title="推荐"
-                ContentTemplate="{DataTemplate local:MainPage}"
-                Route="Tj"/>
-            <ShellContent
-                Title="关注"
-                ContentTemplate="{DataTemplate local:MainPage}"
-                Route="Gz"/>
-            <ShellContent
-                Title="抖音"
-                ContentTemplate="{DataTemplate local:DouyinPage}"
-                Route="Dy"/>
-        </Tab>
+        <ShellContent
+            Title="首页"
+            Icon="home.png"
+            ContentTemplate="{DataTemplate local:MainPage}"
+            Route="MainPage"/>
         <ShellContent
             Icon="task.png"
             Title="任务"
@@ -38,20 +28,20 @@
             ContentTemplate="{DataTemplate local:MainPage}"
             Route="MusicPage"/>
         <ShellContent
-            Icon="profile.png"
-            Title="我的"
+            Icon="settings.png"
+            Title="设置"
             ContentTemplate="{DataTemplate local:MainPage}"
-            Route="ProfilePage"/>
+            Route="SettingsPage"/>
     </FlyoutItem>
     <ShellContent
-        Icon="settings.png"
-        Title="设置"
-        ContentTemplate="{DataTemplate local:MainPage}"
-        Route="SettingsPage"/>
+        Icon="music.png"
+        Title="下载抖音视频"
+        ContentTemplate="{DataTemplate local:DouyinPage}"
+        Route="DouyinPage"/>
     <ShellContent
         Icon="info.png"
         Title="关于我们"
-        ContentTemplate="{DataTemplate local:MainPage}"
+        ContentTemplate="{DataTemplate local:AboutPage}"
         Route="AboutPage"/>
     <ShellContent
         Icon="help.png"
