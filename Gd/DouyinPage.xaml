@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:media="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              x:Class="Gd.DouyinPage"
              Title="下载无水印抖音视频"
              Shell.BackgroundColor="#FF0000"
-             Shell.TabBarBackgroundColor="#FF0000">
+             Shell.TabBarBackgroundColor="#FF0000"
+             Shell.TabBarForegroundColor="White"
+             Shell.TabBarTitleColor="White">
     <ContentPage.Background>
         <LinearGradientBrush EndPoint="0,0.2">
             <GradientStop Color="#FF0000"
@@ -13,23 +16,52 @@
                           Offset="1.0"/>
         </LinearGradientBrush>
     </ContentPage.Background>
-    <StackLayout>
-        <Label Text="请输入抖音视频分享链接"
-               FontSize="24"
-               Margin="20,20,20,0"
-               VerticalOptions="Center"
-               HorizontalOptions="Start"/>
+    <ScrollView>
+        <VerticalStackLayout Padding="20, 0">
+            <Label Text="请输入抖音视频分享链接"
+                   Style="{StaticResource SubHeadline}"
+                   Margin="0,20,0,0"
+                   VerticalOptions="Center"
+                   HorizontalOptions="Start"/>
 
-        <Border Margin="20,20,20,0"
-                StrokeThickness="1"
-                StrokeShape="RoundRectangle 10">
-            <Editor
-                x:Name="urlEditor"
-                Placeholder="https://www.douyin.com/video/1234567890"
-                FontSize="18"
-                HeightRequest="100"
-                VerticalOptions="CenterAndExpand"
-                HorizontalOptions="FillAndExpand"/>
-        </Border>
-    </StackLayout>
+            <Border Margin="0,20,0,0"
+                    Padding="5,0,5,0"
+                    StrokeThickness="1"
+                    StrokeShape="RoundRectangle 10"
+                    Stroke="#FF0000">
+                <Editor
+                    x:Name="urlEditor"
+                    Placeholder="抖音视频分享链接..."
+                    FontSize="18"
+                    HeightRequest="100"
+                    VerticalOptions="Center"
+                    HorizontalOptions="Fill"/>
+            </Border>
+
+            <Button Margin="0,20,0,0"
+                    x:Name="submitButton"
+                    Text="获取视频信息"
+                    Clicked="OnSubmitClickedAsync"
+                    HorizontalOptions="Fill"/>
+
+            <Label Margin="0,20,0,0"
+                   TextColor="#FF0AC474"
+                   x:Name="titleLabel"></Label>
+            <Label Margin="0,20,0,0"
+                   TextColor="#FF0AC474"
+                   x:Name="descLabel"></Label>
+            <Label Margin="0,20,0,0"
+                   TextColor="#FF0AC474"
+                   x:Name="videoLabel"></Label>
+            <Border StrokeShape="RoundRectangle 10"
+                    Stroke="white"
+                    StrokeThickness="1"
+                    Margin="0,20,0,0">
+                <media:MediaElement
+                    x:Name="videoPlayer"
+                    HorizontalOptions="Center"
+                    VerticalOptions="Center"/>
+            </Border>
+        </VerticalStackLayout>
+    </ScrollView>
 </ContentPage>
