@@ -1,13 +1,20 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:media="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              x:Class="Gd.DouyinPage"
              Title="下载无水印抖音视频"
+             Shell.TitleColor="White"
+             Shell.ForegroundColor="White"
              Shell.BackgroundColor="#FF0000"
              Shell.TabBarBackgroundColor="#FF0000"
              Shell.TabBarForegroundColor="White"
              Shell.TabBarTitleColor="White">
+    <ContentPage.Behaviors>
+        <toolkit:StatusBarBehavior
+            StatusBarStyle="DarkContent"
+            StatusBarColor="#FF0000"/>
+    </ContentPage.Behaviors>
     <ContentPage.Background>
         <LinearGradientBrush EndPoint="0,0.2">
             <GradientStop Color="#FF0000"
@@ -35,7 +42,8 @@
                     FontSize="18"
                     HeightRequest="100"
                     VerticalOptions="Center"
-                    HorizontalOptions="Fill"/>
+                    HorizontalOptions="Fill"
+                    TextChanged="urlEditor_TextChanged"/>
             </Border>
 
             <Button Margin="0,20,0,0"
@@ -45,23 +53,51 @@
                     HorizontalOptions="Fill"/>
 
             <Label Margin="0,20,0,0"
+                   x:DataType="toolkit:MediaElement"
+                   BindingContext="{x:Reference videoPlayer}"
+                   IsVisible="{Binding IsVisible}"
                    TextColor="#FF0AC474"
                    x:Name="titleLabel"></Label>
             <Label Margin="0,20,0,0"
+                   x:DataType="toolkit:MediaElement"
+                   BindingContext="{x:Reference videoPlayer}"
+                   IsVisible="{Binding IsVisible}"
                    TextColor="#FF0AC474"
                    x:Name="descLabel"></Label>
             <Label Margin="0,20,0,0"
+                   x:DataType="toolkit:MediaElement"
+                   BindingContext="{x:Reference videoPlayer}"
+                   IsVisible="{Binding IsVisible}"
                    TextColor="#FF0AC474"
                    x:Name="videoLabel"></Label>
-            <Border StrokeShape="RoundRectangle 10"
-                    Stroke="white"
-                    StrokeThickness="1"
-                    Margin="0,20,0,0">
-                <media:MediaElement
+            <Border
+                x:DataType="toolkit:MediaElement"
+                BindingContext="{x:Reference videoPlayer}"
+                IsVisible="{Binding IsVisible}"
+                StrokeShape="RoundRectangle 10"
+                Stroke="white"
+                StrokeThickness="1"
+                Margin="0,20,0,0">
+                <toolkit:MediaElement
                     x:Name="videoPlayer"
+                    IsVisible="False"
                     HorizontalOptions="Center"
                     VerticalOptions="Center"/>
             </Border>
+
+            <Button Margin="0,20,0,20"
+                    x:Name="downloadButton"
+                    x:DataType="toolkit:MediaElement"
+                    BindingContext="{x:Reference videoPlayer}"
+                    IsVisible="{Binding IsVisible}"
+                    Text="下载视频"
+                    Clicked="OnDonwloadClickedAsync"
+                    HorizontalOptions="Fill"/>
+
+            <ProgressBar
+                x:Name ="downloadProgressBar"
+                IsVisible="False">
+            </ProgressBar>
         </VerticalStackLayout>
     </ScrollView>
 </ContentPage>

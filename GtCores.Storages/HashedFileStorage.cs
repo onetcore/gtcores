@@ -3,16 +3,16 @@ namespace GtCores.Storages;
 /// <summary>
 /// 存储文件类。
 /// </summary>
-public class HashedStorage : IHashedStorage
+public class HashedFileStorage : IHashedFileStorage
 {
     private readonly IStorageDirectory _storageDirectory;
-    private readonly IDataStorage<HashedFile> _dataStorage;
+    private readonly IDataFileStorage<HashedFile> _dataStorage;
     private const string _directory = "medias";
 
     /// <summary>
-    /// 初始化类<see cref="HashedStorage"/>的新实例。
+    /// 初始化类<see cref="HashedFileStorage"/>的新实例。
     /// </summary>
-    public HashedStorage(IStorageDirectory storageDirectory, IDataStorage<HashedFile> dataStorage)
+    public HashedFileStorage(IStorageDirectory storageDirectory, IDataFileStorage<HashedFile> dataStorage)
     {
         storageDirectory.CreateDirectory(_directory);
         _storageDirectory = storageDirectory;

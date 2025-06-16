@@ -3,7 +3,7 @@ namespace GtCores.Storages;
 /// <summary>
 /// 存储文件接口。
 /// </summary>
-public interface IHashedStorage : ISingletonService
+public interface IHashedFileStorage : ISingletonService
 {
     /// <summary>
     /// 上传文件。

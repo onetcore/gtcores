@@ -11,6 +11,6 @@ public class ServiceConfigurer : IServiceConfigurer
     /// <param name="builder">服务注册实例。</param>
     public void ConfigureServices(IServiceBuilder builder)
     {
-        builder.AddSingleton(typeof(IDataStorage<>), typeof(DataStorage<>));
+        builder.AddSingleton(typeof(IDataFileStorage<>), typeof(DataFileStorage<>));
     }
 }

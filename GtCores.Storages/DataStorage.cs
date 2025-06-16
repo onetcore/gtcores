@@ -7,7 +7,7 @@ namespace GtCores.Storages;
 ///  数据存储实现类。
 /// </summary>
 /// <typeparam name="TModel">数据模型类型。</typeparam>
-public class DataStorage<TModel> : IDataStorage<TModel>
+public class DataFileStorage<TModel> : IDataFileStorage<TModel>
 {
     private readonly IStorageDirectory _storageDirectory;
     private readonly Mutex _mutex = new(true, typeof(TModel).FullName);
@@ -31,10 +31,10 @@ public class DataStorage<TModel> : IDataStorage<TModel>
     protected string FullPath { get; }
 
     /// <summary>
-    /// 初始化类<see cref="DataStorage{TModel}"/>的新实例。
+    /// 初始化类<see cref="DataFileStorage{TModel}"/>的新实例。
     /// </summary>
     /// <param name="storageDirectory">存储接口。</param>
-    public DataStorage(IStorageDirectory storageDirectory)
+    public DataFileStorage(IStorageDirectory storageDirectory)
     {
         _storageDirectory = storageDirectory;
         var type = typeof(TModel);

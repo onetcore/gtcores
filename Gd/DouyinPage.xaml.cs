@@ -1,54 +1,71 @@
+using System.ComponentModel;
 using System.Text;
 using System.Text.Json;
 using System.Text.Json.Nodes;
 using System.Text.RegularExpressions;
 using System.Web;
+using CommunityToolkit.Maui.Alerts;
+using CommunityToolkit.Maui.Core;
+using CommunityToolkit.Maui.Storage;
+using CommunityToolkit.Maui.Views;
 
 namespace Gd;
 
 public partial class DouyinPage : ContentPage
 {
-	public DouyinPage()
+	public DouyinPage(IFileSaver fileSaver)
 	{
 		InitializeComponent();
+		Unloaded += DouyinPage_Unloaded;
+		_fileSaver = fileSaver;
 	}
 
+	private void DouyinPage_Unloaded(object? sender, EventArgs e)
+	{
+		//videoPlayer.Handler?.DisconnectHandler();
+		//videoPlayer.Source = null;
+		if (_isPlaying)
+			videoPlayer.Pause();
+	}
+
+	private bool _isPlaying = false;
 	private static readonly Regex _regex = new Regex("https://v.douyin.com/(.*)?/");
 	private static readonly Regex _location = new Regex("/video/(\\d+)/?");
 	private static readonly Regex _data = new Regex(@"window._ROUTER_DATA\s*=\s*(.*?)</script", RegexOptions.Singleline);
+	private readonly IFileSaver _fileSaver;
 
 	private async void OnSubmitClickedAsync(object sender, EventArgs e)
 	{
-		var sharedLink = urlEditor.Text.Trim();
-		if (sharedLink.Length == 0)
+		var sharedLink = urlEditor.Text?.Trim();
+		if (string.IsNullOrEmpty(sharedLink))
 		{
-			ShowError("请输入抖音链接");
+			await ShowError("请输入抖音链接");
 			return;
 		}
 		var match = _regex.Match(sharedLink);
 		if (!match.Success)
 		{
-			ShowError("未找到抖音分享链接，清重新输入。");
+			await ShowError("未找到抖音分享链接，清重新输入。");
 			return;
 		}
 		sharedLink = match.Groups[0].Value.Trim();
 		var location = await GetLocationAsync(sharedLink);
 		if (location == null)
 		{
-			ShowError("获取地址失败！");
+			await ShowError("获取地址失败！");
 			return;
 		}
 		match = _location.Match(location);
 		if (!match.Success)
 		{
-			ShowError("获取视频Id失败！");
+			await ShowError("获取视频Id失败！");
 			return;
 		}
 		location = $"https://m.douyin.com/share/video/{match.Groups[1].Value}";
 		var data = await GetJsonDataAsync(location);
 		if (string.IsNullOrWhiteSpace(data))
 		{
-			ShowError("获取视频数据失败！");
+			await ShowError("获取视频数据失败！");
 			return;
 		}
 		data = HttpUtility.UrlDecode(data, Encoding.UTF8);
@@ -56,7 +73,7 @@ public partial class DouyinPage : ContentPage
 		var itemList = json?["loaderData"]?["video_(id)\u002Fpage"]?["videoInfoRes"]?["item_list"]?.AsArray();
 		if (itemList == null)
 		{
-			ShowError("解析视频失败！");
+			await ShowError("解析视频失败！");
 			return;
 		}
 		var infos = new List<VideoInfo>();
@@ -67,13 +84,13 @@ public partial class DouyinPage : ContentPage
 		var info = infos.FirstOrDefault();
 		if (info == null)
 		{
-			ShowError("解析视频地址失败！");
+			await ShowError("解析视频地址失败！");
 			return;
 		}
 		var video = info.Video.Addresses.Urls[0];
 		if (string.IsNullOrWhiteSpace(video))
 		{
-			ShowError("解析视频地址失败！");
+			await ShowError("解析视频地址失败！");
 			return;
 		}
 		video = video.Replace("/playwm/", "/play/");
@@ -89,33 +106,63 @@ public partial class DouyinPage : ContentPage
 		}
 		videoLabel.Text = string.Format("视频（{1}x{2}）：{0}", video, info.Video.Width, info.Video.Height);
 		videoPlayer.MaximumWidthRequest = Width - 40;
+		videoPlayer.MaximumHeightRequest = videoPlayer.MaximumWidthRequest / info.Video.Width * info.Video.Height;
 		videoPlayer.WidthRequest = info.Video.Width;
 		videoPlayer.HeightRequest = info.Video.Height;
 		videoPlayer.Source = video;
-
-		// if (args.ContainsKey("o"))
-		// {
-		//     var outputFile = args["o"] ?? args["y"] ?? $"{info.Id}.mp4";
-		//     if (!outputFile.EndsWith(".mp4", StringComparison.OrdinalIgnoreCase))
-		//         outputFile = Path.Combine(outputFile, $"{info.Id}.mp4");
-		//     var path = args.MapPath(outputFile);
-		//     if (args.ContainsKey("y") || !File.Exists(path))//覆盖或者重新下载
-		//     {
-		//         Cores.InfoLine("正在下载视频...");
-		//         await Cores.DownloadAsync(video, path);
-		//         Cores.SuccessLine("下载完成 {0}", outputFile);
-		//     }
-		//     else
-		//     {
-		//         Cores.SuccessLine("文件已经存在，无需重新下载，完成！");
-		//     }
-		// }
+		videoPlayer.Play();
+		_isPlaying = true;
+		videoPlayer.IsVisible = true;
 	}
 
-	private void ShowError(string message)
+	private async void OnDonwloadClickedAsync(object sender, EventArgs e)
 	{
-		DisplayAlert("错误", message, "确定");
-		urlEditor.Focus();
+		if (videoPlayer.Source is UriMediaSource source)
+		{
+			var video = source.Uri?.ToString();
+			if (string.IsNullOrWhiteSpace(video))
+			{
+				await ShowError("视频地址无效！");
+				return;
+			}
+			var fileName = $"{DateTime.Now:yyyyMMddHHmmss}.mp4";
+			var path = Path.Combine(FileSystem.Current.AppDataDirectory, fileName);
+
+			try
+			{
+				downloadProgressBar.IsVisible = true;
+				await _fileSaver.DownloadAsync(video, path, downloadProgressBar);
+			}
+			catch (Exception ex)
+			{
+				await ShowError($"下载失败: {video}");
+				await ShowError(ex.Message);
+			}
+		}
+		else
+		{
+			await ShowError("请先获取视频地址！");
+		}
+	}
+
+	private void urlEditor_TextChanged(object sender, TextChangedEventArgs e)
+	{
+		if (_isPlaying)
+		{
+			videoPlayer.Pause();
+			_isPlaying = false;
+		}
+		videoPlayer.IsVisible = false;
+		videoPlayer.Source = null;
+		titleLabel.Text = "";
+		descLabel.Text = "";
+		videoLabel.Text = "";
+	}
+
+	private async Task ShowError(string message)
+	{
+		var toast = Toast.Make(message, ToastDuration.Short, 14);
+		await toast.Show();
 	}
 
 	private static async Task<string?> GetJsonDataAsync(string url)
@@ -367,5 +414,42 @@ public partial class DouyinPage : ContentPage
 		/// url_list。
 		/// </summary>
 		public List<string> Urls { get; } = new List<string>();
+	}
+
+	public class VideoViewModel : INotifyPropertyChanged
+	{
+		public event PropertyChangedEventHandler? PropertyChanged;
+		protected virtual void OnPropertyChanged(string propertyName)
+		{
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+		}
+
+		private string _title = string.Empty;
+		public string Title
+		{
+			get => _title;
+			set
+			{
+				if (_title != value)
+				{
+					_title = value;
+					OnPropertyChanged(nameof(Title));
+				}
+			}
+		}
+
+		private bool _isVisible;
+		public bool IsVisible
+		{
+			get => _isVisible;
+			set
+			{
+				if (_isVisible != value)
+				{
+					_isVisible = value;
+					OnPropertyChanged(nameof(IsVisible));
+				}
+			}
+		}
 	}
 }

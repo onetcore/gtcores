@@ -4,7 +4,7 @@ namespace GtCores.Storages;
 ///  数据存储接口。
 /// </summary>
 /// <typeparam name="TModel">数据模型类型。</typeparam>
-public interface IDataStorage<TModel>
+public interface IDataFileStorage<TModel>
 {
     /// <summary>
     /// 重新加载。
