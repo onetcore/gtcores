@@ -39,7 +39,7 @@ public class DataFileStorage<TModel> : IDataFileStorage<TModel>
         _storageDirectory = storageDirectory;
         var type = typeof(TModel);
         var name = type.GetCustomAttribute<StorageAttribute>()?.Name ?? type.Name;
-        FullPath = $"data/{type.Assembly.GetName().Name}/{name.ToLower()}.db";
+        FullPath = $"data/{type.Assembly.GetName().Name}/{name}.db".ToLower();
     }
 
     /// <summary>

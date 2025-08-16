@@ -7,7 +7,7 @@ public class HashedFileStorage : IHashedFileStorage
 {
     private readonly IStorageDirectory _storageDirectory;
     private readonly IDataFileStorage<HashedFile> _dataStorage;
-    private const string _directory = "medias";
+    private const string _directory = "files";
 
     /// <summary>
     /// 初始化类<see cref="HashedFileStorage"/>的新实例。

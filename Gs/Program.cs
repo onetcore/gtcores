@@ -5,6 +5,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddGtCores(builder.Configuration);
+builder.Services.AddRazorPages();
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 
@@ -22,8 +23,11 @@ app.UseHttpsRedirection();
 
 
 app.UseAntiforgery();
-
+app.UseCookiePolicy();
+app.UseAuthentication();
+app.UseAuthorization();
 app.MapStaticAssets();
+app.MapRazorPages();
 app.MapRazorComponents<App>()
     .AddInteractiveServerRenderMode();
 
