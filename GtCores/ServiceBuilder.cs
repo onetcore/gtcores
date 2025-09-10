@@ -30,6 +30,16 @@ internal class ServiceBuilder : IServiceBuilder
     }
 
     /// <summary>
+    /// 添加Scoped服务。
+    /// </summary>
+    /// <returns>返回构建实例。</returns>
+    public IServiceBuilder AddScoped(Type serviceType, Type implementationType)
+    {
+        _services.AddScoped(serviceType, implementationType);
+        return this;
+    }
+
+    /// <summary>
     /// 添加Singleton服务。
     /// </summary>
     /// <typeparam name="TService">服务类型。</typeparam>

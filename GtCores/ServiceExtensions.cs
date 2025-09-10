@@ -110,18 +110,15 @@ public static class ServiceExtensions
         }
     }
 
-    private static List<string?> GetExcludeAssemblies(IConfiguration configuration)
+    private static readonly List<string> DefaultExcludes = new()
     {
-        return configuration.GetSection("Excludes").AsList() ?? new List<string?>();
-    }
+        "newtonsoft", "npgsql", "autofac","system","microsoft","netstandard","entityframeworkcore","runtime"
+    };
 
-    private static bool IsDependency(this Assembly assembly, List<string> excludes)
+    private static bool IsExcluded(this AssemblyName assemblyName, IEnumerable<string?> excludes)
     {
-        var name = assembly.GetName().Name;
-        if (excludes.Contains(name, StringComparer.OrdinalIgnoreCase))
-            return false;
-        return assembly.GetReferencedAssemblies()
-            .Any(x => x.Name == "GtCores" || x.Name?.StartsWith("GtCores.", StringComparison.OrdinalIgnoreCase) == true);
+        var name = assemblyName.Name!.ToLower();
+        return excludes.Contains(name) || excludes.Any(x => name.StartsWith(x + "."));
     }
 
     /// <summary>
@@ -131,11 +128,38 @@ public static class ServiceExtensions
     /// <returns>返回应用程序集列表。</returns>
     public static IEnumerable<Assembly> GetAssemblies(this IConfiguration configuration)
     {
-        var excludes = GetExcludeAssemblies(configuration);
+        var excludes = configuration.GetSection("Excludes").AsList()?.Select(x => x!.ToLower()).ToList();
+        if (excludes == null)
+            excludes = DefaultExcludes;
+        else
+            excludes.AddRange(DefaultExcludes);
+        excludes = excludes.Distinct().ToList();
+
         var assemblies = AppDomain.CurrentDomain.GetAssemblies()
-            .Where(x => x.IsDependency(excludes!))
+            .Where(x => !x.GetName().IsExcluded(excludes))
             .ToList();
-        return assemblies;
+        var loadedAssemblies = new List<Assembly>();
+        foreach (var assembly in assemblies)
+        {
+            loadedAssemblies.Add(assembly);
+            LoadReferencedAssemblies(loadedAssemblies, assembly, excludes);
+        }
+        loadedAssemblies = loadedAssemblies.Distinct().ToList();
+        return loadedAssemblies;
+    }
+
+    private static void LoadReferencedAssemblies(List<Assembly> assemblies, Assembly assembly, IEnumerable<string?> excludes)
+    {
+        var references = assembly.GetReferencedAssemblies().Where(x => !x.IsExcluded(excludes));
+        foreach (var reference in references)
+        {
+            var loadedAssembly = Assembly.Load(reference);
+            if (!assemblies.Contains(loadedAssembly))
+            {
+                assemblies.Add(loadedAssembly);
+                LoadReferencedAssemblies(assemblies, loadedAssembly, excludes);
+            }
+        }
     }
 
     /// <summary>
