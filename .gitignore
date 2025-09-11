@@ -7,3 +7,4 @@ bin
 *.unityproj
 *.pidb
 /storages
+.vscode/settings.json
