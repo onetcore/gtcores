@@ -6,13 +6,16 @@ namespace GtCores;
 
 internal class ServiceBuilder : IServiceBuilder
 {
-    private readonly IServiceCollection _services;
-
     public ServiceBuilder(IServiceCollection services, IConfiguration configuration)
     {
-        _services = services;
+        Services = services;
         Configuration = configuration;
     }
+
+    /// <summary>
+    /// 当前服务集合。
+    /// </summary>
+    public IServiceCollection Services { get; }
 
     /// <summary>
     /// 配置接口。
@@ -25,7 +28,7 @@ internal class ServiceBuilder : IServiceBuilder
     /// <returns>返回构建实例。</returns>
     public IServiceBuilder AddSingleton(Type serviceType, Type implementationType)
     {
-        _services.AddSingleton(serviceType, implementationType);
+        Services.AddSingleton(serviceType, implementationType);
         return this;
     }
 
@@ -35,7 +38,7 @@ internal class ServiceBuilder : IServiceBuilder
     /// <returns>返回构建实例。</returns>
     public IServiceBuilder AddScoped(Type serviceType, Type implementationType)
     {
-        _services.AddScoped(serviceType, implementationType);
+        Services.AddScoped(serviceType, implementationType);
         return this;
     }
 
@@ -46,7 +49,7 @@ internal class ServiceBuilder : IServiceBuilder
     /// <returns>返回构建实例。</returns>
     public IServiceBuilder AddSingleton<TService>() where TService : class
     {
-        _services.TryAddSingleton<TService>();
+        Services.TryAddSingleton<TService>();
         return this;
     }
 
@@ -57,7 +60,7 @@ internal class ServiceBuilder : IServiceBuilder
     /// <returns>返回构建实例。</returns>
     public IServiceBuilder AddScoped<TService>() where TService : class
     {
-        _services.TryAddScoped<TService>();
+        Services.TryAddScoped<TService>();
         return this;
     }
 
@@ -68,7 +71,7 @@ internal class ServiceBuilder : IServiceBuilder
     /// <returns>返回构建实例。</returns>
     public IServiceBuilder AddTransient<TService>() where TService : class
     {
-        _services.TryAddTransient<TService>();
+        Services.TryAddTransient<TService>();
         return this;
     }
 
@@ -81,7 +84,7 @@ internal class ServiceBuilder : IServiceBuilder
     public IServiceBuilder AddSingleton<TService, TImplementation>()
         where TService : class where TImplementation : class, TService
     {
-        _services.TryAddSingleton<TService, TImplementation>();
+        Services.TryAddSingleton<TService, TImplementation>();
         return this;
     }
 
@@ -94,7 +97,7 @@ internal class ServiceBuilder : IServiceBuilder
     public IServiceBuilder AddScoped<TService, TImplementation>()
         where TService : class where TImplementation : class, TService
     {
-        _services.TryAddScoped<TService, TImplementation>();
+        Services.TryAddScoped<TService, TImplementation>();
         return this;
     }
 
@@ -106,7 +109,7 @@ internal class ServiceBuilder : IServiceBuilder
     public IServiceBuilder AddScoped<TService>(Func<IServiceProvider, TService> func)
         where TService : class
     {
-        _services.TryAddScoped(func);
+        Services.TryAddScoped(func);
         return this;
     }
 
@@ -119,7 +122,7 @@ internal class ServiceBuilder : IServiceBuilder
     public IServiceBuilder AddTransient<TService, TImplementation>()
         where TService : class where TImplementation : class, TService
     {
-        _services.TryAddTransient<TService, TImplementation>();
+        Services.TryAddTransient<TService, TImplementation>();
         return this;
     }
 
@@ -132,7 +135,7 @@ internal class ServiceBuilder : IServiceBuilder
     public IServiceBuilder AddSingletons<TService, TImplementation>()
         where TService : class where TImplementation : class, TService
     {
-        _services.TryAddEnumerable(ServiceDescriptor.Singleton<TService, TImplementation>());
+        Services.TryAddEnumerable(ServiceDescriptor.Singleton<TService, TImplementation>());
         return this;
     }
 
@@ -145,7 +148,7 @@ internal class ServiceBuilder : IServiceBuilder
     public IServiceBuilder AddScopeds<TService, TImplementation>()
         where TService : class where TImplementation : class, TService
     {
-        _services.TryAddEnumerable(ServiceDescriptor.Scoped<TService, TImplementation>());
+        Services.TryAddEnumerable(ServiceDescriptor.Scoped<TService, TImplementation>());
         return this;
     }
 
@@ -158,19 +161,7 @@ internal class ServiceBuilder : IServiceBuilder
     public IServiceBuilder AddTransients<TService, TImplementation>()
         where TService : class where TImplementation : class, TService
     {
-        _services.TryAddEnumerable(ServiceDescriptor.Transient<TService, TImplementation>());
-        return this;
-    }
-
-
-    /// <summary>
-    /// 添加服务。
-    /// </summary>
-    /// <param name="action">配置服务代理类。</param>
-    /// <returns>返回构建实例。</returns>
-    public IServiceBuilder AddServices(Action<IServiceCollection> action)
-    {
-        action(_services);
+        Services.TryAddEnumerable(ServiceDescriptor.Transient<TService, TImplementation>());
         return this;
     }
 
@@ -181,7 +172,7 @@ internal class ServiceBuilder : IServiceBuilder
     /// <returns>返回构建实例。</returns>
     public IServiceBuilder ConfigureOptions(object instance)
     {
-        _services.ConfigureOptions(instance);
+        Services.ConfigureOptions(instance);
         return this;
     }
 
@@ -193,7 +184,7 @@ internal class ServiceBuilder : IServiceBuilder
     /// <returns>返回构建实例。</returns>
     public IServiceBuilder ConfigureOptions<TOptions>(Action<TOptions> action)
     {
-        _services.ConfigureOptions(action);
+        Services.ConfigureOptions(action);
         return this;
     }
 }

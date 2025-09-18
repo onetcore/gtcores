@@ -11,14 +11,14 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GSites.Migrations
 {
     [DbContext(typeof(IdentityDbContext))]
-    [Migration("20250910184123_IdentityInit")]
-    partial class IdentityInit
+    [Migration("20250918191819_IdentityMigration")]
+    partial class IdentityMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
-            modelBuilder.HasAnnotation("ProductVersion", "9.0.8");
+            modelBuilder.HasAnnotation("ProductVersion", "9.0.9");
 
             modelBuilder.Entity("GSites.Extensions.Identity.Role", b =>
                 {
@@ -44,7 +44,7 @@ namespace GSites.Migrations
                         .IsUnique()
                         .HasDatabaseName("RoleNameIndex");
 
-                    b.ToTable("AspNetRoles", (string)null);
+                    b.ToTable("core_Roles", (string)null);
                 });
 
             modelBuilder.Entity("GSites.Extensions.Identity.RoleClaim", b =>
@@ -66,7 +66,7 @@ namespace GSites.Migrations
 
                     b.HasIndex("RoleId");
 
-                    b.ToTable("AspNetRoleClaims", (string)null);
+                    b.ToTable("core_RoleClaims", (string)null);
                 });
 
             modelBuilder.Entity("GSites.Extensions.Identity.User", b =>
@@ -79,10 +79,14 @@ namespace GSites.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<DateOnly?>("BirthDate")
-                        .HasColumnType("date");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("DisplayName")
+                        .HasMaxLength(20)
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Email")
@@ -107,9 +111,7 @@ namespace GSites.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<int>("ParentId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER")
-                        .HasDefaultValue(0);
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("PasswordHash")
                         .HasColumnType("TEXT");
@@ -139,7 +141,7 @@ namespace GSites.Migrations
                         .IsUnique()
                         .HasDatabaseName("UserNameIndex");
 
-                    b.ToTable("AspNetUsers", (string)null);
+                    b.ToTable("core_Users", (string)null);
                 });
 
             modelBuilder.Entity("GSites.Extensions.Identity.UserClaim", b =>
@@ -161,7 +163,7 @@ namespace GSites.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("AspNetUserClaims", (string)null);
+                    b.ToTable("core_UserClaims", (string)null);
                 });
 
             modelBuilder.Entity("GSites.Extensions.Identity.UserLogin", b =>
@@ -182,7 +184,7 @@ namespace GSites.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("AspNetUserLogins", (string)null);
+                    b.ToTable("core_UserLogins", (string)null);
                 });
 
             modelBuilder.Entity("GSites.Extensions.Identity.UserRole", b =>
@@ -197,7 +199,7 @@ namespace GSites.Migrations
 
                     b.HasIndex("RoleId");
 
-                    b.ToTable("AspNetUserRoles", (string)null);
+                    b.ToTable("core_UserRoles", (string)null);
                 });
 
             modelBuilder.Entity("GSites.Extensions.Identity.UserToken", b =>
@@ -216,7 +218,7 @@ namespace GSites.Migrations
 
                     b.HasKey("UserId", "LoginProvider", "Name");
 
-                    b.ToTable("AspNetUserTokens", (string)null);
+                    b.ToTable("core_UserTokens", (string)null);
                 });
 
             modelBuilder.Entity("GSites.Extensions.Identity.RoleClaim", b =>

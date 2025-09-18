@@ -6,29 +6,18 @@ namespace GSites.Extensions.Identity;
 /// <summary>
 /// 身份数据库上下文。
 /// </summary>
-public class IdentityDbContext : IdentityDbContext<User, Role, int, UserClaim, UserRole, UserLogin, RoleClaim, UserToken>
+/// <param name="options">数据库上下文选项。</param>
+public class IdentityDbContext(DbContextOptions<IdentityDbContext> options) : IdentityDbContext<User, Role, int, UserClaim, UserRole, UserLogin, RoleClaim, UserToken>(options)
 {
-    /// <summary>
-    /// 身份数据库上下文构造函数。
-    /// </summary>
-    /// <param name="options">数据库上下文选项。</param>
-    public IdentityDbContext(DbContextOptions<IdentityDbContext> options)
-        : base(options)
-    {
-        
-    }
-
-    /// <summary>
-    /// 模型创建。
-    /// </summary>
-    /// <param name="builder">模型构建实例。</param>
     protected override void OnModelCreating(ModelBuilder builder)
     {
         base.OnModelCreating(builder);
-        builder.Entity<User>(entity =>
-        {
-            entity.Property(e => e.ParentId).HasDefaultValue(0);
-            entity.Property(e => e.BirthDate).HasColumnType("date");
-        });
+        builder.Entity<User>().ToTable("core_Users");
+        builder.Entity<UserRole>().ToTable("core_UserRoles");
+        builder.Entity<UserLogin>().ToTable("core_UserLogins");
+        builder.Entity<UserToken>().ToTable("core_UserTokens");
+        builder.Entity<UserClaim>().ToTable("core_UserClaims");
+        builder.Entity<Role>().ToTable("core_Roles");
+        builder.Entity<RoleClaim>().ToTable("core_RoleClaims");
     }
 }

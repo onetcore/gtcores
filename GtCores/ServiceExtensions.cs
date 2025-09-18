@@ -27,54 +27,52 @@ public static class ServiceExtensions
 
     private static void BuildServices(IServiceBuilder builder, IEnumerable<Type> exportedTypes)
     {
-        builder.AddServices(services =>
+        foreach (var source in exportedTypes)
         {
-            foreach (var source in exportedTypes)
+            if (typeof(IServiceConfigurer).IsAssignableFrom(source))
             {
-                if (typeof(IServiceConfigurer).IsAssignableFrom(source))
+                var service = Activator.CreateInstance(source) as IServiceConfigurer;
+                service?.ConfigureServices(builder);
+            }
+            else if (typeof(IHostedService).IsAssignableFrom(source))
+            {
+                //后台任务
+                builder.Services.TryAddEnumerable(ServiceDescriptor.Singleton(typeof(IHostedService), source));
+            }
+            else //注册类型
+            {
+                var interfaceTypes = source.GetInterfaces()
+                    .Where(itf => typeof(IService).IsAssignableFrom(itf));
+                foreach (var interfaceType in interfaceTypes)
                 {
-                    var service = Activator.CreateInstance(source) as IServiceConfigurer;
-                    service?.ConfigureServices(builder);
-                }
-                else if (typeof(IHostedService).IsAssignableFrom(source))
-                {
-                    //后台任务
-                    services.TryAddEnumerable(ServiceDescriptor.Singleton(typeof(IHostedService), source));
-                }
-                else //注册类型
-                {
-                    var interfaceTypes = source.GetInterfaces()
-                        .Where(itf => typeof(IService).IsAssignableFrom(itf));
-                    foreach (var interfaceType in interfaceTypes)
+                    if (typeof(ISingletonService).IsAssignableFrom(interfaceType))
                     {
-                        if (typeof(ISingletonService).IsAssignableFrom(interfaceType))
-                        {
-                            services.TryAddSingleton(interfaceType, source);
-                        }
-                        else if (typeof(IScopedService).IsAssignableFrom(interfaceType))
-                        {
-                            services.TryAddScoped(interfaceType, source);
-                        }
-                        else if (typeof(ISingletonServices).IsAssignableFrom(interfaceType))
-                        {
-                            services.TryAddEnumerable(ServiceDescriptor.Singleton(interfaceType, source));
-                        }
-                        else if (typeof(IScopedServices).IsAssignableFrom(interfaceType))
-                        {
-                            services.TryAddEnumerable(ServiceDescriptor.Scoped(interfaceType, source));
-                        }
-                        else if (typeof(IServices).IsAssignableFrom(interfaceType))
-                        {
-                            services.TryAddEnumerable(ServiceDescriptor.Transient(interfaceType, source));
-                        }
-                        else
-                        {
-                            services.TryAddTransient(interfaceType, source);
-                        }
+                        builder.Services.TryAddSingleton(interfaceType, source);
+                    }
+                    else if (typeof(IScopedService).IsAssignableFrom(interfaceType))
+                    {
+                        builder.Services.TryAddScoped(interfaceType, source);
+                    }
+                    else if (typeof(ISingletonServices).IsAssignableFrom(interfaceType))
+                    {
+                        builder.Services.TryAddEnumerable(ServiceDescriptor.Singleton(interfaceType, source));
+                    }
+                    else if (typeof(IScopedServices).IsAssignableFrom(interfaceType))
+                    {
+                        builder.Services.TryAddEnumerable(ServiceDescriptor.Scoped(interfaceType, source));
+                    }
+                    else if (typeof(IServices).IsAssignableFrom(interfaceType))
+                    {
+                        builder.Services.TryAddEnumerable(ServiceDescriptor.Transient(interfaceType, source));
+                    }
+                    else
+                    {
+                        builder.Services.TryAddTransient(interfaceType, source);
                     }
                 }
             }
-        });
+        }
+
     }
 
     private static IEnumerable<Type> GetExportedTypes(IConfiguration configuration)

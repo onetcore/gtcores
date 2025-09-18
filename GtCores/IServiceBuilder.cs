@@ -9,11 +9,9 @@ namespace GtCores;
 public interface IServiceBuilder
 {
     /// <summary>
-    /// 添加服务。
+    /// 当前服务集合。
     /// </summary>
-    /// <param name="action">配置服务代理类。</param>
-    /// <returns>返回构建实例。</returns>
-    IServiceBuilder AddServices(Action<IServiceCollection> action);
+    IServiceCollection Services{ get; }
 
     /// <summary>
     /// 配置接口。

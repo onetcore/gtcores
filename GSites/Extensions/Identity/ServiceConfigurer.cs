@@ -2,7 +2,6 @@ using GSites.Components.Account;
 using GtCores;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
 
 namespace GSites.Extensions.Identity;
 
@@ -17,34 +16,28 @@ public class ServiceConfigurer : IServiceConfigurer
     /// <param name="builder">服务构建实例对象。</param>
     public void ConfigureServices(IServiceBuilder builder)
     {
-        var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
-        builder.AddServices(services =>
-        {
-            services.AddDbContext<IdentityDbContext>(connectionString);
+        builder.Services.AddCascadingAuthenticationState();
+        builder.AddScoped<IdentityUserAccessor>();
+        builder.AddScoped<IdentityRedirectManager>();
+        builder.AddScoped<AuthenticationStateProvider, IdentityRevalidatingAuthenticationStateProvider>();
 
-            services.AddCascadingAuthenticationState();
-            services.AddScoped<IdentityUserAccessor>();
-            services.AddScoped<IdentityRedirectManager>();
-            services.AddScoped<AuthenticationStateProvider, IdentityRevalidatingAuthenticationStateProvider>();
+        builder.Services.AddAuthentication(options =>
+            {
+                options.DefaultScheme = IdentityConstants.ApplicationScheme;
+                options.DefaultSignInScheme = IdentityConstants.ExternalScheme;
+            })
+            .AddIdentityCookies();
 
-            services.AddAuthentication(options =>
-                {
-                    options.DefaultScheme = IdentityConstants.ApplicationScheme;
-                    options.DefaultSignInScheme = IdentityConstants.ExternalScheme;
-                })
-                .AddIdentityCookies();
+        builder.Services.AddIdentityCore<User>(options =>
+            {
+                options.Password.RequireUppercase = false;
+                options.Password.RequiredLength = 6;
+                options.SignIn.RequireConfirmedAccount = true;
+            })
+            .AddEntityFrameworkStores<IdentityDbContext>()
+            .AddSignInManager()
+            .AddDefaultTokenProviders();
 
-            services.AddIdentityCore<User>(options =>
-                {
-                    options.Password.RequireUppercase = false;
-                    options.Password.RequiredLength = 6;
-                    options.SignIn.RequireConfirmedAccount = true;
-                })
-                .AddEntityFrameworkStores<IdentityDbContext>()
-                .AddSignInManager()
-                .AddDefaultTokenProviders();
-
-            services.AddSingleton<IEmailSender<User>, IdentityNoOpEmailSender>();
-        });
+        builder.AddSingleton<IEmailSender<User>, IdentityNoOpEmailSender>();
     }
 }

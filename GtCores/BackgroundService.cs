@@ -2,10 +2,6 @@
 
 /// <summary>
 /// 后台服务基类。
-/// 注意：如果在含有数据库的后台服务，需要在重写<see cref="ExecuteAsync"/>时调用如下代码以等待数据库迁移结束后再执行。
-/// <![CDATA[
-/// await cancellationToken.WaitDataMigrationCompletedAsync();
-/// ]]>
 /// </summary>
 public abstract class BackgroundService : Microsoft.Extensions.Hosting.BackgroundService, IServices
 {

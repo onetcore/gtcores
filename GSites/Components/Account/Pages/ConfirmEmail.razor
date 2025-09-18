@@ -1,17 +1,14 @@
 ﻿@page "/Account/ConfirmEmail"
-
-@using System.Text
-@using Microsoft.AspNetCore.Identity
-@using Microsoft.AspNetCore.WebUtilities
-@using GSites.Extensions.Identity
-
+@layout CoverLayout
 @inject UserManager<User> UserManager
 @inject IdentityRedirectManager RedirectManager
 
-<PageTitle>Confirm email</PageTitle>
+<PageTitle>确认邮件</PageTitle>
 
-<h1>Confirm email</h1>
-<StatusMessage Message="@statusMessage" />
+<CoverMessage Header="确认邮件">
+    <StatusMessage Message="@statusMessage" />
+    <a class="alert-link" href="Account/Login">点击这里进行登录...</a>
+</CoverMessage>
 
 @code {
     private string? statusMessage;
@@ -36,13 +33,13 @@
         if (user is null)
         {
             HttpContext.Response.StatusCode = StatusCodes.Status404NotFound;
-            statusMessage = $"Error loading user with ID {UserId}";
+            statusMessage = $"加载用户失败：{UserId}";
         }
         else
         {
             var code = Encoding.UTF8.GetString(WebEncoders.Base64UrlDecode(Code));
             var result = await UserManager.ConfirmEmailAsync(user, code);
-            statusMessage = result.Succeeded ? "Thank you for confirming your email." : "Error confirming your email.";
+            statusMessage = result.Succeeded ? "谢谢确认你的邮件信息！" : "确认邮件信息失败！";
         }
     }
 }

@@ -1,3 +1,4 @@
+using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Identity;
 
 namespace GSites.Extensions.Identity;
@@ -16,6 +17,12 @@ public class User : IdentityUser<int>
     /// 出生日期。
     /// </summary>
     public DateOnly? BirthDate { get; set; }
+
+    /// <summary>
+    /// 显示名称。
+    /// </summary>
+    [MaxLength(20)]
+    public string? DisplayName { get; set; }
 }
 
 /// <summary>

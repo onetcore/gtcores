@@ -13,9 +13,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gt", "Gt\Gt.csproj", "{2517
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gd", "Gd\Gd.csproj", "{17DD1387-4AAE-46C9-9AF7-9AE478C1EE42}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GtCores.Data", "GtCores.Data\GtCores.Data.csproj", "{D909C741-063A-4FEA-821B-046CBB58EA23}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GtCores.Extensions", "GtCores.Extensions\GtCores.Extensions.csproj", "{D909C741-063A-4FEA-821B-046CBB58EA23}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GSites", "GSites\GSites.csproj", "{1831B5D5-AC36-4D07-AE69-DF65B6608FFE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GtCores.Components", "GtCores.Components\GtCores.Components.csproj", "{D2C11785-F58F-4556-BD0D-4C74F728BB2A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -111,6 +113,18 @@ Global
 		{1831B5D5-AC36-4D07-AE69-DF65B6608FFE}.Release|x64.Build.0 = Release|Any CPU
 		{1831B5D5-AC36-4D07-AE69-DF65B6608FFE}.Release|x86.ActiveCfg = Release|Any CPU
 		{1831B5D5-AC36-4D07-AE69-DF65B6608FFE}.Release|x86.Build.0 = Release|Any CPU
+		{D2C11785-F58F-4556-BD0D-4C74F728BB2A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D2C11785-F58F-4556-BD0D-4C74F728BB2A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D2C11785-F58F-4556-BD0D-4C74F728BB2A}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{D2C11785-F58F-4556-BD0D-4C74F728BB2A}.Debug|x64.Build.0 = Debug|Any CPU
+		{D2C11785-F58F-4556-BD0D-4C74F728BB2A}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{D2C11785-F58F-4556-BD0D-4C74F728BB2A}.Debug|x86.Build.0 = Debug|Any CPU
+		{D2C11785-F58F-4556-BD0D-4C74F728BB2A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D2C11785-F58F-4556-BD0D-4C74F728BB2A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D2C11785-F58F-4556-BD0D-4C74F728BB2A}.Release|x64.ActiveCfg = Release|Any CPU
+		{D2C11785-F58F-4556-BD0D-4C74F728BB2A}.Release|x64.Build.0 = Release|Any CPU
+		{D2C11785-F58F-4556-BD0D-4C74F728BB2A}.Release|x86.ActiveCfg = Release|Any CPU
+		{D2C11785-F58F-4556-BD0D-4C74F728BB2A}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

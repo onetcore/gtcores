@@ -1,5 +1,5 @@
 ﻿@page "/Account/Login"
-
+@layout CoverLayout
 @using System.ComponentModel.DataAnnotations
 @using Microsoft.AspNetCore.Authentication
 @using Microsoft.AspNetCore.Identity
@@ -10,59 +10,94 @@
 @inject NavigationManager NavigationManager
 @inject IdentityRedirectManager RedirectManager
 
-<PageTitle>Log in</PageTitle>
+<PageTitle>登录</PageTitle>
 
-<h1>Log in</h1>
-<div class="row">
-    <div class="col-lg-6">
-        <section>
-            <StatusMessage Message="@errorMessage" />
-            <EditForm Model="Input" method="post" OnValidSubmit="LoginUser" FormName="login">
-                <DataAnnotationsValidator />
-                <h2>Use a local account to log in.</h2>
-                <hr />
-                <ValidationSummary class="text-danger" role="alert" />
-                <div class="form-floating mb-3">
-                    <InputText @bind-Value="Input.Email" id="Input.Email" class="form-control" autocomplete="username" aria-required="true" placeholder="name@example.com" />
-                    <label for="Input.Email" class="form-label">Email</label>
-                    <ValidationMessage For="() => Input.Email" class="text-danger" />
+<section class="cover-form">
+    <div class="cover-form-header">
+        <h2>登录</h2>
+        <span class="flex-self-end">
+            没有帐号？
+            <a
+                href="@(NavigationManager.GetUriWithQueryParameters("Account/Register", new Dictionary<string, object?> { ["ReturnUrl"] = ReturnUrl }))">
+                注册一个新帐号
+            </a>
+        </span>
+    </div>
+    <div class="cover-form-body">
+        <StatusMessage Message="@errorMessage" />
+        <EditForm Model="Input" method="post" OnValidSubmit="LoginUser" FormName="login" class="form-signin">
+            <DataAnnotationsValidator />
+            <ValidationSummary class="text-danger" role="alert" />
+            <div class="form-floating mb-3">
+                <InputText @bind-Value="Input.Email" id="Input.Email" class="form-control" autocomplete="username"
+                    aria-required="true" placeholder="name@example.com" />
+                <label for="Input.Email" class="form-label">电子邮件</label>
+                <ValidationMessage For="() => Input.Email" class="text-danger" />
+            </div>
+            <div class="form-floating mb-3">
+                <InputText type="password" @bind-Value="Input.Password" id="Input.Password" class="form-control"
+                    autocomplete="current-password" aria-required="true" placeholder="请输入密码" />
+                <label for="Input.Password" class="form-label">密码</label>
+                <ValidationMessage For="() => Input.Password" class="text-danger" />
+            </div>
+            <div>
+                <div id="loginMobile" class="form-group d-none">
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <div class="input-group-text">
+                                <span class="fa fa-user"></span>
+                            </div>
+                        </div>
+                        <input type="tel" id="phone" name="phone" class="form-control digits is-valid"
+                            data-toggle="tooltip" placeholder="手机号码" minlength="11" maxlength="11"
+                            data-required-msg="请输入手机号码" value="" data-valid="true" data-original-title="" title="">
+                    </div>
                 </div>
-                <div class="form-floating mb-3">
-                    <InputText type="password" @bind-Value="Input.Password" id="Input.Password" class="form-control" autocomplete="current-password" aria-required="true" placeholder="password" />
-                    <label for="Input.Password" class="form-label">Password</label>
-                    <ValidationMessage For="() => Input.Password" class="text-danger" />
+                <div id="loginSMS" class="form-group d-none">
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <div class="input-group-text">
+                                <span class="fa fa-lock"></span>
+                            </div>
+                        </div>
+                        <input type="number" id="code" name="code" class="form-control digits" data-toggle="tooltip"
+                            disabled="" value="" placeholder="验证码" maxlength="4" data-required-msg="请输入验证码"
+                            data-valid="true" data-original-title="" title="">
+                        <div class="input-group-append">
+                            <button type="button" id="btnSendCode" class="btn btn-sms" data-toggle="tooltip" title=""
+                                data-original-title="点击发送验证码">发送验证码</button>
+                        </div>
+                    </div>
                 </div>
+            </div>
+            <div class="d-flex justify-content-between">
                 <div class="checkbox mb-3">
                     <label class="form-label">
                         <InputCheckbox @bind-Value="Input.RememberMe" class="darker-border-checkbox form-check-input" />
-                        Remember me
+                        记住登录状态
                     </label>
                 </div>
-                <div>
-                    <button type="submit" class="w-100 btn btn-lg btn-primary">Log in</button>
+                @* <div>
+                    <a id="loginType" data-value="username" href="#" class="">短信验证登陆</a>
+                </div> *@
+            </div>
+            <button class="btn btn-lg btn-login btn-block w-100" type="submit">登 录</button>
+            <div class="d-flex justify-content-center">
+                <a class="forget-password" href="Account/ForgotPassword">已有帐号，忘记密码？</a>
+            </div>
+            <div>
+                <div class="login-other">
+                    <span class="text-white">
+                        其他方式登录
+                    </span>
                 </div>
-                <div>
-                    <p>
-                        <a href="Account/ForgotPassword">Forgot your password?</a>
-                    </p>
-                    <p>
-                        <a href="@(NavigationManager.GetUriWithQueryParameters("Account/Register", new Dictionary<string, object?> { ["ReturnUrl"] = ReturnUrl }))">Register as a new user</a>
-                    </p>
-                    <p>
-                        <a href="Account/ResendEmailConfirmation">Resend email confirmation</a>
-                    </p>
+                <div class="login-list">
+                    <ExternalLoginPicker />
                 </div>
-            </EditForm>
-        </section>
+            </div>
+        </EditForm>
     </div>
-    <div class="col-lg-4 col-lg-offset-2">
-        <section>
-            <h3>Use another service to log in.</h3>
-            <hr />
-            <ExternalLoginPicker />
-        </section>
-    </div>
-</div>
+</section>
 
 @code {
     private string? errorMessage;
@@ -89,26 +124,26 @@
     {
         // This doesn't count login failures towards account lockout
         // To enable password failures to trigger account lockout, set lockoutOnFailure: true
-        var result = await SignInManager.PasswordSignInAsync(Input.Email, Input.Password, Input.RememberMe, lockoutOnFailure: false);
+        var result = await SignInManager.PasswordSignInAsync(Input.Email, Input.Password, Input.RememberMe, lockoutOnFailure:false);
         if (result.Succeeded)
         {
-            Logger.LogInformation("User logged in.");
+            Logger.LogInformation("用户登录成功.");
             RedirectManager.RedirectTo(ReturnUrl);
         }
         else if (result.RequiresTwoFactor)
         {
             RedirectManager.RedirectTo(
-                "Account/LoginWith2fa",
-                new() { ["returnUrl"] = ReturnUrl, ["rememberMe"] = Input.RememberMe });
+            "Account/LoginWith2fa",
+            new() { ["returnUrl"] = ReturnUrl, ["rememberMe"] = Input.RememberMe });
         }
         else if (result.IsLockedOut)
         {
-            Logger.LogWarning("User account locked out.");
+            Logger.LogWarning("账户被锁定.");
             RedirectManager.RedirectTo("Account/Lockout");
         }
         else
         {
-            errorMessage = "Error: Invalid login attempt.";
+            errorMessage = "无效的登录尝试，请检查你的电子邮件和密码是否正确。";
         }
     }
 
@@ -122,7 +157,7 @@
         [DataType(DataType.Password)]
         public string Password { get; set; } = "";
 
-        [Display(Name = "Remember me?")]
+        [Display(Name = "记住登录状态?")]
         public bool RememberMe { get; set; }
     }
 }

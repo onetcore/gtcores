@@ -1,0 +1,28 @@
+﻿<section class="cover-form @Type.ToAlertCssClass()" role="alert">
+    <div class="cover-form-header">
+        <h2>@Header</h2>
+    </div>
+    <div class="cover-form-body">
+        @ChildContent
+    </div>
+</section>
+
+@code {
+    /// <summary>
+    /// 标题。  
+    /// </summary>
+    [Parameter]
+    public string? Header { get; set; }
+
+    /// <summary>
+    /// 警告框类型。
+    /// </summary>
+    [Parameter]
+    public BsType Type { get; set; } = BsType.Warning;
+
+    /// <summary>
+    /// 子内容。    
+    /// </summary>
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+}

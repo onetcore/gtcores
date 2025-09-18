@@ -1,19 +1,28 @@
-using GtCores.Data;
+using GSites.Extensions.Emails;
+using GSites.Extensions.Identity;
+using Microsoft.EntityFrameworkCore;
 
 namespace GSites;
 
 /// <summary>
 /// 服务配置器。
 /// </summary>
-public class ServiceConfigurer : GtCores.Data.ServiceConfigurer
+public class ServiceConfigurer : GtCores.Extensions.ServiceConfigurer
 {
-    /// <summary>
-    /// 配置数据库。
-    /// </summary>
-    /// <param name="services">服务集合。</param>
-    /// <param name="connectionString">数据库链接字符串。</param>
-    protected override void ConfigureDatabase(IServiceCollection services, string connectionString)
+    protected override void ContextConfigure()
     {
-        services.AddDbContext<DefaultDbContext>(connectionString);
+        Builder.Services.AddDatabaseDeveloperPageExceptionFilter();
+        AddDbContext<IdentityDbContext>();
+        AddDbContext<EmailDbContext>();
+    }
+
+    protected override void AddDbContext<TDbContext>(string connectionString)
+    {
+        Builder.Services.AddDbContext<TDbContext>(options => options.UseSqlite(connectionString, options =>
+        {
+            //options.EnableRetryOnFailure(5, TimeSpan.FromSeconds(10), null);
+            options.MigrationsHistoryTable("core_Migrations");
+            options.MigrationsAssembly("GSites");
+        }));
     }
 }

@@ -1,12 +1,10 @@
-using Microsoft.EntityFrameworkCore;
-
-namespace GtCores.Data;
+namespace GtCores.Extensions;
 
 /// <summary>
 /// 分页数据实体集合接口。
 /// </summary>
 /// <typeparam name="TEntity">实体类型。</typeparam>
-public interface IPaginationEnumerable<TEntity> : IEnumerable<TEntity>
+public interface IPageEnumerable<TEntity> : IEnumerable<TEntity>
 {
     /// <summary>
     /// 当前页码。

@@ -10,37 +10,38 @@
     <main>
         <div class="top-row px-4">
             <nav class="nav flex-row">
-                
-        <AuthorizeView>
-            <Authorized>
-                <div class="nav-item px-3">
-                    <NavLink class="nav-link" href="Account/Manage">
-                        <span class="bi bi-person-fill-nav-menu" aria-hidden="true"></span> @context.User.Identity?.Name
-                    </NavLink>
-                </div>
-                <div class="nav-item px-3">
-                    <form action="Account/Logout" method="post">
-                        <AntiforgeryToken />
-                        <input type="hidden" name="ReturnUrl" value="@currentUrl" />
-                        <button type="submit" class="nav-link">
-                            <span class="bi bi-arrow-bar-left-nav-menu" aria-hidden="true"></span> Logout
-                        </button>
-                    </form>
-                </div>
-            </Authorized>
-            <NotAuthorized>
-                <div class="nav-item px-3">
-                    <NavLink class="nav-link" href="Account/Register">
-                        <span class="bi bi-person-nav-menu" aria-hidden="true"></span> Register
-                    </NavLink>
-                </div>
-                <div class="nav-item px-3">
-                    <NavLink class="nav-link" href="Account/Login">
-                        <span class="bi bi-person-badge-nav-menu" aria-hidden="true"></span> Login
-                    </NavLink>
-                </div>
-            </NotAuthorized>
-        </AuthorizeView>
+
+                <AuthorizeView>
+                    <Authorized>
+                        <div class="nav-item px-3">
+                            <NavLink class="nav-link" href="Account/Manage">
+                                <span class="bi bi-person-fill-nav-menu" aria-hidden="true"></span>
+                                @context.User.Identity?.Name
+                            </NavLink>
+                        </div>
+                        <div class="nav-item px-3">
+                            <form action="Account/Logout" method="post">
+                                <AntiforgeryToken />
+                                <input type="hidden" name="ReturnUrl" value="@currentUrl" />
+                                <button type="submit" class="nav-link">
+                                    <span class="bi bi-arrow-bar-left-nav-menu" aria-hidden="true"></span> 退出
+                                </button>
+                            </form>
+                        </div>
+                    </Authorized>
+                    <NotAuthorized>
+                        <div class="nav-item px-3">
+                            <NavLink class="nav-link" href="Account/Register">
+                                <span class="bi bi-person-nav-menu" aria-hidden="true"></span> 注册
+                            </NavLink>
+                        </div>
+                        <div class="nav-item px-3">
+                            <NavLink class="nav-link" href="Account/Login">
+                                <span class="bi bi-person-badge-nav-menu" aria-hidden="true"></span> 登录
+                            </NavLink>
+                        </div>
+                    </NotAuthorized>
+                </AuthorizeView>
             </nav>
         </div>
 
@@ -51,8 +52,8 @@
 </div>
 
 <div id="blazor-error-ui" data-nosnippet>
-    An unhandled error has occurred.
-    <a href="." class="reload">Reload</a>
+    很抱歉，发生了未知错误！
+    <a href="." class="reload">点击进行重试...</a>
     <span class="dismiss">🗙</span>
 </div>
 

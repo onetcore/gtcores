@@ -428,4 +428,28 @@ public static class Cores
             }
         }
     }
+
+    /// <summary>
+    /// 将对象转换为键值对字典实例。
+    /// </summary>
+    /// <param name="parameters">参数（字典实例或者匿名对象）。</param>
+    /// <param name="stringComparer">属性字符串对比实例。</param>
+    /// <returns>返回键值对字典实例。</returns>
+    public static IDictionary<string, object?> ToDictionary(this object parameters, StringComparer? stringComparer = null)
+    {
+        if (parameters is IDictionary<string, object?> dic)
+        {
+            return dic;
+        }
+
+        dic = new Dictionary<string, object?>(stringComparer ?? StringComparer.OrdinalIgnoreCase);
+        var properties = parameters.GetType().GetProperties().Where(x => x.CanRead).ToList();
+        foreach (var property in properties)
+        {
+            var value = property.GetValue(parameters);
+            dic.Add(property.Name, value);
+        }
+
+        return dic;
+    }
 }

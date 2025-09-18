@@ -1,2 +1,0 @@
-dotnet ef migrations add IdentityInit --context IdentityDbContext
-dotnet ef database update --context IdentityDbContext

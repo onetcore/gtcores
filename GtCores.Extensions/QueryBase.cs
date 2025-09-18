@@ -1,4 +1,4 @@
-namespace GtCores.Data;
+namespace GtCores.Extensions;
 
 /// <summary>
 /// 分页查询基类。
@@ -20,5 +20,5 @@ public abstract class QueryBase<TEntity> where TEntity : class
     /// 查询条件。
     /// </summary>
     /// <param name="queryable">查询接口实例。</param>
-    public abstract void Where(IQueryable<TEntity> queryable);
+    public abstract void Init(IQueryable<TEntity> queryable);
 }

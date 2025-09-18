@@ -1,8 +1,8 @@
 using System.Collections;
 
-namespace GtCores.Data;
+namespace GtCores.Extensions;
 
-internal class PaginationEnumerable<TEntity> : IPaginationEnumerable<TEntity> where TEntity : class
+internal class PageEnumerable<TEntity> : IPageEnumerable<TEntity> where TEntity : class
 {
     private readonly List<TEntity> _items = new List<TEntity>();
     public void AddRange(IEnumerable<TEntity> items)
