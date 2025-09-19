@@ -87,6 +87,18 @@ public class MenuItem : IEnumerable<MenuItem>
     }
 
     /// <summary>
+    /// 注释选项。
+    /// </summary>
+    /// <param name="key">键。</param>
+    /// <param name="value">值。</param>
+    /// <returns>返回当前菜单实例。</returns>
+    public MenuItem Marked(string key, BsType value)
+    {
+        _markeds[key] = value;
+        return this;
+    }
+
+    /// <summary>
     /// 是否有注释。
     /// </summary>
     /// <param name="key">键。</param>
@@ -126,11 +138,26 @@ public class MenuItem : IEnumerable<MenuItem>
     }
 
     /// <summary>
+    /// 显示设置。
+    /// </summary>
+    /// <param name="name">显示名称。</param>
+    /// <param name="icon">图标样式。</param>
+    /// <returns>返回当前实例。</returns>
+    public MenuItem Display(string name, BsIcon icon) => Display(name, "bi " + icon.GetDescription());
+
+    /// <summary>
     /// 设置附加标记。
     /// </summary>
     /// <param name="value">值。</param>
+    /// <param name="color">颜色类型。</param>
     /// <returns>返回当前实例。</returns>
-    public MenuItem Badged(object value) => Marked("badge", value);
+    public MenuItem Badged(object value, BsType? color = null)
+    {
+        Marked("badge", value);
+        if (color != null)
+            Marked("badge-color", color);
+        return this;
+    }
 
     /// <summary>
     /// 添加链接地址。

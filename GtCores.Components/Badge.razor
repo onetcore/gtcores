@@ -1,0 +1,27 @@
+﻿<span class="@className">@ChildContent</span>
+
+@code {
+    /// <summary>
+    /// 椭圆。
+    /// </summary>
+    [Parameter]
+    public bool IsPill { get; set; }
+
+    /// <summary>
+    /// 颜色。
+    /// </summary>
+    [Parameter]
+    public BsType Color { get; set; }
+
+    /// <summary>
+    /// 子内容。
+    /// </summary>
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    private string? className;
+    protected override void OnInitialized()
+    {
+        className = "badge text-bg-".Concat(Color).Concat(IsPill, " rounded-pill");
+    }
+}

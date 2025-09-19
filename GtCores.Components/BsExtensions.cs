@@ -3,27 +3,27 @@ namespace GtCores.Components;
 public static class BsExtensions
 {
     /// <summary>
-    /// 获取 Bootstrap 颜色类型的 CSS 类名。
+    /// 拼接字符串。
     /// </summary>
-    /// <param name="type">Bootstrap 颜色类型。</param>
-    /// <returns>对应的 CSS 类名。</returns>
-    public static string ToCssClass(this BsType type) => type switch
+    /// <param name="current">当前字符串。</param>
+    /// <param name="value">是否拼接判断值。</param>
+    /// <param name="text">拼接字符串。</param>
+    /// <returns>返回拼接字符串。</returns>
+    public static string? Concat(this string? current, bool value, string? text)
     {
-        BsType.Primary => "primary",
-        BsType.Secondary => "secondary",
-        BsType.Success => "success",
-        BsType.Danger => "danger",
-        BsType.Warning => "warning",
-        BsType.Info => "info",
-        BsType.Light => "light",
-        BsType.Dark => "dark",
-        _ => "primary",
-    };
+        if (value)
+            current += text;
+        return current;
+    }
 
     /// <summary>
-    /// 获取 Bootstrap 警告框的 CSS 类名。
+    /// 拼接类型样式。
     /// </summary>
-    /// <param name="type">颜色类型。</param>
-    /// <returns>返回警告框的 CSS 类名。</returns>
-    public static string ToAlertCssClass(this BsType type) => $"alert alert-{type.ToCssClass()}";
+    /// <param name="current">当前样式。</param>
+    /// <param name="bsType">Bootstrap类型。</param>
+    /// <returns>返回拼接结果。</returns>
+    public static string? Concat(this string? current, BsType? bsType)
+    {
+        return current + bsType?.ToString().ToLower();
+    }
 }

@@ -1,0 +1,56 @@
+﻿@inject NavigationManager NavigationManager
+@inject IMenuProviderFactory Factory
+@inject MenuState MenuState
+
+<CascadingValue Value="this">
+    <ul class="sidebar-nav">
+        @foreach (var item in items)
+        {
+            <NavMenuItem Item="item" />
+        }
+    </ul>
+</CascadingValue>
+
+@code {
+    /// <summary>
+    /// 菜单提供者名称。
+    /// </summary>
+    [Parameter]
+    public string Name { get; set; } = MenuProvider.DefaultName;
+
+    /// <summary>
+    /// 获取当前选中菜单。
+    /// </summary>
+    public MenuItem? Current { get; set; }
+
+    /// <summary>
+    /// 菜单列表。
+    /// </summary>
+    private IEnumerable<MenuItem> items = Enumerable.Empty<MenuItem>();
+
+    /// <summary>
+    /// 初始化菜单数据。
+    /// </summary>
+    protected override void OnInitialized()
+    {
+        var root = Factory.Load(Name);
+        if (root == null) return;
+        var uri = NavigationManager.ToAbsoluteUri(NavigationManager.Uri).AbsolutePath;
+        MenuState.Current = root.Find(uri);
+        items = root.OrderByDescending(x => x.Priority).ToList();
+        MenuState.Current ??= items.First().First;
+    }
+
+    /// <summary>
+    /// 激活当前菜单。
+    /// </summary>
+    /// <param name="item">当前菜单项。</param>
+    public Task NavigateToMenuAsync(MenuItem item)
+    {
+        if (item.LinkUrl != null)
+            NavigationManager.NavigateTo(item.LinkUrl);
+        MenuState.Current = item;
+        StateHasChanged();
+        return Task.CompletedTask;
+    }
+}

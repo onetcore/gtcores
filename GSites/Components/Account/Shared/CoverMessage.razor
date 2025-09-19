@@ -1,4 +1,4 @@
-﻿<section class="cover-form @Type.ToAlertCssClass()" role="alert">
+﻿<section class="cover-form @className" role="alert">
     <div class="cover-form-header">
         <h2>@Header</h2>
     </div>
@@ -25,4 +25,10 @@
     /// </summary>
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
+
+    private string? className;
+    protected override void OnParametersSet()
+    {
+        className = $"alert alert-{Type.ToString().ToLower()}";
+    }
 }

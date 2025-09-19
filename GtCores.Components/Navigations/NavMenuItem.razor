@@ -1,22 +1,51 @@
-﻿@if (Item.IsMarked("title"))
+﻿@inject MenuState MenuState
+
+@if (Item.IsMarked("title"))
 {
-    <li class="nav-item nav-title">@Item.Name</li>
+    <li class="sidebar-header">@Item.Name</li>
 }
 else
 {
-    <li class="nav-item">
-        <a class="nav-link@(MenuView.IsCurrent(Item) ? " active" : null)" @onclick="()=>MenuView.NavigateToMenuAsync(Item)" href="@Item.LinkUrl">
+    <li class="sidebar-item@(MenuState.IsCurrent(Item) ? " active" : null)">
+        <a class="sidebar-link@(hasChildren ? " collapsed" : null)" @(hasChildren.Display("data-bs-toggle=\"collapse\""))
+            @onclick="() => NavMenu.NavigateToMenuAsync(Item)" href="@Item.LinkUrl">
             @if (!string.IsNullOrEmpty(Item.IconName))
-            {<i class="@Item.IconName"></i>}
-            <span>@Item.Name</span>
+            {
+                <i class="align-middle @(Item.IconName)"></i>
+            }
+            <span class="align-middle">@Item.Name</span>
             @if (Item.TryGetMarked("badge", out var value))
             {
                 if (!Item.TryGetMarked("badge-bgcolor", out var color))
                 {
-                    color = "bg-success";
+                    color = "success";
                 }
-                <span class="badge @color">@value</span>
+                <span class="badge text-bg-@color">@value</span>
             }
         </a>
+        @if (hasChildren)
+        {
+            <NavMenuGroup Item="Item" />
+        }
     </li>
+}
+
+@code {
+    /// <summary>
+    /// 当前菜单项目。
+    /// </summary>
+    [Parameter]
+    public MenuItem Item { get; set; } = null!;
+
+    /// <summary>
+    /// 当前菜单实例。
+    /// </summary>
+    [CascadingParameter]
+    public NavMenu NavMenu { get; set; } = null!;
+
+    private bool hasChildren;
+    protected override void OnInitialized()
+    {
+        hasChildren = Item.Any();
+    }
 }
