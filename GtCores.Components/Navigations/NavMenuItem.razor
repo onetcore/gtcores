@@ -1,0 +1,22 @@
+﻿@if (Item.IsMarked("title"))
+{
+    <li class="nav-item nav-title">@Item.Name</li>
+}
+else
+{
+    <li class="nav-item">
+        <a class="nav-link@(MenuView.IsCurrent(Item) ? " active" : null)" @onclick="()=>MenuView.NavigateToMenuAsync(Item)" href="@Item.LinkUrl">
+            @if (!string.IsNullOrEmpty(Item.IconName))
+            {<i class="@Item.IconName"></i>}
+            <span>@Item.Name</span>
+            @if (Item.TryGetMarked("badge", out var value))
+            {
+                if (!Item.TryGetMarked("badge-bgcolor", out var color))
+                {
+                    color = "bg-success";
+                }
+                <span class="badge @color">@value</span>
+            }
+        </a>
+    </li>
+}

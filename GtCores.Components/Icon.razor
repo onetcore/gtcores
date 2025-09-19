@@ -1,0 +1,12 @@
+﻿
+@if(Type != null){
+    <i class="bi @(Type.GetDescription())"></i>
+}
+
+@code {
+    /// <summary>
+    /// 图标类型。
+    /// </summary>
+    [Parameter]
+    public BsIcon? Type { get; set; }
+}

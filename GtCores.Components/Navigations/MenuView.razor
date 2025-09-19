@@ -1,0 +1,72 @@
+﻿@inject NavigationManager NavigationManager
+@inject IMenuProviderFactory Factory
+
+<CascadingValue Value="this" ChildContent="@ChildContent" />
+
+@code {
+    /// <summary>
+    /// 子内容。
+    /// </summary>
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    /// <summary>
+    /// 菜单提供者名称。
+    /// </summary>
+    [Parameter]
+    public string Name { get; set; } = MenuProvider.DefaultName;
+
+    /// <summary>
+    /// 获取当前选中菜单。
+    /// </summary>
+    public MenuItem? Current { get; set; }
+
+    /// <summary>
+    /// 菜单列表。
+    /// </summary>
+    public IEnumerable<MenuItem>? Items { get; set; }
+
+    /// <summary>
+    /// 初始化菜单数据。
+    /// </summary>
+    protected override void OnInitialized()
+    {
+        var root = Factory.Load(Name);
+        if (root == null) return;
+        var uri = NavigationManager.ToAbsoluteUri(NavigationManager.Uri).AbsolutePath;
+        Current = root.Find(uri);
+        Items = root.OrderByDescending(x => x.Priority).ToList();
+        Current ??= Items.First().First;
+    }
+
+    /// <summary>
+    /// 激活当前菜单。
+    /// </summary>
+    /// <param name="item">当前菜单项。</param>
+    public Task NavigateToMenuAsync(MenuItem item)
+    {
+        NavigationManager.NavigateTo(item.LinkUrl);
+        Current = item;
+        StateHasChanged();
+        return Task.CompletedTask;
+    }
+
+    /// <summary>
+    /// 判断当前菜单是否激活。
+    /// </summary>
+    /// <param name="item">当前菜单项。</param>
+    /// <returns>返回判断结果。</returns>
+    public bool IsCurrent(MenuItem item)
+    {
+        var current = Current;
+        if (current == null) return false;
+        while (!current.IsRoot)
+        {
+            if (current.UniqueId == item.UniqueId)
+                return true;
+            current = current.Parent;
+        }
+
+        return false;
+    }
+}
