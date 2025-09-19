@@ -1,6 +1,6 @@
 ﻿@if (Item.Any())
 {
-    <ul id="@Item.UniqueId" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
+    <ul id="@Item.UniqueId" class="@className" data-bs-parent=".sidebar">
         @foreach (var item in Item)
         {
             <NavMenuItem Item="item" />
@@ -13,4 +13,19 @@
     /// </summary>
     [Parameter]
     public MenuItem Item { get; set; } = null!;
+
+    /// <summary>
+    /// 是否当前菜单。
+    /// </summary>
+    [Parameter]
+    public bool IsCurrent { get; set; }
+
+    private string className = "sidebar-dropdown list-unstyled collapse";
+    protected override void OnParametersSet()
+    {
+        if (IsCurrent)
+        {
+            className += " show";
+        }
+    }
 }

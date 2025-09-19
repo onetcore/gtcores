@@ -45,12 +45,11 @@
     /// 激活当前菜单。
     /// </summary>
     /// <param name="item">当前菜单项。</param>
-    public Task NavigateToMenuAsync(MenuItem item)
+    public void NavigateTo(MenuItem item)
     {
         if (item.LinkUrl != null)
             NavigationManager.NavigateTo(item.LinkUrl);
         MenuState.Current = item;
         StateHasChanged();
-        return Task.CompletedTask;
     }
 }

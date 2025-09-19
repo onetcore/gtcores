@@ -6,9 +6,8 @@
 }
 else
 {
-    <li class="sidebar-item@(MenuState.IsCurrent(Item) ? " active" : null)">
-        <a class="sidebar-link@(hasChildren ? " collapsed" : null)" @(hasChildren.Display("data-bs-toggle=\"collapse\""))
-            @onclick="() => NavMenu.NavigateToMenuAsync(Item)" href="@Item.LinkUrl">
+    <li class="@itemClassName">
+        <a class="@linkClassName" @onclick="SetCurrent" @attributes="AdditionalAttributes">
             @if (!string.IsNullOrEmpty(Item.IconName))
             {
                 <i class="align-middle @(Item.IconName)"></i>
@@ -25,7 +24,7 @@ else
         </a>
         @if (hasChildren)
         {
-            <NavMenuGroup Item="Item" />
+            <NavMenuGroup Item="Item" IsCurrent="isCurrent" />
         }
     </li>
 }
@@ -44,8 +43,36 @@ else
     public NavMenu NavMenu { get; set; } = null!;
 
     private bool hasChildren;
-    protected override void OnInitialized()
+    private string? itemClassName;
+    private string? linkClassName;
+    private bool isCurrent;
+    private Dictionary<string, object> AdditionalAttributes { get; set; } = new();
+    protected override void OnParametersSet()
     {
         hasChildren = Item.Any();
+        isCurrent = MenuState.IsCurrent(Item.UniqueId);
+        itemClassName = "sidebar-item";
+        if (isCurrent)
+        {
+            itemClassName += " active";
+            AdditionalAttributes.Add("aria-expanded", "false");
+        }
+        linkClassName = "sidebar-link";
+        if (hasChildren)
+        {
+            if (!isCurrent)
+                linkClassName += " collapsed";
+            AdditionalAttributes.Add("data-bs-toggle", "collapse");
+            AdditionalAttributes.Add("data-bs-target", $"#{Item.UniqueId}");
+        }
+        else
+        {
+            AdditionalAttributes.Add("href", Item.LinkUrl);
+        }
+    }
+
+    private void SetCurrent()
+    {
+        NavMenu.NavigateTo(Item);
     }
 }
