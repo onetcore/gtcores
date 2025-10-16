@@ -1,6 +1,7 @@
-﻿@inject NavigationManager NavigationManager
+﻿@using Microsoft.JSInterop
+@using System.Reflection.Metadata
+@inject NavigationManager NavigationManager
 @inject IMenuProviderFactory Factory
-@inject MenuState MenuState
 
 <CascadingValue Value="this">
     <ul class="sidebar-nav">
@@ -31,14 +32,15 @@
     /// <summary>
     /// 初始化菜单数据。
     /// </summary>
-    protected override void OnInitialized()
+    protected override Task OnInitializedAsync()
     {
         var root = Factory.Load(Name);
-        if (root == null) return;
+        if (root == null) return Task.CompletedTask;
         var uri = NavigationManager.ToAbsoluteUri(NavigationManager.Uri).AbsolutePath;
-        MenuState.Current = root.Find(uri);
+        Current = root.Find(uri);
         items = root.OrderByDescending(x => x.Priority).ToList();
-        MenuState.Current ??= items.First().First;
+        Current ??= items.First().First;
+        return Task.CompletedTask;
     }
 
     /// <summary>
@@ -47,9 +49,26 @@
     /// <param name="item">当前菜单项。</param>
     public void NavigateTo(MenuItem item)
     {
-        if (item.LinkUrl != null)
-            NavigationManager.NavigateTo(item.LinkUrl);
-        MenuState.Current = item;
+        Current = item;
         StateHasChanged();
     }
+
+    /// <summary>
+    /// 判断当前菜单是否激活。
+    /// </summary>
+    /// <param name="uniqueId">当前菜单唯一Id。</param>
+    /// <returns>返回判断结果。</returns>
+    public bool IsCurrent(string uniqueId)
+    {
+        var current = Current;
+        while (current?.IsRoot == false)
+        {
+            if (current.UniqueId == uniqueId)
+                return true;
+            current = current.Parent;
+        }
+
+        return false;
+    }
+
 }

@@ -5,8 +5,7 @@
     padding: 1.5rem 1.5rem .375rem;
 }
 
-.sidebar-link,
-a.sidebar-link {
+.sidebar-item ::deep .sidebar-link {
     color: rgba(226, 232, 238, .5);
     cursor: pointer;
     display: block;
@@ -17,52 +16,50 @@ a.sidebar-link {
     transition: color 75ms ease-in-out;
 }
 
-.sidebar-item.active .sidebar-link:hover,
-.sidebar-item.active>.sidebar-link {
+.sidebar-item.active ::deep .sidebar-link:hover,
+.sidebar-item.active ::deep>.sidebar-link {
     color: #e2e8ee;
 }
 
-.sidebar-link:hover {
+.sidebar-item ::deep .sidebar-link:hover {
     color: rgba(226, 232, 238, .75);
 }
 
-.sidebar-link i,
-.sidebar-link svg,
-a.sidebar-link i,
-a.sidebar-link svg {
+.sidebar-item ::deep a.sidebar-link i,
+.sidebar-item ::deep a.sidebar-link svg {
     color: rgba(226, 232, 238, .5);
     margin-right: .75rem;
 }
 
-.sidebar-item.active .sidebar-link:hover i,
-.sidebar-item.active .sidebar-link:hover svg,
-.sidebar-item.active>.sidebar-link i,
-.sidebar-item.active>.sidebar-link svg {
+.sidebar-item.active ::deep .sidebar-link:hover i,
+.sidebar-item.active ::deep .sidebar-link:hover svg,
+.sidebar-item.active ::deep>.sidebar-link i,
+.sidebar-item.active ::deep>.sidebar-link svg {
     color: #e2e8ee;
 }
 
-.sidebar-item .badge {
+.sidebar-item ::deep .badge {
     position: absolute;
     right: 20px;
     top: 12px;
 }
 
-.sidebar-dropdown .sidebar-link {
+.sidebar-item ::deep .sidebar-dropdown .sidebar-link {
     color: #adb5bd;
     font-weight: 400;
     padding: .55rem 1.5rem .55rem 3.7rem;
 }
 
-.sidebar-dropdown .sidebar-item.active .sidebar-link {
+.sidebar-item ::deep .sidebar-dropdown .sidebar-item.active .sidebar-link {
     color: #e2e8ee;
     font-weight: 400;
 }
 
-[data-bs-toggle=collapse] {
+.sidebar-item ::deep [data-bs-toggle=collapse] {
     position: relative;
 }
 
-[data-bs-toggle=collapse]:before {
+.sidebar-item ::deep [data-bs-toggle=collapse]:before {
     border: solid;
     border-width: 0 .1rem .1rem 0;
     content: " ";
@@ -75,7 +72,8 @@ a.sidebar-link svg {
     transition: all .2s ease-out;
 }
 
-[aria-expanded=true]:before,
-[data-bs-toggle=collapse]:not(.collapsed):before {
+.sidebar-item ::deep [aria-expanded=true]:before,
+.sidebar-item ::deep [data-bs-toggle=collapse]:not(.collapsed):before {
     transform: rotate(-135deg);
+    top: 1.4rem;
 }

@@ -1,13 +1,11 @@
-﻿@inject MenuState MenuState
-
-@if (Item.IsMarked("title"))
+﻿@if (Item.IsMarked("title"))
 {
     <li class="sidebar-header">@Item.Name</li>
 }
 else
 {
     <li class="@itemClassName">
-        <a class="@linkClassName" @onclick="SetCurrent" @attributes="AdditionalAttributes">
+        <NavLink class="@linkClassName" @onclick="OnClick" href="@Item.LinkUrl" @attributes="AdditionalAttributes">
             @if (!string.IsNullOrEmpty(Item.IconName))
             {
                 <i class="align-middle @(Item.IconName)"></i>
@@ -21,10 +19,15 @@ else
                 }
                 <span class="badge text-bg-@color">@value</span>
             }
-        </a>
+        </NavLink>
         @if (hasChildren)
         {
-            <NavMenuGroup Item="Item" IsCurrent="isCurrent" />
+            <ul id="@Item.UniqueId" class="@className" data-bs-parent=".sidebar">
+                @foreach (MenuItem item in Item)
+                {
+                    <NavMenuItem Item="item" />
+                }
+            </ul>
         }
     </li>
 }
@@ -42,19 +45,28 @@ else
     [CascadingParameter]
     public NavMenu NavMenu { get; set; } = null!;
 
+    [Parameter]
+    public Action<MenuItem>? OnClickCallback { get; set; }
+
     private bool hasChildren;
     private string? itemClassName;
     private string? linkClassName;
+    private string className = "sidebar-dropdown list-unstyled collapse";
     private bool isCurrent;
-    private Dictionary<string, object> AdditionalAttributes { get; set; } = new();
+    private Dictionary<string, object?> AdditionalAttributes { get; set; } = new();
     protected override void OnParametersSet()
     {
         hasChildren = Item.Any();
-        isCurrent = MenuState.IsCurrent(Item.UniqueId);
+        isCurrent = NavMenu.IsCurrent(Item.UniqueId!);
         itemClassName = "sidebar-item";
         if (isCurrent)
         {
             itemClassName += " active";
+            className += " show";
+            AdditionalAttributes.Add("aria-expanded", "true");
+        }
+        else
+        {
             AdditionalAttributes.Add("aria-expanded", "false");
         }
         linkClassName = "sidebar-link";
@@ -65,13 +77,9 @@ else
             AdditionalAttributes.Add("data-bs-toggle", "collapse");
             AdditionalAttributes.Add("data-bs-target", $"#{Item.UniqueId}");
         }
-        else
-        {
-            AdditionalAttributes.Add("href", Item.LinkUrl);
-        }
     }
 
-    private void SetCurrent()
+    private void OnClick()
     {
         NavMenu.NavigateTo(Item);
     }

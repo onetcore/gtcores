@@ -286,6 +286,34 @@ public static class Cores
         return _base36[(int)value] + current;
     }
 
+    private static readonly char[] _encode32Chars = "ABCDEFGHIJKLMNOPQRSTUV0123456789".ToCharArray();
+    private static long _lastId = DateTime.UtcNow.Ticks;
+
+    /// <summary>
+    /// 生成下一个唯一ID字符串。
+    /// </summary>
+    /// <returns>返回唯一ID。</returns>
+    public static string GetNextId() => GenerateId(Interlocked.Increment(ref _lastId));
+
+    private static string GenerateId(long id)
+    {
+        return string.Create(13, id, (buffer, value) =>
+        {
+            buffer[12] = _encode32Chars[value & 31];
+            buffer[11] = _encode32Chars[(value >> 5) & 31];
+            buffer[10] = _encode32Chars[(value >> 10) & 31];
+            buffer[9] = _encode32Chars[(value >> 15) & 31];
+            buffer[8] = _encode32Chars[(value >> 20) & 31];
+            buffer[7] = _encode32Chars[(value >> 25) & 31];
+            buffer[6] = _encode32Chars[(value >> 30) & 31];
+            buffer[5] = _encode32Chars[(value >> 35) & 31];
+            buffer[4] = _encode32Chars[(value >> 40) & 31];
+            buffer[3] = _encode32Chars[(value >> 45) & 31];
+            buffer[2] = _encode32Chars[(value >> 50) & 31];
+            buffer[1] = _encode32Chars[(value >> 55) & 31];
+            buffer[0] = _encode32Chars[(value >> 60) & 31];
+        });
+    }
     /// <summary>
     /// 加密字符串。
     /// </summary>
