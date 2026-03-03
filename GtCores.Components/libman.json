@@ -11,6 +11,7 @@
       "destination": "wwwroot/lib/bootstrap"
     },
     {
+      "provider": "unpkg",
       "library": "@popperjs/core@2",
       "destination": "wwwroot/lib/popperjs"
     }

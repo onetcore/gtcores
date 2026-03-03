@@ -179,7 +179,7 @@ public class DbContext<TContext, TEntity>(TContext context) where TContext : DbC
     /// </summary>
     /// <param name="setPropertyCalls">更新的属性设置表达式。</param>
     /// <returns>返回更新结果。</returns>
-    public virtual bool Update(Expression<Func<SetPropertyCalls<TEntity>, SetPropertyCalls<TEntity>>> setPropertyCalls) => DbSet.ExecuteUpdate(setPropertyCalls) > 0;
+    public virtual bool Update(Action<UpdateSettersBuilder<TEntity>> setPropertyCalls) => DbSet.ExecuteUpdate(setPropertyCalls) > 0;
 
     /// <summary>
     /// 更新数据实体。
@@ -187,7 +187,7 @@ public class DbContext<TContext, TEntity>(TContext context) where TContext : DbC
     /// <param name="predicate">条件表达式。</param>
     /// <param name="setPropertyCalls">更新的属性设置表达式。</param>
     /// <returns>返回更新结果。</returns>
-    public virtual bool Update(Expression<Func<TEntity, bool>> predicate, Expression<Func<SetPropertyCalls<TEntity>, SetPropertyCalls<TEntity>>> setPropertyCalls) => DbSet.Where(predicate).ExecuteUpdate(setPropertyCalls) > 0;
+    public virtual bool Update(Expression<Func<TEntity, bool>> predicate, Action<UpdateSettersBuilder<TEntity>> setPropertyCalls) => DbSet.Where(predicate).ExecuteUpdate(setPropertyCalls) > 0;
 
     /// <summary>
     /// 更新数据实体。
@@ -205,7 +205,7 @@ public class DbContext<TContext, TEntity>(TContext context) where TContext : DbC
     /// </summary>
     /// <param name="setPropertyCalls">更新的属性设置表达式。</param>
     /// <param name="cancellationToken">异步取消标识。</param>
-    public virtual async Task<bool> UpdateAsync(Expression<Func<SetPropertyCalls<TEntity>, SetPropertyCalls<TEntity>>> setPropertyCalls, CancellationToken cancellationToken = default) => await DbSet.ExecuteUpdateAsync(setPropertyCalls, cancellationToken) > 0;
+    public virtual async Task<bool> UpdateAsync(Action<UpdateSettersBuilder<TEntity>> setPropertyCalls, CancellationToken cancellationToken = default) => await DbSet.ExecuteUpdateAsync(setPropertyCalls, cancellationToken) > 0;
 
     /// <summary>
     /// 更新数据实体。
@@ -213,7 +213,7 @@ public class DbContext<TContext, TEntity>(TContext context) where TContext : DbC
     /// <param name="predicate">条件表达式。</param>
     /// <param name="setPropertyCalls">更新的属性设置表达式。</param>
     /// <param name="cancellationToken">异步取消标识。</param>
-    public virtual async Task<bool> UpdateAsync(Expression<Func<TEntity, bool>> predicate, Expression<Func<SetPropertyCalls<TEntity>, SetPropertyCalls<TEntity>>> setPropertyCalls, CancellationToken cancellationToken = default) => await DbSet.Where(predicate).ExecuteUpdateAsync(setPropertyCalls, cancellationToken) > 0;
+    public virtual async Task<bool> UpdateAsync(Expression<Func<TEntity, bool>> predicate, Action<UpdateSettersBuilder<TEntity>> setPropertyCalls, CancellationToken cancellationToken = default) => await DbSet.Where(predicate).ExecuteUpdateAsync(setPropertyCalls, cancellationToken) > 0;
 
     /// <summary>
     /// 删除所有数据。
