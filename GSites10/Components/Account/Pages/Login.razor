@@ -14,63 +14,56 @@
 
 <PageTitle>登录</PageTitle>
 
-<h1>登录</h1>
-<div class="row">
-    <div class="col-lg-6">
-        <section>
-            <StatusMessage Message="@errorMessage" />
-            <EditForm EditContext="editContext" method="post" OnSubmit="LoginUser" FormName="login">
-                <DataAnnotationsValidator />
-                <h2>使用账号登录</h2>
-                <hr />
-                <ValidationSummary class="text-danger" role="alert" />
-                <div class="form-floating mb-3">
-                    <InputText @bind-Value="Input.UserName" id="Input.UserName" class="form-control" autocomplete="username webauthn" aria-required="true" placeholder="请输入用户名" />
-                    <label for="Input.UserName" class="form-label">用户名</label>
-                    <ValidationMessage For="() => Input.UserName" class="text-danger" />
-                </div>
-                <div class="form-floating mb-3">
-                    <InputText type="password" @bind-Value="Input.Password" id="Input.Password" class="form-control" autocomplete="current-password" aria-required="true" placeholder="请输入密码" />
-                    <label for="Input.Password" class="form-label">密码</label>
-                    <ValidationMessage For="() => Input.Password" class="text-danger" />
-                </div>
-                <div class="checkbox mb-3">
-                    <label class="form-label">
-                        <InputCheckbox @bind-Value="Input.RememberMe" class="darker-border-checkbox form-check-input" />
-                        记住登录
-                    </label>
-                </div>
-                <div>
-                    <button type="submit" class="w-100 btn btn-lg btn-primary">登录</button>
-                </div>
-                <hr />
-                <div class="d-flex flex-column">
-                    <span class="text-secondary mx-auto mt-2">OR</span>
-                    <PasskeySubmit Operation="PasskeyOperation.Request" Name="Input.Passkey" EmailName="Input.Email" class="btn btn-link mx-auto">Log in with a passkey</PasskeySubmit>
-                </div>
-                <hr />
-                <div>
-                    <p>
-                        <a href="Account/ForgotPassword">忘记密码?</a>
-                    </p>
-                    <p>
-                        <a href="@(NavigationManager.GetUriWithQueryParameters("Account/Register", new Dictionary<string, object?> { ["ReturnUrl"] = ReturnUrl }))">注册一个新账户</a>
-                    </p>
-                    <p>
-                        <a href="Account/ResendEmailConfirmation">重新发送账户确认电子邮件</a>
-                    </p>
-                </div>
-            </EditForm>
-        </section>
-    </div>
-    <div class="col-lg-4 col-lg-offset-2">
-        <section>
-            <h3>使用其他方式进行登录</h3>
-            <hr />
+<SectionContent SectionId="AccountSectionIdConstants.Header">
+    登录
+</SectionContent>
+
+<section>
+    <EditForm EditContext="editContext" method="post" OnSubmit="LoginUser" FormName="login">
+        <DataAnnotationsValidator />
+        <ValidationSummary class="text-danger" role="alert" />
+        <div class="form-floating mb-3">
+            <InputText @bind-Value="Input.UserName" id="Input.UserName" class="form-control" autocomplete="username webauthn" aria-required="true" placeholder="请输入用户名" />
+            <label for="Input.UserName" class="form-label">用户名</label>
+            <ValidationMessage For="() => Input.UserName" class="text-danger" />
+        </div>
+        <div class="form-floating mb-3">
+            <InputText type="password" @bind-Value="Input.Password" id="Input.Password" class="form-control" autocomplete="current-password" aria-required="true" placeholder="请输入密码" />
+            <label for="Input.Password" class="form-label">密码</label>
+            <ValidationMessage For="() => Input.Password" class="text-danger" />
+        </div>
+        <div class="checkbox mb-3">
+            <label class="form-label">
+                <InputCheckbox @bind-Value="Input.RememberMe" class="darker-border-checkbox form-check-input" />
+                记住登录
+            </label>
+        </div>
+        <div>
+            <button type="submit" class="w-100 btn btn-lg btn-primary">登录</button>
+        </div>
+        <div class="d-flex flex-column">
+            <div class="account-splitter">
+                <span class="text-white">
+                    使用其他方式登录
+                </span>
+            </div>
+            <PasskeySubmit Operation="PasskeyOperation.Request" Name="Input.Passkey" EmailName="Input.Email" class="btn btn-link mx-auto">使用通用密钥进行登录</PasskeySubmit>
             <ExternalLoginPicker />
-        </section>
-    </div>
-</div>
+        </div>
+        <hr />
+        <div>
+            <p>
+                <a href="Account/ForgotPassword">忘记密码?</a>
+            </p>
+            <p>
+                <a href="@(NavigationManager.GetUriWithQueryParameters("Account/Register", new Dictionary<string, object?> { ["ReturnUrl"] = ReturnUrl }))">注册一个新账户</a>
+            </p>
+            <p>
+                <a href="Account/ResendEmailConfirmation">重新发送账户确认电子邮件</a>
+            </p>
+        </div>
+    </EditForm>
+</section>
 
 @code {
     private string? errorMessage;
@@ -150,7 +143,7 @@
     private sealed class InputModel
     {
         [RequiredEx]
-        [Display(Name ="用户名")]
+        [Display(Name = "用户名")]
         public string UserName { get; set; } = "";
 
         [RequiredEx]

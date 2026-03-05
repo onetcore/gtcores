@@ -19,15 +19,14 @@
 
 <PageTitle>注册</PageTitle>
 
-<h1>注册</h1>
+<SectionContent SectionId="AccountSectionIdConstants.Header">
+    注册
+</SectionContent>
 
 <div class="row">
     <div class="col-lg-6">
-        <StatusMessage Message="@Message" />
         <EditForm Model="Input" method="post" OnValidSubmit="RegisterUser" FormName="register">
             <DataAnnotationsValidator />
-            <h2>注册一个新账户。</h2>
-            <hr />
             <ValidationSummary class="text-danger" role="alert" />
             <div class="form-floating mb-3">
                 <InputText @bind-Value="Input.UserName" id="Input.UserName" class="form-control" autocomplete="username" aria-required="true" placeholder="请输入用户名" />
@@ -49,7 +48,7 @@
                 <label for="Input.ConfirmPassword">确认密码</label>
                 <ValidationMessage For="() => Input.ConfirmPassword" class="text-danger" />
             </div>
-            <button type="submit" class="w-100 btn btn-lg btn-primary">Register</button>
+            <button type="submit" class="w-100 btn btn-lg btn-primary">注册</button>
         </EditForm>
     </div>
     <div class="col-lg-4 col-lg-offset-2">
