@@ -5,7 +5,7 @@
     /// 椭圆。
     /// </summary>
     [Parameter]
-    public bool IsPill { get; set; }
+    public bool Pill { get; set; }
 
     /// <summary>
     /// 颜色。
@@ -22,6 +22,6 @@
     private string? className;
     protected override void OnInitialized()
     {
-        className = "badge text-bg-".Concat(Color).Concat(IsPill, " rounded-pill");
+        className = "badge text-bg-".Concat(Color).Concat(Pill, " rounded-pill");
     }
 }

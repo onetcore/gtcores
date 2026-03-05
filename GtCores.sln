@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 18
-VisualStudioVersion = 18.3.11520.95 d18.3
+VisualStudioVersion = 18.3.11520.95
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GtCores", "GtCores\GtCores.csproj", "{BB120AF5-8E48-4AE2-857D-77356AF12475}"
 EndProject
@@ -18,6 +18,10 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GSites", "GSites\GSites.csproj", "{1831B5D5-AC36-4D07-AE69-DF65B6608FFE}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GtCores.Components", "GtCores.Components\GtCores.Components.csproj", "{D2C11785-F58F-4556-BD0D-4C74F728BB2A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GtCores.IdentityCore", "GtCores.IdentityCore\GtCores.IdentityCore.csproj", "{E5BE98A7-9701-4C35-8BE3-BD50F1B529E5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GSites10", "GSites10\GSites10.csproj", "{5995F203-1F95-476C-806A-A051D8688C9C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -125,8 +129,35 @@ Global
 		{D2C11785-F58F-4556-BD0D-4C74F728BB2A}.Release|x64.Build.0 = Release|Any CPU
 		{D2C11785-F58F-4556-BD0D-4C74F728BB2A}.Release|x86.ActiveCfg = Release|Any CPU
 		{D2C11785-F58F-4556-BD0D-4C74F728BB2A}.Release|x86.Build.0 = Release|Any CPU
+		{E5BE98A7-9701-4C35-8BE3-BD50F1B529E5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E5BE98A7-9701-4C35-8BE3-BD50F1B529E5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E5BE98A7-9701-4C35-8BE3-BD50F1B529E5}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{E5BE98A7-9701-4C35-8BE3-BD50F1B529E5}.Debug|x64.Build.0 = Debug|Any CPU
+		{E5BE98A7-9701-4C35-8BE3-BD50F1B529E5}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{E5BE98A7-9701-4C35-8BE3-BD50F1B529E5}.Debug|x86.Build.0 = Debug|Any CPU
+		{E5BE98A7-9701-4C35-8BE3-BD50F1B529E5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E5BE98A7-9701-4C35-8BE3-BD50F1B529E5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E5BE98A7-9701-4C35-8BE3-BD50F1B529E5}.Release|x64.ActiveCfg = Release|Any CPU
+		{E5BE98A7-9701-4C35-8BE3-BD50F1B529E5}.Release|x64.Build.0 = Release|Any CPU
+		{E5BE98A7-9701-4C35-8BE3-BD50F1B529E5}.Release|x86.ActiveCfg = Release|Any CPU
+		{E5BE98A7-9701-4C35-8BE3-BD50F1B529E5}.Release|x86.Build.0 = Release|Any CPU
+		{5995F203-1F95-476C-806A-A051D8688C9C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5995F203-1F95-476C-806A-A051D8688C9C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5995F203-1F95-476C-806A-A051D8688C9C}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{5995F203-1F95-476C-806A-A051D8688C9C}.Debug|x64.Build.0 = Debug|Any CPU
+		{5995F203-1F95-476C-806A-A051D8688C9C}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{5995F203-1F95-476C-806A-A051D8688C9C}.Debug|x86.Build.0 = Debug|Any CPU
+		{5995F203-1F95-476C-806A-A051D8688C9C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5995F203-1F95-476C-806A-A051D8688C9C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5995F203-1F95-476C-806A-A051D8688C9C}.Release|x64.ActiveCfg = Release|Any CPU
+		{5995F203-1F95-476C-806A-A051D8688C9C}.Release|x64.Build.0 = Release|Any CPU
+		{5995F203-1F95-476C-806A-A051D8688C9C}.Release|x86.ActiveCfg = Release|Any CPU
+		{5995F203-1F95-476C-806A-A051D8688C9C}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {26932AEE-6863-40AB-9A9A-9DBAD8B2180E}
 	EndGlobalSection
 EndGlobal
