@@ -18,6 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\GSites.Extensions\GSites.Extensions.csproj" />
     <ProjectReference Include="..\GtCores.Components\GtCores.Components.csproj" />
     <ProjectReference Include="..\GtCores.Extensions\GtCores.Extensions.csproj" />
     <ProjectReference Include="..\GtCores.IdentityCore\GtCores.IdentityCore.csproj" />

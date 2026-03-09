@@ -76,6 +76,11 @@
 
     protected override void OnInitialized()
     {
+        if (!IdentitySettings.EnabledRegister)
+        {
+            RedirectManager.RedirectTo("/Account/AccessDenied");
+            return;
+        }
         Input ??= new();
     }
 

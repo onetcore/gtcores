@@ -46,6 +46,7 @@ public class ServiceConfigurer : GtCores.IdentityCore.ServiceConfigurer
         {
             options.Password.RequireNonAlphanumeric = false;//无需特殊符号。
             options.Password.RequireUppercase = false;//无需大写字母。
+            options.Password.RequireDigit = false;//无需数字。
         }).AddEntityFrameworkStores<IdentityDbContext>();
 
         services.AddCascadingAuthenticationState();

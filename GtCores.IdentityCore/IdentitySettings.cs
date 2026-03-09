@@ -14,4 +14,9 @@ public class IdentitySettings
     /// 使用外部登录。
     /// </summary>
     public bool EnalbedExternalLogin { get; set; }
+
+    /// <summary>
+    /// 是否允许用户注册。
+    /// </summary>
+    public bool EnabledRegister { get; set; }
 }

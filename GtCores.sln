@@ -23,6 +23,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GtCores.IdentityCore", "GtC
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GSites10", "GSites10\GSites10.csproj", "{5995F203-1F95-476C-806A-A051D8688C9C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GSites.Extensions", "GSites.Extensions\GSites.Extensions.csproj", "{73D3F255-BCF0-402A-9831-F2A8E1A29D5E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -153,6 +155,18 @@ Global
 		{5995F203-1F95-476C-806A-A051D8688C9C}.Release|x64.Build.0 = Release|Any CPU
 		{5995F203-1F95-476C-806A-A051D8688C9C}.Release|x86.ActiveCfg = Release|Any CPU
 		{5995F203-1F95-476C-806A-A051D8688C9C}.Release|x86.Build.0 = Release|Any CPU
+		{73D3F255-BCF0-402A-9831-F2A8E1A29D5E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{73D3F255-BCF0-402A-9831-F2A8E1A29D5E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{73D3F255-BCF0-402A-9831-F2A8E1A29D5E}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{73D3F255-BCF0-402A-9831-F2A8E1A29D5E}.Debug|x64.Build.0 = Debug|Any CPU
+		{73D3F255-BCF0-402A-9831-F2A8E1A29D5E}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{73D3F255-BCF0-402A-9831-F2A8E1A29D5E}.Debug|x86.Build.0 = Debug|Any CPU
+		{73D3F255-BCF0-402A-9831-F2A8E1A29D5E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{73D3F255-BCF0-402A-9831-F2A8E1A29D5E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{73D3F255-BCF0-402A-9831-F2A8E1A29D5E}.Release|x64.ActiveCfg = Release|Any CPU
+		{73D3F255-BCF0-402A-9831-F2A8E1A29D5E}.Release|x64.Build.0 = Release|Any CPU
+		{73D3F255-BCF0-402A-9831-F2A8E1A29D5E}.Release|x86.ActiveCfg = Release|Any CPU
+		{73D3F255-BCF0-402A-9831-F2A8E1A29D5E}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

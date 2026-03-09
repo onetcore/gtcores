@@ -2,9 +2,13 @@ html, body {
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 
-a, .btn-link {
-    color: #006bb7;
+a {
+    text-decoration: none;
 }
+
+    a:hover {
+        text-decoration: underline;
+    }
 
 .btn-primary {
     color: #fff;
@@ -58,7 +62,6 @@ h1:focus {
 
 
 .account {
-    --acc-color: #fff;
     position: absolute;
     top: 0;
     bottom: 0;
@@ -67,9 +70,14 @@ h1:focus {
     display: flex;
     align-items: center;
     justify-content: center;
-    background: url(/images/cover-bg.jpg);
+}
+
+body:not([data-bs-theme]) .account {
+    --bs-body-color: #dee2e6;
+    --bs-heading-color: #fff;
+    --bs-link-color-rgb: #fff;
+    background: url(/images/account-bg.jpg);
     background-size: cover;
-    color: var(--acc-color);
 }
 
 .account-container {
@@ -104,12 +112,8 @@ h1:focus {
         background-position: left 1em top 50%;
     }
 
-.account .darker-border-checkbox.form-check-input {
-    border-color: #929292;
-}
-
-.account .form-floating > label {
-    color: rgba(var(--bs-body-color-rgb), .65);
+.account .form-floating > label, .account .checkbox, .account .form-floating .form-control {
+    color: var(--bs-secondary-color);
 }
 
 .account .form-floating > .form-control-plaintext::placeholder, .account .form-floating > .form-control::placeholder {
@@ -123,14 +127,26 @@ h1:focus {
 
 .account-links {
     padding-left: 1rem;
-    color:inherit;
 }
 
-    .account-links a {
-        text-decoration: none;
-        color: inherit;
+.account-footer {
+    display: none;
+}
+
+@media (min-width: 768px) {
+    .account-footer {
+        display: block;
+        position: absolute;
+        bottom: 40px;
     }
 
-    .account-links a:hover {
-        text-decoration: underline;
-    }
+        .account-footer .account-footer-body {
+            display: flex;
+            justify-content: space-around;
+        }
+
+            .account-footer .account-footer-body li {
+                list-style: none;
+                padding-right: 1.5rem;
+            }
+}
