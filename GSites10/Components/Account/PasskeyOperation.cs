@@ -5,11 +5,4 @@ namespace GSites.Components.Account
         Create = 0,
         Request = 1,
     }
-
-    public static class AccountSectionIdConstants
-    {
-        public static object Header = new();
-
-        public static object Footer = new();
-    }
 }

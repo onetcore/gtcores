@@ -1,8 +1,14 @@
 ﻿@if (!string.IsNullOrEmpty(DisplayMessage))
 {
-    var statusMessageClass = DisplayMessage.StartsWith("Error") ? "danger" : "success";
+    var statusMessageClass = "success";
+    var message = DisplayMessage;
+    if (message.StartsWith("Error:"))
+    {
+        statusMessageClass = "danger";
+        message = message.Substring(6);
+    }
     <div class="alert alert-@statusMessageClass" role="alert">
-        @DisplayMessage
+        @message
     </div>
 }
 

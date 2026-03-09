@@ -1,0 +1,42 @@
+﻿<div class="account-container" @attributes="AdditionalAttributes">
+    @if (!string.IsNullOrWhiteSpace(Title))
+    {
+        <PageTitle>@Title</PageTitle>
+        <div class="account-head">
+            <h2>
+                @Title
+            </h2>
+            <hr />
+        </div>
+    }
+    <div class="account-body">
+        <StatusMessage Message="@Message" />
+        @ChildContent
+    </div>
+</div>
+
+@code {
+    /// <summary>
+    /// 标题。
+    /// </summary>
+    [Parameter]
+    public string? Title { get; set; }
+
+    /// <summary>
+    /// 状态消息。
+    /// </summary>
+    [Parameter]
+    public string? Message{ get; set; }
+
+    /// <summary>
+    /// 其他属性集合。
+    /// </summary>
+    [Parameter(CaptureUnmatchedValues = true)]
+    public Dictionary<string, object> AdditionalAttributes { get; set; } = default!;
+
+    /// <summary>
+    /// 子内容。
+    /// </summary>
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+}

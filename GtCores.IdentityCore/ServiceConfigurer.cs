@@ -1,4 +1,5 @@
 
+using GtCores.Extensions.Settings;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -17,6 +18,7 @@ public abstract class ServiceConfigurer : Extensions.ServiceConfigurer
     {
         base.ConfigureServices(builder);
         ConfigureAuthentication(builder.Services);
+        builder.AddSettings<IdentitySettings>();
     }
 
     /// <summary>

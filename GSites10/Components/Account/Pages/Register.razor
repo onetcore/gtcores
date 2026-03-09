@@ -3,10 +3,8 @@
 @using System.ComponentModel.DataAnnotations
 @using System.Text
 @using System.Text.Encodings.Web
-@using GtCores.Extensions.Validations
 @using Microsoft.AspNetCore.Identity
 @using Microsoft.AspNetCore.WebUtilities
-@using GSites.Extensions
 @using System.ComponentModel
 
 @inject UserManager<User> UserManager
@@ -16,49 +14,54 @@
 @inject ILogger<Register> Logger
 @inject NavigationManager NavigationManager
 @inject IdentityRedirectManager RedirectManager
+@inject IdentitySettings IdentitySettings
 
-<PageTitle>注册</PageTitle>
-
-<SectionContent SectionId="AccountSectionIdConstants.Header">
-    注册
-</SectionContent>
-
-<div class="row">
-    <div class="col-lg-6">
-        <EditForm Model="Input" method="post" OnValidSubmit="RegisterUser" FormName="register">
-            <DataAnnotationsValidator />
-            <ValidationSummary class="text-danger" role="alert" />
-            <div class="form-floating mb-3">
-                <InputText @bind-Value="Input.UserName" id="Input.UserName" class="form-control" autocomplete="username" aria-required="true" placeholder="请输入用户名" />
-                <label for="Input.UserName">用户名</label>
-                <ValidationMessage For="() => Input.UserName" class="text-danger" />
+<AccountContainer Title="注册" Message="@Message">
+    <EditForm Model="Input" method="post" OnValidSubmit="RegisterUser" FormName="register">
+        <DataAnnotationsValidator />
+        <div class="form-floating mb-3">
+            <InputText @bind-Value="Input.UserName" id="Input.UserName" class="form-control" autocomplete="username" aria-required="true" placeholder="请输入用户名" />
+            <label for="Input.UserName">用户名</label>
+            <ValidationMessage For="() => Input.UserName" class="text-danger" />
+        </div>
+        <div class="form-floating mb-3">
+            <InputText @bind-Value="Input.Email" id="Input.Email" class="form-control" autocomplete="email" aria-required="true" placeholder="请输入电子邮件" />
+            <label for="Input.Email">电子邮件</label>
+            <ValidationMessage For="() => Input.Email" class="text-danger" />
+        </div>
+        <div class="form-floating mb-3">
+            <InputText type="password" @bind-Value="Input.Password" id="Input.Password" class="form-control" autocomplete="new-password" aria-required="true" placeholder="请输入密码" />
+            <label for="Input.Password">密码</label>
+            <ValidationMessage For="() => Input.Password" class="text-danger" />
+        </div>
+        <div class="form-floating mb-3">
+            <InputText type="password" @bind-Value="Input.ConfirmPassword" id="Input.ConfirmPassword" class="form-control" autocomplete="new-password" aria-required="true" placeholder="请输入确认密码" />
+            <label for="Input.ConfirmPassword">确认密码</label>
+            <ValidationMessage For="() => Input.ConfirmPassword" class="text-danger" />
+        </div>
+        <button type="submit" class="w-100 btn btn-lg btn-primary mb-3">注册</button>
+        @if (IdentitySettings.EnalbedExternalLogin)
+        {
+            <div class="d-flex flex-column">
+                <div class="account-splitter">
+                    <span class="text-white">
+                        使用其他方式注册新账户
+                    </span>
+                </div>
+                @if (IdentitySettings.EnalbedExternalLogin)
+                {
+                    <ExternalLoginPicker />
+                }
             </div>
-            <div class="form-floating mb-3">
-                <InputText @bind-Value="Input.Email" id="Input.Email" class="form-control" autocomplete="email" aria-required="true" placeholder="请输入电子邮件" />
-                <label for="Input.Email">电子邮件</label>
-                <ValidationMessage For="() => Input.Email" class="text-danger" />
-            </div>
-            <div class="form-floating mb-3">
-                <InputText type="password" @bind-Value="Input.Password" id="Input.Password" class="form-control" autocomplete="new-password" aria-required="true" placeholder="请输入密码" />
-                <label for="Input.Password">密码</label>
-                <ValidationMessage For="() => Input.Password" class="text-danger" />
-            </div>
-            <div class="form-floating mb-3">
-                <InputText type="password" @bind-Value="Input.ConfirmPassword" id="Input.ConfirmPassword" class="form-control" autocomplete="new-password" aria-required="true" placeholder="请输入确认密码" />
-                <label for="Input.ConfirmPassword">确认密码</label>
-                <ValidationMessage For="() => Input.ConfirmPassword" class="text-danger" />
-            </div>
-            <button type="submit" class="w-100 btn btn-lg btn-primary">注册</button>
-        </EditForm>
-    </div>
-    <div class="col-lg-4 col-lg-offset-2">
-        <section>
-            <h3>Use another service to register.</h3>
-            <hr />
-            <ExternalLoginPicker />
-        </section>
-    </div>
-</div>
+        }
+        <hr />
+        <ul class="account-links">
+            <li>
+                <a href="Account/Login">已有帐号，点击登录</a>
+            </li>
+        </ul>
+    </EditForm>
+</AccountContainer>
 
 @code {
     private IEnumerable<IdentityError>? identityErrors;

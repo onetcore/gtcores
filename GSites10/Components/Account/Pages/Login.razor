@@ -1,27 +1,18 @@
 ﻿@page "/Account/Login"
 
-@using System.ComponentModel.DataAnnotations
-@using GtCores.Extensions.Validations
 @using Microsoft.AspNetCore.Authentication
 @using Microsoft.AspNetCore.Identity
-@using GSites.Extensions
 
 @inject UserManager<User> UserManager
 @inject SignInManager<User> SignInManager
 @inject ILogger<Login> Logger
 @inject NavigationManager NavigationManager
 @inject IdentityRedirectManager RedirectManager
+@inject IdentitySettings IdentitySettings
 
-<PageTitle>登录</PageTitle>
-
-<SectionContent SectionId="AccountSectionIdConstants.Header">
-    登录
-</SectionContent>
-
-<section>
+<AccountContainer Title="登录" Message="@errorMessage">
     <EditForm EditContext="editContext" method="post" OnSubmit="LoginUser" FormName="login">
         <DataAnnotationsValidator />
-        <ValidationSummary class="text-danger" role="alert" />
         <div class="form-floating mb-3">
             <InputText @bind-Value="Input.UserName" id="Input.UserName" class="form-control" autocomplete="username webauthn" aria-required="true" placeholder="请输入用户名" />
             <label for="Input.UserName" class="form-label">用户名</label>
@@ -38,32 +29,41 @@
                 记住登录
             </label>
         </div>
-        <div>
+        <div class="mb-3">
             <button type="submit" class="w-100 btn btn-lg btn-primary">登录</button>
         </div>
-        <div class="d-flex flex-column">
-            <div class="account-splitter">
-                <span class="text-white">
-                    使用其他方式登录
-                </span>
+        @if (IdentitySettings.EnabledPasskeyLogin || IdentitySettings.EnalbedExternalLogin)
+        {
+            <div class="d-flex flex-column">
+                <div class="account-splitter">
+                    <span class="text-white">
+                        使用其他方式登录
+                    </span>
+                </div>
+                @if (IdentitySettings.EnabledPasskeyLogin)
+                {
+                    <PasskeySubmit Operation="PasskeyOperation.Request" Name="Input.Passkey" EmailName="Input.Email" class="btn btn-link mx-auto">使用通用密钥进行登录</PasskeySubmit>
+                }
+                @if (IdentitySettings.EnalbedExternalLogin)
+                {
+                    <ExternalLoginPicker />
+                }
             </div>
-            <PasskeySubmit Operation="PasskeyOperation.Request" Name="Input.Passkey" EmailName="Input.Email" class="btn btn-link mx-auto">使用通用密钥进行登录</PasskeySubmit>
-            <ExternalLoginPicker />
-        </div>
+        }
         <hr />
-        <div>
-            <p>
+        <ul class="account-links">
+            <li>
                 <a href="Account/ForgotPassword">忘记密码?</a>
-            </p>
-            <p>
+            </li>
+            <li>
                 <a href="@(NavigationManager.GetUriWithQueryParameters("Account/Register", new Dictionary<string, object?> { ["ReturnUrl"] = ReturnUrl }))">注册一个新账户</a>
-            </p>
-            <p>
+            </li>
+            <li>
                 <a href="Account/ResendEmailConfirmation">重新发送账户确认电子邮件</a>
-            </p>
-        </div>
+            </li>
+        </ul>
     </EditForm>
-</section>
+</AccountContainer>
 
 @code {
     private string? errorMessage;
