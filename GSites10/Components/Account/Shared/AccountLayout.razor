@@ -1,0 +1,20 @@
+﻿@using Microsoft.AspNetCore.Components.Sections
+@inherits LayoutComponentBase
+
+<div class="account">
+    @Body
+    <div class="account-footer">
+        <ul class="account-footer-body">
+            <li>
+                <a href="/">
+                    <Icon Type="BsIcon.House" />首页
+                </a>
+            </li>
+            <li><a href="/Account/Login?View=Login">系统默认</a></li>
+            <li><a href="/Account/Login?View=Login-Gitee">高仿码云</a></li>
+            <li><a href="/Account/Login?View=Login-Blue">蓝色简约</a></li>
+            <li><a href="/Account/Login">用户登录</a></li>
+            <li><a href="/Account/Register">用户注册</a></li>
+        </ul>
+    </div>
+</div>

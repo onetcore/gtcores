@@ -9,3 +9,4 @@ bin
 /storages
 .vscode/settings.json
 lib
+.vs

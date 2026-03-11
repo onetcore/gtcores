@@ -1,0 +1,41 @@
+﻿@using GSites.Extensions.Themes
+@using GtCores.IdentityCore.Settings
+@inject ISettingsManager SettingsManager
+
+<body @attributes="AdditionalAttributes">
+    @ChildContent
+</body>
+
+@code {
+    /// <summary>
+    /// 模板名称。
+    /// </summary>
+    [Parameter]
+    public string? Name { get; set; }
+
+    /// <summary>
+    /// 其他属性集合。
+    /// </summary>
+    [Parameter(CaptureUnmatchedValues = true)]
+    public Dictionary<string, object> AdditionalAttributes { get; set; } = default!;
+
+    /// <summary>
+    /// 子内容属性。
+    /// </summary>
+    [Parameter]
+    public RenderFragment? ChildContent{ get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (string.IsNullOrWhiteSpace(Name))
+        {
+            var settings = await SettingsManager.GetSettingsAsync<ThemeSettings>();
+            Name = settings?.Name;
+        }
+        if (!string.IsNullOrWhiteSpace(Name))
+        {
+            AdditionalAttributes ??= new();
+            AdditionalAttributes["data-bs-theme"] = Name;
+        }
+    }
+}

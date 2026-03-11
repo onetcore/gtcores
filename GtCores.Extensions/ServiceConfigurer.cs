@@ -19,9 +19,9 @@ public abstract class ServiceConfigurer : IServiceConfigurer
     /// 配置服务。
     /// </summary>
     /// <param name="builder">服务构建实例。</param>
-    public void ConfigureServices(IServiceBuilder builder)
+    public virtual void ConfigureServices(IServiceBuilder builder)
     {
-        _defaultConnectionString = builder.Configuration.GetConnectionString("DefaultConnection")!;
+        _defaultConnectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("未找到'DefaultConnection'的配置节点！");
         Builder = builder;
         builder.Services.AddMemoryCache();
         AddDbContext<SettingsDbContext>();

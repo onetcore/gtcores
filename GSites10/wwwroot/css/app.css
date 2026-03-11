@@ -1,0 +1,16 @@
+a {
+    color: var(--bs-body-color);
+}
+
+    a:hover, a:active {
+        text-decoration: none;
+    }
+
+.btn-primary {
+    color: #fff;
+    background-color: #1b6ec2;
+    border-color: #1861ac;
+}
+
+
+

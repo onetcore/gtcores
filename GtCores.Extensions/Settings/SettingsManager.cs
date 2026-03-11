@@ -178,7 +178,7 @@ public class SettingsManager(SettingsDbContext context, IMemoryCache cache) : Ob
         var adapter = new SettingsAdapter { SettingKey = key, SettingValue = settings };
         if (Database.Any(x => x.SettingKey == key))
         {
-            if (Database.Update(adapter))
+            if (Database.Update(x => x.SettingKey == key, s => s.SetProperty(x => x.SettingValue, x => settings)))
             {
                 Refresh(key);
                 return true;
