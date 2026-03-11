@@ -1,6 +1,7 @@
 
 using GtCores.Extensions.Settings;
 using GtCores.IdentityCore.Settings;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -45,8 +46,10 @@ public abstract class ServiceConfigurer : Extensions.ServiceConfigurer
     /// <param name="action">用户验证配置方法。</param>
     /// <returns>返回用户验证构建实例。</returns>
     protected IdentityBuilder AddIdentityCore<TUser>(IServiceCollection services, Action<IdentityOptions>? action = null)
-        where TUser : UserBase
+        where TUser : UserBase, new()
     {
+        // 添加当前登录用户。
+        services.AddScoped(service => service.GetRequiredService<IHttpContextAccessor>().GetUserAsync<TUser>().GetAwaiter().GetResult() ?? new TUser());
         return services.AddIdentityCore<TUser>(options =>
         {
             options.SignIn.RequireConfirmedAccount = true;

@@ -8,7 +8,7 @@
         /// <summary>
         /// 模板名称。
         /// </summary>
-        public string? Name { get; set; } = Dark;
+        public string? Name { get; set; }
 
         /// <summary>
         /// 亮色调。

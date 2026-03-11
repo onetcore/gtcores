@@ -1,12 +1,12 @@
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 
-namespace GtCores.Components;
+namespace GSites.Extensions;
 
 /// <summary>
-/// Bootstrap组件基类。
+/// 组件基类。
 /// </summary>
-public abstract class BootstrapComponentBase : Microsoft.AspNetCore.Components.ComponentBase
+public abstract class ComponentBase : Microsoft.AspNetCore.Components.ComponentBase
 {
     /// <summary>
     /// 其他属性集合。
@@ -18,12 +18,12 @@ public abstract class BootstrapComponentBase : Microsoft.AspNetCore.Components.C
     /// CSS类。
     /// </summary>
     [Parameter]
-    public string? CssClass { get; set; }
+    public string? Class { get; set; }
 
     /// <summary>
     /// 计算后的CSS类。
     /// </summary>
-    protected virtual string? ClassString => CssClass;
+    protected virtual string? ClassString => Class;
 
     /// <summary>
     /// 样式。
@@ -52,4 +52,24 @@ public abstract class BootstrapComponentBase : Microsoft.AspNetCore.Components.C
     /// </summary>
     [Parameter]
     public string? Id { get; set; }
+
+    /// <summary>
+    /// 参数设置。
+    /// </summary>
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+        if (Id != null && !AdditionalAttributes.ContainsKey("id"))
+        {
+            AdditionalAttributes.Add("id", Id);
+        }
+        if (ClassString != null && !AdditionalAttributes.ContainsKey("class"))
+        {
+            AdditionalAttributes.Add("class", ClassString);
+        }
+        if (StyleString != null && !AdditionalAttributes.ContainsKey("style"))
+        {
+            AdditionalAttributes.Add("style", StyleString);
+        }
+    }
 }
