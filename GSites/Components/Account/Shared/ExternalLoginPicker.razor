@@ -1,6 +1,6 @@
 ﻿@using Microsoft.AspNetCore.Authentication
 @using Microsoft.AspNetCore.Identity
-@using GSites.Extensions.Identity
+@using GSites.Extensions
 
 @inject SignInManager<User> SignInManager
 @inject IdentityRedirectManager RedirectManager
@@ -8,15 +8,16 @@
 @if (externalLogins.Length > 0)
 {
     <form class="form-horizontal" action="Account/PerformExternalLogin" method="post">
-        <AntiforgeryToken />
-        <input type="hidden" name="ReturnUrl" value="@ReturnUrl" />
-        @foreach (var provider in externalLogins)
-        {
-            <div class="item">
-                <button type="submit" class="btn btn-primary" name="provider" value="@provider.Name"
-                    title="Log in using your @provider.DisplayName account">@provider.DisplayName</button>
-            </div>
-        }
+        <div>
+            <AntiforgeryToken />
+            <input type="hidden" name="ReturnUrl" value="@ReturnUrl" />
+            <p>
+                @foreach (var provider in externalLogins)
+                {
+                    <button type="submit" class="btn btn-primary" name="provider" value="@provider.Name" title="使用@(provider.DisplayName)账号进行登录">@provider.DisplayName</button>
+                }
+            </p>
+        </div>
     </form>
 }
 

@@ -1,8 +1,5 @@
 ﻿@page "/Account/Lockout"
-@layout CoverLayout
 
-<PageTitle>用户锁定</PageTitle>
-
-<CoverMessage Header="用户锁定" Type="BsType.Danger">
-    当前用户已经被锁定，稍后请重试。
-</CoverMessage>
+<AccountContainer Title="锁定账户">
+    <p class="text-danger" role="alert">你的账户已经被锁定，请稍后进行重试...</p>
+</AccountContainer>

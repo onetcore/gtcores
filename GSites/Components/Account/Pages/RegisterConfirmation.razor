@@ -1,31 +1,31 @@
 ﻿@page "/Account/RegisterConfirmation"
-@layout CoverLayout
 
 @using System.Text
 @using Microsoft.AspNetCore.Identity
 @using Microsoft.AspNetCore.WebUtilities
-@using GSites.Extensions.Identity
+@using GSites.Extensions
 
 @inject UserManager<User> UserManager
 @inject IEmailSender<User> EmailSender
 @inject NavigationManager NavigationManager
 @inject IdentityRedirectManager RedirectManager
 
-<PageTitle>注册确认信息</PageTitle>
+<PageTitle>Register confirmation</PageTitle>
+
+<h1>Register confirmation</h1>
+
+<StatusMessage Message="@statusMessage" />
 
 @if (emailConfirmationLink is not null)
 {
-    <CoverMessage Header="注册确认信息" Type="BsType.Info">
-        <StatusMessage Message="@statusMessage" />
-        <a href="@emailConfirmationLink">点击这里确认你的账户信息！</a>
-    </CoverMessage>
+    <p>
+        This app does not currently have a real email sender registered, see <a href="https://aka.ms/aspaccountconf">these docs</a> for how to configure a real email sender.
+        Normally this would be emailed: <a href="@emailConfirmationLink">Click here to confirm your account</a>
+    </p>
 }
 else
 {
-    <CoverMessage Header="注册确认信息" Type="BsType.Info">
-        <StatusMessage Message="@statusMessage" />
-        请通过电子邮件来确认你的账户！
-    </CoverMessage>
+    <p role="alert">Please check your email to confirm your account.</p>
 }
 
 @code {
@@ -46,13 +46,14 @@ else
         if (Email is null)
         {
             RedirectManager.RedirectTo("");
+            return;
         }
 
         var user = await UserManager.FindByEmailAsync(Email);
         if (user is null)
         {
             HttpContext.Response.StatusCode = StatusCodes.Status404NotFound;
-            statusMessage = "未能找到相关用户信息";
+            statusMessage = "Error finding user for unspecified email";
         }
         else if (EmailSender is IdentityNoOpEmailSender)
         {
@@ -61,8 +62,8 @@ else
             var code = await UserManager.GenerateEmailConfirmationTokenAsync(user);
             code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
             emailConfirmationLink = NavigationManager.GetUriWithQueryParameters(
-            NavigationManager.ToAbsoluteUri("Account/ConfirmEmail").AbsoluteUri,
-            new Dictionary<string, object?> { ["userId"] = userId, ["code"] = code, ["returnUrl"] = ReturnUrl });
+                NavigationManager.ToAbsoluteUri("Account/ConfirmEmail").AbsoluteUri,
+                new Dictionary<string, object?> { ["userId"] = userId, ["code"] = code, ["returnUrl"] = ReturnUrl });
         }
     }
 }

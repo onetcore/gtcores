@@ -13,10 +13,10 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="10.0.3" />
+    <PackageReference Include="Microsoft.Extensions.Localization" Version="10.0.4" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\GtCores.Components\GtCores.Components.csproj" />
     <ProjectReference Include="..\GtCores.Extensions\GtCores.Extensions.csproj" />
     <ProjectReference Include="..\GtCores.IdentityCore\GtCores.IdentityCore.csproj" />
     <ProjectReference Include="..\GtCores\GtCores.csproj" />

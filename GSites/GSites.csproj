@@ -4,30 +4,22 @@
     <TargetFramework>net10.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-    <UserSecretsId>aspnet-GSites-f1b68577-8f45-415d-a0d0-316098ba0efb</UserSecretsId>
+    <UserSecretsId>aspnet-GSites10-02d95f60-791a-4d9b-a3d2-12548e01cd46</UserSecretsId>
+    <BlazorDisableThrowNavigationException>true</BlazorDisableThrowNavigationException>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="FxResources.System.ComponentModel.Annotations.zh-Hans" Version="10.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="10.0.3" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="10.0.3" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="10.0.3">
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-      <PrivateAssets>all</PrivateAssets>
-    </PackageReference>
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="10.0.3" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="10.0.3">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-    <PackageReference Include="Microsoft.Web.LibraryManager.Build" Version="3.0.71" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="10.0.3" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="10.0.3" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="../GtCores.Components/GtCores.Components.csproj" />
-    <ProjectReference Include="../GtCores.Extensions/GtCores.Extensions.csproj" />
-    <ProjectReference Include="../GtCores.Storages/GtCores.Storages.csproj" />
-    <ProjectReference Include="../GtCores/GtCores.csproj" />
+    <ProjectReference Include="..\GSites.Extensions\GSites.Extensions.csproj" />
+    <ProjectReference Include="..\GtCores.Extensions\GtCores.Extensions.csproj" />
+    <ProjectReference Include="..\GtCores.IdentityCore\GtCores.IdentityCore.csproj" />
+    <ProjectReference Include="..\GtCores\GtCores.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,29 +1,32 @@
 ﻿@using Microsoft.AspNetCore.Identity
-@using GSites.Extensions.Identity
+@using GSites.Extensions
 
 @inject SignInManager<User> SignInManager
 
 <ul class="nav nav-pills flex-column">
     <li class="nav-item">
-        <NavLink class="nav-link" href="Account/Manage" Match="NavLinkMatch.All">修改信息</NavLink>
+        <NavLink class="nav-link" href="Account/Manage" Match="NavLinkMatch.All">Profile</NavLink>
     </li>
     <li class="nav-item">
-        <NavLink class="nav-link" href="Account/Manage/Email">修改电子邮件</NavLink>
+        <NavLink class="nav-link" href="Account/Manage/Email">Email</NavLink>
     </li>
     <li class="nav-item">
-        <NavLink class="nav-link" href="Account/Manage/ChangePassword">修改密码</NavLink>
+        <NavLink class="nav-link" href="Account/Manage/ChangePassword">Password</NavLink>
     </li>
     @if (hasExternalLogins)
     {
         <li class="nav-item">
-            <NavLink class="nav-link" href="Account/Manage/ExternalLogins">其他方式登录</NavLink>
+            <NavLink class="nav-link" href="Account/Manage/ExternalLogins">External logins</NavLink>
         </li>
     }
     <li class="nav-item">
-        <NavLink class="nav-link" href="Account/Manage/TwoFactorAuthentication">2FA验证登录</NavLink>
+        <NavLink class="nav-link" href="Account/Manage/TwoFactorAuthentication">Two-factor authentication</NavLink>
     </li>
     <li class="nav-item">
-        <NavLink class="nav-link" href="Account/Manage/PersonalData">个人数据</NavLink>
+        <NavLink class="nav-link" href="Account/Manage/Passkeys">Passkeys</NavLink>
+    </li>
+    <li class="nav-item">
+        <NavLink class="nav-link" href="Account/Manage/PersonalData">Personal data</NavLink>
     </li>
 </ul>
 

@@ -1,20 +1,19 @@
 ﻿@page "/Account/ConfirmEmailChange"
-@layout CoverLayout
 
 @using System.Text
 @using Microsoft.AspNetCore.Identity
 @using Microsoft.AspNetCore.WebUtilities
-@using GSites.Extensions.Identity
+@using GSites.Extensions
 
 @inject UserManager<User> UserManager
 @inject SignInManager<User> SignInManager
 @inject IdentityRedirectManager RedirectManager
 
-<PageTitle>邮件修改确认信息</PageTitle>
+<PageTitle>Confirm email change</PageTitle>
 
-<CoverMessage Header="邮件修改确认信息">
-    <StatusMessage Message="@message" />
-</CoverMessage>
+<h1>Confirm email change</h1>
+
+<StatusMessage Message="@message" />
 
 @code {
     private string? message;
@@ -36,13 +35,14 @@
         if (UserId is null || Email is null || Code is null)
         {
             RedirectManager.RedirectToWithStatus(
-                "Account/Login", "邮件修改确认信息失败！", HttpContext);
+                "Account/Login", "Error: Invalid email change confirmation link.", HttpContext);
+            return;
         }
 
         var user = await UserManager.FindByIdAsync(UserId);
         if (user is null)
         {
-            message = "未能找到用户：'{userId}'";
+            message = "Unable to find user with Id '{userId}'";
             return;
         }
 
@@ -50,7 +50,7 @@
         var result = await UserManager.ChangeEmailAsync(user, Email, code);
         if (!result.Succeeded)
         {
-            message = "修改邮件失败！";
+            message = "Error changing email.";
             return;
         }
 
@@ -59,11 +59,11 @@
         var setUserNameResult = await UserManager.SetUserNameAsync(user, Email);
         if (!setUserNameResult.Succeeded)
         {
-            message = "修改用户名失败！";
+            message = "Error changing user name.";
             return;
         }
 
         await SignInManager.RefreshSignInAsync(user);
-        message = "感谢你确认了修改邮件信息！";
+        message = "Thank you for confirming your email change.";
     }
 }

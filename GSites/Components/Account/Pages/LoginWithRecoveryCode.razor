@@ -1,48 +1,52 @@
 ﻿@page "/Account/LoginWithRecoveryCode"
-@layout CoverLayout
 
 @using System.ComponentModel.DataAnnotations
 @using Microsoft.AspNetCore.Identity
-@using GSites.Extensions.Identity
+@using GSites.Extensions
 
 @inject SignInManager<User> SignInManager
 @inject UserManager<User> UserManager
 @inject IdentityRedirectManager RedirectManager
 @inject ILogger<LoginWithRecoveryCode> Logger
 
-<PageTitle>2FA验证</PageTitle>
+<PageTitle>Recovery code verification</PageTitle>
 
-<section class="cover-form">
-    <div class="cover-form-header">
-        <h2>2FA验证</h2>
-    </div>
-    <div class="cover-form-body">
-        <StatusMessage Message="@message" />
+<h1>Recovery code verification</h1>
+<hr />
+<StatusMessage Message="@message" />
+<p>
+    You have requested to log in with a recovery code. This login will not be remembered until you provide
+    an authenticator app code at log in or disable 2FA and log in again.
+</p>
+<div class="row">
+    <div class="col-md-4">
         <EditForm Model="Input" FormName="login-with-recovery-code" OnValidSubmit="OnValidSubmitAsync" method="post">
             <DataAnnotationsValidator />
             <ValidationSummary class="text-danger" role="alert" />
             <div class="form-floating mb-3">
-                <InputText @bind-Value="Input.RecoveryCode" id="Input.RecoveryCode" class="form-control" autocomplete="off" placeholder="请输入2FA验证码" />
-                <label for="Input.RecoveryCode" class="form-label">2FA验证码</label>
+                <InputText @bind-Value="Input.RecoveryCode" id="Input.RecoveryCode" class="form-control" autocomplete="off" placeholder="RecoveryCode" />
+                <label for="Input.RecoveryCode" class="form-label">Recovery Code</label>
                 <ValidationMessage For="() => Input.RecoveryCode" class="text-danger" />
             </div>
-            <button type="submit" class="w-100 btn btn-lg btn-primary">登录</button>
+            <button type="submit" class="w-100 btn btn-lg btn-primary">Log in</button>
         </EditForm>
     </div>
-</section>
+</div>
 
 @code {
     private string? message;
     private User user = default!;
 
     [SupplyParameterFromForm]
-    private InputModel Input { get; set; } = new();
+    private InputModel Input { get; set; } = default!;
 
     [SupplyParameterFromQuery]
     private string? ReturnUrl { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
+        Input ??= new();
+
         // Ensure the user has gone through the username & password screen first
         user = await SignInManager.GetTwoFactorAuthenticationUserAsync() ??
             throw new InvalidOperationException("Unable to load two-factor authentication user.");
@@ -69,7 +73,7 @@
         else
         {
             Logger.LogWarning("Invalid recovery code entered for user with ID '{UserId}' ", userId);
-            message = "2FA验证码无效";
+            message = "Error: Invalid recovery code entered.";
         }
     }
 
@@ -77,7 +81,7 @@
     {
         [Required]
         [DataType(DataType.Text)]
-        [Display(Name = "2FA验证码")]
+        [Display(Name = "Recovery Code")]
         public string RecoveryCode { get; set; } = "";
     }
 }
