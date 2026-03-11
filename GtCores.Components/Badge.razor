@@ -1,6 +1,6 @@
-﻿<span class="@className">@ChildContent</span>
+﻿<span @attributes="AdditionalAttributes">@ChildContent</span>
 
-@code {
+@code{
     /// <summary>
     /// 椭圆。
     /// </summary>
@@ -8,20 +8,13 @@
     public bool Pill { get; set; }
 
     /// <summary>
-    /// 颜色。
+    /// 颜色模式。
     /// </summary>
     [Parameter]
-    public BsType Color { get; set; }
+    public ColorMode Color { get; set; }
 
-    /// <summary>
-    /// 子内容。
-    /// </summary>
-    [Parameter]
-    public RenderFragment? ChildContent { get; set; }
-
-    private string? className;
-    protected override void OnInitialized()
-    {
-        className = "badge text-bg-".Concat(Color).Concat(Pill, " rounded-pill");
-    }
+    protected override string? ClassString => CssBuilder.Default(Class)
+        .AddClass("badge")
+        .AddClass($"bg-{Color.ToLower()}")
+        .AddClass("rounded-pill", Pill);
 }
