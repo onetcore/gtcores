@@ -2,24 +2,25 @@
 
 #nullable disable
 
-namespace GSites.Migrations.SettingsDb
+namespace GSites.Migrations.UserSettingsDb
 {
     /// <inheritdoc />
-    public partial class SettingsMigration : Migration
+    public partial class UserSettingsMigration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "core_Settings",
+                name: "core_UserSettings",
                 columns: table => new
                 {
-                    SettingKey = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: false),
-                    SettingValue = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    SettingKey = table.Column<string>(type: "TEXT", maxLength: 256, nullable: false),
+                    UserId = table.Column<int>(type: "INTEGER", nullable: false),
+                    SettingValue = table.Column<string>(type: "TEXT", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_core_Settings", x => x.SettingKey);
+                    table.PrimaryKey("PK_core_UserSettings", x => new { x.UserId, x.SettingKey });
                 });
         }
 
@@ -27,7 +28,7 @@ namespace GSites.Migrations.SettingsDb
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "core_Settings");
+                name: "core_UserSettings");
         }
     }
 }

@@ -17,7 +17,12 @@ public class ServiceConfigurer : GtCores.IdentityCore.ServiceConfigurer
     /// <param name="connectionString">链接字符串。</param>
     protected override void AddDbContext<TDbContext>(string connectionString)
     {
-        Builder.Services.AddDbContext<TDbContext>(options => options.UseSqlServer(connectionString, options =>
+        // Builder.Services.AddDbContext<TDbContext>(options => options.UseSqlServer(connectionString, options =>
+        // {
+        //     options.MigrationsHistoryTable("core_Migrations");
+        //     options.MigrationsAssembly("GSites");
+        // }));
+        Builder.Services.AddDbContext<TDbContext>(options => options.UseSqlite(connectionString, options =>
         {
             options.MigrationsHistoryTable("core_Migrations");
             options.MigrationsAssembly("GSites");

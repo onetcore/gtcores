@@ -1,0 +1,22 @@
+﻿@inherits GSites.Extensions.ComponentBase
+
+<span @attributes="AdditionalAttributes">@ChildContent</span>
+
+@code{
+    /// <summary>
+    /// 椭圆。
+    /// </summary>
+    [Parameter]
+    public bool Pill { get; set; }
+
+    /// <summary>
+    /// 颜色模式。
+    /// </summary>
+    [Parameter]
+    public ColorMode Color { get; set; } = ColorMode.Primary;
+
+    protected override string? ClassString => CssBuilder.Default(Class)
+        .AddClass("badge")
+        .AddClass($"bg-{Color.ToLower()}")
+        .AddClass("rounded-pill", Pill);
+}

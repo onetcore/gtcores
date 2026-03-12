@@ -2,7 +2,6 @@
 using GtCores.Extensions.Settings;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
@@ -11,27 +10,23 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GSites.Migrations.SettingsDb
 {
     [DbContext(typeof(SettingsDbContext))]
-    [Migration("20260309114651_SettingsMigration")]
+    [Migration("20260312090814_SettingsMigration")]
     partial class SettingsMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
-            modelBuilder
-                .HasAnnotation("ProductVersion", "10.0.3")
-                .HasAnnotation("Relational:MaxIdentifierLength", 128);
-
-            SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+            modelBuilder.HasAnnotation("ProductVersion", "10.0.4");
 
             modelBuilder.Entity("GtCores.Extensions.Settings.SettingsAdapter", b =>
                 {
                     b.Property<string>("SettingKey")
                         .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("SettingValue")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("TEXT");
 
                     b.HasKey("SettingKey");
 

@@ -54,6 +54,12 @@ public abstract class ComponentBase : Microsoft.AspNetCore.Components.ComponentB
     public string? Id { get; set; }
 
     /// <summary>
+    /// 子内容。
+    /// </summary>
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    /// <summary>
     /// 参数设置。
     /// </summary>
     protected override void OnParametersSet()

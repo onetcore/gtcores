@@ -1,4 +1,4 @@
-dotnet ef migrations add IdentityMigration --context IdentityDbContext
+dotnet ef migrations add InitialCreate --context IdentityDbContext
 dotnet ef database update --context IdentityDbContext
 
 dotnet ef migrations add EmailMigration --context EmailDbContext
@@ -7,5 +7,9 @@ dotnet ef database update --context EmailDbContext
 dotnet ef migrations add SettingsMigration --context SettingsDbContext
 dotnet ef database update --context SettingsDbContext
 
-dotnet ef migrations add UserSettingsMigration --context UserSettingsMigration
-dotnet ef database update --context UserSettingsMigration
+dotnet ef migrations add UserSettingsMigration --context UserSettingsDbContext
+dotnet ef database update --context UserSettingsDbContext
+
+ConnectionStrings:
+    "DefaultConnection": "Server=(localdb)\\mssqllocaldb;Database=GSites;Trusted_Connection=True;MultipleActiveResultSets=true"
+    "DefaultConnection": "DataSource=../storages/Data/GSites.db;Cache=Shared"
