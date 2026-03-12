@@ -65,6 +65,7 @@ public abstract class ComponentBase : Microsoft.AspNetCore.Components.ComponentB
     protected override void OnParametersSet()
     {
         base.OnParametersSet();
+        AdditionalAttributes ??= new(StringComparer.OrdinalIgnoreCase);   
         if (Id != null && !AdditionalAttributes.ContainsKey("id"))
         {
             AdditionalAttributes.Add("id", Id);
