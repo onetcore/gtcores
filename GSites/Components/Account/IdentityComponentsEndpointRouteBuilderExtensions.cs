@@ -1,6 +1,7 @@
 using GSites.Components.Account.Pages;
 using GSites.Components.Account.Pages.Manage;
 using GSites.Extensions;
+using GtCores.Storages;
 using Microsoft.AspNetCore.Antiforgery;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Components.Authorization;
@@ -21,6 +22,16 @@ namespace Microsoft.AspNetCore.Routing
             ArgumentNullException.ThrowIfNull(endpoints);
 
             var accountGroup = endpoints.MapGroup("/Account");
+
+            accountGroup.MapGet("/Avatar/{id:int}.png", async (
+                [FromServices] IStorageDirectory storageDirectory,
+                int id) =>
+            {
+                var file = storageDirectory.GetFile($"users/{id}/avatar.png");
+                if (file.Exists)
+                    return TypedResults.PhysicalFile(file.FullName);
+                return TypedResults.PhysicalFile(storageDirectory.GetFullPath("users/avatar.png"));
+            });
 
             accountGroup.MapPost("/PerformExternalLogin", (
                 HttpContext context,

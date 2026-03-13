@@ -15,17 +15,43 @@
         background-color: rgba(var(--bs-emphasis-color-rgb), 0.5);
     }
 
-.top-row {
-    min-height: 3.5rem;
+.navbar {
+    padding-bottom: 0;
 }
 
 .navbar-brand {
     font-size: 1.1rem;
+    height: 4.5rem !important;
+    margin-right: 0.5rem !important;
+    padding: 0 !important;
 }
+
+    .navbar-brand ::deep .navbar-avatar {
+        width: 3.5rem;
+        height: 3.5rem;
+        border-radius: 100%;
+        overflow: hidden;
+        margin: 0 0.5rem;
+    }
+
+    .navbar-brand ::deep .navbar-label {
+        display: flex;
+        flex-direction: column;
+        line-height: 1.5;
+    }
+
+    .navbar-brand ::deep .label-main {
+        font-size: 1rem;
+        font-weight: bold;
+    }
+
+    .navbar-brand ::deep .label-secondary {
+        font-size: 0.75rem;
+    }
 
 .nav-item {
     font-size: 0.9rem;
-    padding-bottom: 0.5rem;
+    padding-bottom: 0.25rem;
 }
 
     .nav-item:first-of-type {
@@ -36,17 +62,17 @@
         padding-bottom: 1rem;
     }
 
-    .nav-item ::deep .nav-link {
+    .nav-item ::deep .nav-link, .navbar-brand {
         color: var(--bs-body-color);
         background: none;
         border: none;
         border-radius: 4px;
-        height: 2.5rem;
+        height: 2.2rem;
         display: flex;
         align-items: center;
-        line-height: 2.5rem;
+        line-height: 2.2rem;
         width: 100%;
-        padding: inherit 0.75rem;
+        padding: 0 0.75rem;
         position: relative;
     }
 
@@ -65,7 +91,7 @@
             border-radius: 5px;
         }
 
-    .nav-item ::deep .nav-link:not(.active):hover {
+    .nav-item ::deep .nav-link:not(.active):hover, .navbar-brand:hover {
         background-color: rgba(var(--bs-emphasis-color-rgb),0.05);
         color: var(--bs-body-color);
         text-decoration: none;
@@ -82,14 +108,14 @@
 
 .nav-scrollable {
     display: none;
-    position: fixed;
-    width: 100%;
-    z-index: 1000;
-    background: var(--bs-body-bg);
+    overflow-y: auto;
+    height: calc(100vh - 5rem);
+    flex-direction: column;
+    justify-content: space-between;
 }
 
 .navbar-toggler:checked ~ .nav-scrollable {
-    display: block;
+    display: flex;
 }
 
 @media (min-width: 641px) {
@@ -99,9 +125,15 @@
 
     .nav-scrollable {
         /* Never collapse the sidebar for wide screens */
-        display: block;
-        /* Allow sidebar to scroll for tall menus */
-        height: calc(100vh - 3.5rem);
-        overflow-y: auto;
+        display: flex;
+    }
+}
+
+@media(max-width:640px) {
+    .nav-scrollable {
+        position: fixed;
+        width: 100%;
+        z-index: 1000;
+        background: var(--bs-body-bg);
     }
 }

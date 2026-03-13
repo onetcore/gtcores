@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
@@ -20,6 +20,7 @@
     <ProjectReference Include="..\GSites.Extensions\GSites.Extensions.csproj" />
     <ProjectReference Include="..\GtCores.Extensions\GtCores.Extensions.csproj" />
     <ProjectReference Include="..\GtCores.IdentityCore\GtCores.IdentityCore.csproj" />
+    <ProjectReference Include="..\GtCores.Storages\GtCores.Storages.csproj" />
     <ProjectReference Include="..\GtCores\GtCores.csproj" />
   </ItemGroup>
 

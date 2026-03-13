@@ -29,5 +29,5 @@ public abstract class UserBase : IdentityUser<int>
     /// 用户头像。
     /// </summary>
     [NotMapped]
-    public virtual string AvatarUrl => $"files/avatars/{Id}.png";
+    public virtual string AvatarUrl => $"account/avatar/{Id}.png";
 }

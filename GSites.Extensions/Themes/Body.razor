@@ -1,6 +1,6 @@
-﻿@using GSites.Extensions.Themes
-@using GtCores.IdentityCore.Settings
+﻿@using GtCores.IdentityCore.Settings
 @inject ISettingsManager SettingsManager
+@inherits Extensions.ComponentBase
 
 <body @attributes="AdditionalAttributes">
     @ChildContent
@@ -11,31 +11,19 @@
     /// 模板名称。
     /// </summary>
     [Parameter]
-    public string? Name { get; set; }
-
-    /// <summary>
-    /// 其他属性集合。
-    /// </summary>
-    [Parameter(CaptureUnmatchedValues = true)]
-    public Dictionary<string, object> AdditionalAttributes { get; set; } = default!;
-
-    /// <summary>
-    /// 子内容属性。
-    /// </summary>
-    [Parameter]
-    public RenderFragment? ChildContent{ get; set; }
+    public string? Theme { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
-        if (string.IsNullOrWhiteSpace(Name))
+        if (string.IsNullOrWhiteSpace(Theme))
         {
             var settings = await SettingsManager.GetSettingsAsync<ThemeSettings>();
-            Name = settings?.Name;
+            Theme = settings?.Name;
         }
-        if (!string.IsNullOrWhiteSpace(Name))
+        if (!string.IsNullOrWhiteSpace(Theme))
         {
             AdditionalAttributes ??= new();
-            AdditionalAttributes["data-bs-theme"] = Name;
+            AdditionalAttributes["data-bs-theme"] = Theme;
         }
     }
 }
