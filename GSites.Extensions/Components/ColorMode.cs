@@ -1,11 +1,11 @@
 using System;
 
-namespace GSites.Extensions.Bootstrap;
+namespace GSites.Extensions.Components;
 
 /// <summary>
 /// 颜色模式。
 /// </summary>
-public enum ColorMode
+public enum ColorType
 {
     /// <summary>
     /// 主色。

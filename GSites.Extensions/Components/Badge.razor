@@ -13,7 +13,7 @@
     /// 颜色模式。
     /// </summary>
     [Parameter]
-    public ColorMode Color { get; set; } = ColorMode.Primary;
+    public ColorType Color { get; set; } = ColorType.Primary;
 
     protected override string? ClassString => CssBuilder.Default(Class)
         .AddClass("badge")
