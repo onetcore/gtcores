@@ -48,7 +48,6 @@ public enum IconName
             await writer.WriteLineAsync($"    /// <summary>");
             await writer.WriteLineAsync($"    /// {icon} 图标。");
             await writer.WriteLineAsync($"    /// </summary>");
-            await writer.WriteLineAsync($"    [Description(\"{icon}\")]");
             await writer.WriteLineAsync($"    {enumName},");
         }
         await writer.WriteLineAsync("}");
