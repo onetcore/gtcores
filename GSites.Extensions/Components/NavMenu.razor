@@ -1,0 +1,26 @@
+﻿@using GSites.Extensions.Menus
+@inject IMenuDataProviderFactory Factory
+
+<nav @attributes="AdditionalAttributes">
+    @foreach (var item in _items)
+    {
+        <NavMenuItem Item="item" Level="1" />
+    }
+    @ChildContent
+</nav>
+
+@code {
+    [Parameter]
+    public string Provider { get; set; } = NavMenuItemCollection.DefaultProviderName;
+
+    protected override string? ClassString => CssBuilder.Default(Class)
+        .AddClass("nav flex-column");
+
+    private List<GSites.Extensions.Menus.NavMenuItem> _items = default!;
+    override protected void OnInitialized()
+    {
+        _items = Factory.GetNavMenuItems(Provider)
+        .OrderByDescending(m => m.Priority)
+        .ToList();
+    }   
+}

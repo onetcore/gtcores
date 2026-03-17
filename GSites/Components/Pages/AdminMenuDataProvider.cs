@@ -1,4 +1,5 @@
 ﻿using GSites.Extensions.Components;
+using GSites.Extensions.Menus;
 
 namespace GSites.Components.Pages
 {
@@ -10,6 +11,8 @@ namespace GSites.Components.Pages
             .AddMenu("Analytics1", "Counter/Analytics1"));
             menu.AddOrUpdate("/", item => item.AddMenu("Overview", "Home/Overview", Extensions.IconName.Speedometer)
             .AddMenu("Analytics", "Home/Analytics", Extensions.IconName.BarChart));
+            menu.AddMenu("Weather", "Weather", Extensions.IconName.Gear);
+            menu.AddMenu("Auth Required", "auth", Extensions.IconName.Lock);
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿@inherits Extensions.ComponentBase
+﻿@using GSites.Extensions.Menus
 @inject IMenuDataProviderFactory Factory
 @inject NavigationManager NavigationManager
 
@@ -39,8 +39,8 @@
     [Parameter]
     public string? Current { get; set; }
 
-    private NavMenuItem? _current;
-    private List<NavMenuItem> _parents = new();
+    private GSites.Extensions.Menus.NavMenuItem? _current;
+    private List<GSites.Extensions.Menus.NavMenuItem> _parents = new();
     protected override void OnInitialized()
     {
         Current ??= NavigationManager.ToBaseRelativePath(NavigationManager.Uri);

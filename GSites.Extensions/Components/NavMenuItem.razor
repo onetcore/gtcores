@@ -1,0 +1,31 @@
+﻿<div @attributes="AdditionalAttributes">
+    <NavLink class="nav-link" href="@Item.Url" Match="@Item.Match">
+        @if (!string.IsNullOrEmpty(Item.Icon))
+        {
+            <span class="bi @Item.Icon" aria-hidden="true"></span>
+        }
+        <span class="text">@Item.Title</span>
+    </NavLink>
+
+    @if (Item.Any())
+    {
+        <nav class="nav nav-@(Level) flex-column">
+            @foreach (var child in Item.OrderByDescending(m => m.Priority))
+            {
+                <NavMenuItem Item="child" Level="@(Level+1)" />
+            }
+        </nav>
+    }
+</div>
+
+@code {
+    [Parameter]
+    public GSites.Extensions.Menus.NavMenuItem Item { get; set; } = null!;
+
+    [Parameter]
+    public int Level { get; set; }
+
+    protected override string? ClassString => CssBuilder.Default(Class)
+        .AddClass("nav-item")
+        .AddClass("nav-collapse", Item.Any());
+}

@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 
-namespace GSites.Extensions;
+namespace GSites.Extensions.Components;
 
 /// <summary>
 /// 组件基类。
