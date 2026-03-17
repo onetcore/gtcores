@@ -23,13 +23,13 @@
                 <span class="text">首页</span>
                 <Badge Pill="true" Color="ColorType.Success">12</Badge>
             </NavLink>
-            <ul class="nav flex-column">
-                <li class="nav-item px-2">
+            <ul class="nav nav-1 flex-column">
+                <li class="nav-item">
                     <NavLink class="nav-link" href="home/overview">
                         <span class="bi bi-speedometer" aria-hidden="true"></span> 概览
                     </NavLink>
                 </li>
-                <li class="nav-item px-2">
+                <li class="nav-item">
                     <NavLink class="nav-link" href="home/analytics">
                         <span class="bi bi-bar-chart" aria-hidden="true"></span> 分析
                     </NavLink>
@@ -37,10 +37,22 @@
             </ul>
         </div>
 
-        <div class="nav-item px-2">
+        <div class="nav-item px-2 nav-collapse">
             <NavLink class="nav-link" href="counter">
                 <span class="bi bi-alarm" aria-hidden="true"></span> Counter
             </NavLink>
+            <ul class="nav nav-1 flex-column">
+                <li class="nav-item">
+                    <NavLink class="nav-link" href="counter/overview1">
+                         Counter概览
+                    </NavLink>
+                </li>
+                <li class="nav-item">
+                    <NavLink class="nav-link" href="counter/analytics1">
+                         Counter分析
+                    </NavLink>
+                </li>
+            </ul>
         </div>
 
         <div class="nav-item px-2">

@@ -1,0 +1,59 @@
+﻿@inherits Extensions.ComponentBase
+@inject IMenuDataProviderFactory Factory
+@inject NavigationManager NavigationManager
+
+@if (_current != null)
+{
+    <nav aria-label="breadcrumb" @attributes="AdditionalAttributes">
+        <ol class="breadcrumb">
+            @foreach (var item in _parents)
+            {
+                <li class="breadcrumb-item"><a href="@item.Url">@item.Title</a></li>
+            }
+            <li class="breadcrumb-item active" aria-current="page">
+                @if(ChildContent == null)
+                {
+                    @_current.Title
+                    <PageTitle>@_current.Title</PageTitle>
+                }
+                else
+                {
+                    @ChildContent
+                    <PageTitle>@ChildContent</PageTitle>
+                }
+            </li>
+        </ol>
+    </nav>
+}
+
+@code {
+    /// <summary>
+    /// 菜单提供者。
+    /// </summary>
+    [Parameter]
+    public string Provider { get; set; } = NavMenuItemCollection.DefaultProviderName;
+
+    /// <summary>
+    /// 菜单Id。
+    /// </summary>
+    [Parameter]
+    public string? Current { get; set; }
+
+    private NavMenuItem? _current;
+    private List<NavMenuItem> _parents = new();
+    protected override void OnInitialized()
+    {
+        Current ??= NavigationManager.ToBaseRelativePath(NavigationManager.Uri);
+        _current = Factory.GetCurrent(Current, Provider);
+        if (_current != null)
+        {
+            var parent = _current.Parent;
+            while (!parent.IsRoot)
+            {
+                _parents.Add(parent);
+                parent = parent.Parent;
+            }
+            _parents.Reverse();
+        }
+    }
+}
