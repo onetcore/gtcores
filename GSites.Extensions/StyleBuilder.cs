@@ -5,15 +5,18 @@ namespace GSites.Extensions;
 /// </summary>
 public class StyleBuilder
 {
-    private StyleBuilder() { }
-
-    private readonly Dictionary<string, string> styles = new(StringComparer.OrdinalIgnoreCase);
     /// <summary>
-    /// 创建默认的样式构建实例。
+    /// 初始化类<see cref="StyleBuilder"/>。
     /// </summary>
     /// <param name="style">样式。</param>
-    /// <returns>返回当前样式构建实例。</returns>
-    public static StyleBuilder Default(string? style = null) => style == null ? new StyleBuilder() : new StyleBuilder().AddStyle(style);
+    internal StyleBuilder(string? style = null)
+    {
+        if (string.IsNullOrEmpty(style)) 
+            return;
+        AddStyle(style);
+    }
+
+    private readonly Dictionary<string, string> styles = new(StringComparer.OrdinalIgnoreCase);
 
     /// <summary>
     /// 添加样式。
@@ -99,6 +102,12 @@ public class StyleBuilder
     /// </summary>
     /// <param name="builder">当前样式构建实例。</param>
     public static implicit operator string(StyleBuilder builder) => builder.ToString();
+
+    /// <summary>
+    /// 隐式转换字符串。
+    /// </summary>
+    /// <param name="style">样式。</param>
+    public static implicit operator StyleBuilder(string style) => new(style);
 
     /// <summary>
     /// 格式化返回样式字符串。

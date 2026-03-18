@@ -20,10 +20,6 @@
             var settings = await SettingsManager.GetSettingsAsync<ThemeSettings>();
             Theme = settings?.Name;
         }
-        if (!string.IsNullOrWhiteSpace(Theme))
-        {
-            AdditionalAttributes ??= new();
-            AdditionalAttributes["data-bs-theme"] = Theme;
-        }
+        SetAttribute("data-bs-theme", Theme);
     }
 }

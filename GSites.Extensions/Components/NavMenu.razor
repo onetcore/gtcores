@@ -13,14 +13,13 @@
     [Parameter]
     public string Provider { get; set; } = NavMenuItemCollection.DefaultProviderName;
 
-    protected override string? ClassString => CssBuilder.Default(Class)
-        .AddClass("nav flex-column");
+    protected override ClassNameBuilder ClassName => "nav flex-column";
 
-    private List<GSites.Extensions.Menus.NavMenuItem> _items = default!;
+    private IEnumerable<GSites.Extensions.Menus.NavMenuItem> _items = default!;
     override protected void OnInitialized()
     {
         _items = Factory.GetNavMenuItems(Provider)
         .OrderByDescending(m => m.Priority)
         .ToList();
-    }   
+    }
 }

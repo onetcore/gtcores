@@ -12,29 +12,68 @@ public abstract class ComponentBase : Microsoft.AspNetCore.Components.ComponentB
     /// 其他属性集合。
     /// </summary>
     [Parameter(CaptureUnmatchedValues = true)]
-    public Dictionary<string, object> AdditionalAttributes { get; set; } = default!;
+    public Dictionary<string, object>? AdditionalAttributes { get; set; }
 
     /// <summary>
-    /// CSS类。
+    /// 获取属性字符串。
     /// </summary>
-    [Parameter]
-    public string? Class { get; set; }
+    /// <param name="name">属性名称。</param>
+    /// <param name="value">返回属性字符串值。</param>
+    /// <returns>返回获取属性结果。</returns>
+    protected bool GetAttributeStringValue(string name, out string? value)
+    {
+        if (AdditionalAttributes?.TryGetValue(name, out var attr) == true && attr is string str)
+        {
+            value = str;
+            return true;
+        }
+        value = null;
+        return false;
+    }
 
     /// <summary>
-    /// 计算后的CSS类。
+    /// 设置属性。
     /// </summary>
-    protected virtual string? ClassString => Class;
+    /// <param name="name">属性名称。</param>
+    /// <param name="value">属性值。</param>
+    protected void SetAttribute(string name, object? value)
+    {
+        if (value != null)
+        {
+            AdditionalAttributes ??= new(StringComparer.OrdinalIgnoreCase);
+            AdditionalAttributes[name] = value;
+        }
+    }
 
     /// <summary>
-    /// 样式。
+    /// 设置属性。
     /// </summary>
-    [Parameter]
-    public string? Style { get; set; }
+    /// <param name="name">属性名称。</param>
+    /// <param name="value">属性值。</param>
+    protected void SetAttribute(string name, string? value)
+    {
+        if (!string.IsNullOrWhiteSpace(value))
+        {
+            AdditionalAttributes ??= new(StringComparer.OrdinalIgnoreCase);
+            AdditionalAttributes[name] = value;
+        }
+    }
 
     /// <summary>
-    /// 计算后的样式。
+    /// 删除属性。
     /// </summary>
-    protected virtual string? StyleString => Style;
+    /// <param name="name">属性名称。</param>
+    protected void RemoveAttribute(string name)=>AdditionalAttributes?.Remove(name);
+
+    /// <summary>
+    /// 获取当前样式名称。
+    /// </summary>
+    protected virtual ClassNameBuilder? ClassName => null;
+
+    /// <summary>
+    /// 样式构建实例。
+    /// </summary>
+    protected virtual StyleBuilder? Style => null;
 
     /// <summary>
     /// JavaScript运行时。
@@ -45,13 +84,23 @@ public abstract class ComponentBase : Microsoft.AspNetCore.Components.ComponentB
     /// <summary>
     /// 元素引用。
     /// </summary>
-    public ElementReference Element { get; set; }
+    protected ElementReference Element { get; set; }
 
+    private string? _id;
     /// <summary>
     /// 元素ID。
     /// </summary>
-    [Parameter]
-    public string? Id { get; set; }
+    protected string? Id
+    {
+        get
+        {
+            if (_id == null && AdditionalAttributes?.TryGetValue("id", out var id) == true)
+            {
+                _id = id?.ToString();
+            }
+            return _id;
+        }
+    }
 
     /// <summary>
     /// 子内容。
@@ -65,18 +114,22 @@ public abstract class ComponentBase : Microsoft.AspNetCore.Components.ComponentB
     protected override void OnParametersSet()
     {
         base.OnParametersSet();
-        AdditionalAttributes ??= new(StringComparer.OrdinalIgnoreCase);   
-        if (Id != null && !AdditionalAttributes.ContainsKey("id"))
+        AdditionalAttributes ??= new(StringComparer.OrdinalIgnoreCase);
+        if (ClassName != null)
         {
-            AdditionalAttributes.Add("id", Id);
+            if (GetAttributeStringValue("class", out var className))
+            {
+                ClassName.AddClass(className);
+            }
+            AdditionalAttributes["class"] = ClassName;
         }
-        if (ClassString != null && !AdditionalAttributes.ContainsKey("class"))
+        if (Style != null)
         {
-            AdditionalAttributes.Add("class", ClassString);
-        }
-        if (StyleString != null && !AdditionalAttributes.ContainsKey("style"))
-        {
-            AdditionalAttributes.Add("style", StyleString);
+            if (GetAttributeStringValue("style", out var style))
+            {
+                Style.AddStyle(style);
+            }
+            AdditionalAttributes["style"] = Style;
         }
     }
 }

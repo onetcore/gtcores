@@ -13,8 +13,7 @@
     [Parameter]
     public ColorType Color { get; set; } = ColorType.Primary;
 
-    protected override string? ClassString => CssBuilder.Default(Class)
-        .AddClass("badge")
+    protected override ClassNameBuilder ClassName => "badge"
         .AddClass($"bg-{Color.ToLower()}")
         .AddClass("rounded-pill", Pill);
 }
