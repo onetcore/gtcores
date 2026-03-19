@@ -1,11 +1,12 @@
-﻿@implements IDisposable
+﻿@using GSites.Extensions.Themes
+@implements IDisposable
 @inherits GSites.Extensions.Components.ComponentBase
 @inject NavigationManager NavigationManager
 @inject User User
 
 <div @attributes="AdditionalAttributes">
     <div class="navbar">
-        <a class="navbar-brand" href="">
+        <a class="navbar-brand" href="Account/Manage">
             <img class="navbar-icon" src="@User.AvatarUrl" />
             <div class="navbar-label">
                 <div class="label-main">@(User.DisplayName ?? User.UserName ?? "匿名用户")</div>
@@ -31,7 +32,7 @@
                             <AntiforgeryToken />
                             <input type="hidden" name="ReturnUrl" value="@currentUrl" />
                             <button type="submit" class="nav-link">
-                                <span class="bi bi-arrow" aria-hidden="true"></span>
+                                <span class="bi bi-box-arrow-left" aria-hidden="true"></span>
                                 <span>退出登录</span>
                             </button>
                         </form>
@@ -53,18 +54,16 @@
                 </NotAuthorized>
             </AuthorizeView>
         </NavMenu>
-        <nav class="nav flex-column">
-            <div class="nav-item"><a href="Weather" class="nav-link"><span class="bi bi-gear" aria-hidden="true"></span><span class="text">Weather</span></a></div>
-        </nav>
+        <NavMenu @rendermode="InteractiveServer"></NavMenu>
     </div>
 </div>
 
 @code {
+    [CascadingParameter]
+    private ThemeSettings ThemeSettings { get; set; } = default!;
+
     [Parameter]
-    public bool Iconbar { get; set; }
-    
-    [Parameter]
-    public bool IconText{ get; set; }
+    public SidebarMode? Mode { get; set; }
 
     private string? currentUrl;
 
@@ -72,6 +71,7 @@
     {
         currentUrl = NavigationManager.ToBaseRelativePath(NavigationManager.Uri);
         NavigationManager.LocationChanged += OnLocationChanged;
+        Mode ??= ThemeSettings.SidebarMode;
     }
 
     private void OnLocationChanged(object? sender, LocationChangedEventArgs e)
@@ -85,5 +85,5 @@
         NavigationManager.LocationChanged -= OnLocationChanged;
     }
 
-    protected override ClassNameBuilder ClassName => "sidebar".AddClass("iconbar", Iconbar);
+    protected override ClassNameBuilder ClassName => "sidebar".AddClass(Mode?.ToLower());
 }

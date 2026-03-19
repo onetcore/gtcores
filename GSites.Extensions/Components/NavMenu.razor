@@ -19,7 +19,7 @@
     override protected void OnInitialized()
     {
         _items = Factory.GetNavMenuItems(Provider)
-        .OrderByDescending(m => m.Priority)
+        .OrderBy(m => m.Priority)
         .ToList();
     }
 }

@@ -11,18 +11,8 @@
         public string? Name { get; set; }
 
         /// <summary>
-        /// 亮色调。
+        /// 侧边栏模式。
         /// </summary>
-        public const string Light = "light";
-
-        /// <summary>
-        /// 暗色调。
-        /// </summary>
-        public const string Dark = "dark";
-
-        /// <summary>
-        /// 默认。
-        /// </summary>
-        public const string Default = "";
+        public SidebarMode SidebarMode { get; set; }
     }
 }

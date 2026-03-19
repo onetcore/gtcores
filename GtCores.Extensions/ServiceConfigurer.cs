@@ -36,13 +36,15 @@ public abstract class ServiceConfigurer : IServiceConfigurer
     /// <summary>
     /// 添加数据库上下文，使用默认数据库。
     /// </summary>
+    /// <param name="action">数据库上下文配置方法。</param>
     /// <typeparam name="TDbContext">数据库上下文。</typeparam>
-    protected void AddDbContext<TDbContext>() where TDbContext : DbContext => AddDbContext<TDbContext>(_defaultConnectionString);
+    protected void AddDbContext<TDbContext>(Action<DbContextOptionsBuilder>? action = null) where TDbContext : DbContext => AddDbContext<TDbContext>(_defaultConnectionString, action);
 
     /// <summary>
     /// 添加数据库上下文。
     /// </summary>
+    /// <param name="action">数据库上下文配置方法。</param>
     /// <typeparam name="TDbContext">数据库上下文。</typeparam>
     /// <param name="connectionString">默认链接字符串。</param>
-    protected abstract void AddDbContext<TDbContext>(string connectionString) where TDbContext : DbContext;
+    protected abstract void AddDbContext<TDbContext>(string connectionString, Action<DbContextOptionsBuilder>? action = null) where TDbContext : DbContext;
 }

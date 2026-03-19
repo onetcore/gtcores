@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Components.Routing;
+using Microsoft.AspNetCore.Http.Internal;
 
 namespace GSites.Extensions.Menus;
 
@@ -13,6 +14,6 @@ public class DefaultMenuDataProvider : MenuDataProvider
     /// <param name="menu">当前菜单集合。</param>
     public override void Initialized(NavMenuItemCollection menu)
     {
-        menu.AddMenu("首页", "/", IconName.House, item => item.Match = NavLinkMatch.All);
+        menu.AddMenu("/", "首页", IconName.House, match: NavLinkMatch.All, action: item => item.SetPriority(-1));
     }
 }

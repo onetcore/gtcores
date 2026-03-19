@@ -1,20 +1,23 @@
 ﻿<div @attributes="AdditionalAttributes">
     @if (_collapse)
     {
-        <button class="nav-link" href="@Item.Url" @onclick="ToggleCollapse" @onclick:preventDefault="true" @onclick:stopPropagation="true" title="@Item.Title">
+        <button class="nav-link" href="@Item.Url" @onclick="Collasped" @onclick:preventDefault="true"
+               @onclick:stopPropagation="true" title="@Item.Title">
             @if (!string.IsNullOrEmpty(Item.Icon))
             {
                 <span class="bi @Item.Icon" aria-hidden="true"></span>
             }
             <span>@Item.Title</span>
-            <span>@_expended</span>
         </button>
-        <nav class="nav nav-@(Level) flex-column @showClass">
-            @foreach (var child in Item.OrderByDescending(m => m.Priority))
-            {
-                <NavMenuItem Item="child" Level="@(Level + 1)" />
-            }
-        </nav>
+        @if (_expanded)
+        {
+            <nav class="nav nav-@(Level) flex-column">
+                @foreach (var child in Item.OrderBy(m => m.Priority))
+                {
+                    <NavMenuItem Item="child" Level="@(Level + 1)" />
+                }
+            </nav>
+        }
     }
     else
     {
@@ -44,18 +47,14 @@
     protected override ClassNameBuilder ClassName => "nav-item".AddClass("nav-collapse", _collapse);
 
     private bool _collapse;
-    private bool _expended;
-    private string showClass = "";
     protected override void OnInitialized()
     {
         _collapse = Item.Any();
     }
 
-    private void ToggleCollapse()
+    private bool _expanded;
+    private void Collasped()
     {
-        _expended = !_expended;
-        if (_expended)
-            showClass = "show";
-        StateHasChanged();
+        _expanded = !_expanded;
     }
 }

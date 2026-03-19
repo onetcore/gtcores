@@ -50,6 +50,7 @@ public abstract class ServiceConfigurer : Extensions.ServiceConfigurer
     {
         // 添加当前登录用户。
         services.AddScoped(service => service.GetRequiredService<IHttpContextAccessor>().GetUserAsync<TUser>().GetAwaiter().GetResult() ?? new TUser());
+        services.AddScoped<IAuthorizationService, AuthorizationService<TUser>>();
         return services.AddIdentityCore<TUser>(options =>
         {
             options.SignIn.RequireConfirmedAccount = true;

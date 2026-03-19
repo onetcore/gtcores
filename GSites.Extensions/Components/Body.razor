@@ -3,23 +3,18 @@
 @inject ISettingsManager SettingsManager
 
 <body @attributes="AdditionalAttributes">
-    @ChildContent
+    <CascadingValue Value="ThemeSettings">
+        @ChildContent
+    </CascadingValue>
 </body>
 
 @code {
-    /// <summary>
-    /// 模板名称。
-    /// </summary>
-    [Parameter]
-    public string? Theme { get; set; }
+
+    private ThemeSettings ThemeSettings { get; set; } = default!;
 
     protected override async Task OnInitializedAsync()
     {
-        if (string.IsNullOrWhiteSpace(Theme))
-        {
-            var settings = await SettingsManager.GetSettingsAsync<ThemeSettings>();
-            Theme = settings?.Name;
-        }
-        SetAttribute("data-bs-theme", Theme);
+        ThemeSettings = await SettingsManager.GetSettingsAsync<ThemeSettings>();
+        SetAttribute("data-bs-theme", ThemeSettings.Name);
     }
 }

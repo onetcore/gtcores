@@ -1,7 +1,9 @@
-﻿@inherits LayoutComponentBase
+﻿@using GSites.Extensions.Themes
+@using Microsoft.AspNetCore.Authorization
+@inherits LayoutComponentBase
 
 <div class="page">
-    <Sidebar Iconbar="false"/>
+    <Sidebar />
     <main>
         <div class="top-row px-2">
             <Breadcrumb style="font-size:larger;"></Breadcrumb>

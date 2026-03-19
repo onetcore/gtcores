@@ -21,4 +21,11 @@ public interface IMenuDataProviderFactory : IScopedService
     /// <param name="providerName">提供者名称。</param>
     /// <returns>返回菜单集合。</returns>
     NavMenuItemCollection GetNavMenuItems(string providerName);
+
+    /// <summary>
+    /// 判断当前菜单是否具有访问权限。
+     /// </summary>
+     /// <param name="item">当前菜单项。</param>
+     /// <returns>返回是否具有访问权限。</returns>
+    bool IsAuthorized(NavMenuItem item);
 }
