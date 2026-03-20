@@ -192,7 +192,12 @@ public class NavMenuItem : IEnumerable<NavMenuItem>
     /// <returns>返回当前菜单实例。</returns>
     public NavMenuItem AddMenu(string id, Action<NavMenuItem> action)
     {
-        var item = new NavMenuItem(id, this);
+        if(Menu.TryGetMenuItem(id, out var item))
+        {
+            action.Invoke(item!);
+            return this;
+        }
+        item = new NavMenuItem(id, this);
         action.Invoke(item);
         return AddMenu(item);
     }

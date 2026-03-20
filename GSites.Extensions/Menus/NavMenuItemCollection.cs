@@ -78,7 +78,7 @@ public class NavMenuItemCollection : IEnumerable<NavMenuItem>
     /// <returns>返回当前菜单实例。</returns>
     public NavMenuItem AddMenu(string id, Action<NavMenuItem> action)
     {
-        return Root.AddMenu(id, action: action);
+        return Root.AddMenu(id, action);
     }
 
     /// <summary>
