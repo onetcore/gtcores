@@ -3,18 +3,15 @@
 @inject ISettingsManager SettingsManager
 
 <body @attributes="AdditionalAttributes">
-    <CascadingValue Value="ThemeSettings">
-        @ChildContent
-    </CascadingValue>
+    @ChildContent
 </body>
 
 @code {
-
-    private ThemeSettings ThemeSettings { get; set; } = default!;
+    [CascadingParameter]
+    private ElementSettings ElementSettings { get; set; } = default!;
 
     protected override async Task OnInitializedAsync()
     {
-        ThemeSettings = await SettingsManager.GetSettingsAsync<ThemeSettings>();
-        SetAttribute("data-bs-theme", ThemeSettings.Name);
+        SetAttribute("data-bs-theme", ElementSettings.ThemeName);
     }
 }

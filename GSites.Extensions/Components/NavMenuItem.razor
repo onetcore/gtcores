@@ -1,37 +1,50 @@
-﻿<div @attributes="AdditionalAttributes">
-    @if (_collapse)
-    {
-        <button class="nav-link" href="@Item.Url" @onclick="Collasped" @onclick:preventDefault="true"
-               @onclick:stopPropagation="true" title="@Item.Title">
-            @if (!string.IsNullOrEmpty(Item.Icon))
-            {
-                <span class="bi @Item.Icon" aria-hidden="true"></span>
-            }
-            <span>@Item.Title</span>
-        </button>
-        @if (_expanded)
+﻿@using GSites.Extensions.Menus
+@using GSites.Extensions.Themes
+@inject IMenuDataProviderFactory MenuDataProviderFactory
+
+@if (_authorized)
+{
+    <div id="@Item.Id" @attributes="AdditionalAttributes">
+        @if (_collapse)
         {
-            <nav class="nav nav-@(Level) flex-column">
-                @foreach (var child in Item.OrderBy(m => m.Priority))
+            <button class="nav-link @Bool(_expanded, "expanded")" href="@Item.Url" @onclick="Collasped"
+                    @onclick:preventDefault="true" @onclick:stopPropagation="true" title="@Item.Title">
+                @if (!string.IsNullOrEmpty(Item.Icon))
                 {
-                    <NavMenuItem Item="child" Level="@(Level + 1)" />
+                    <span class="bi @Item.Icon" aria-hidden="true"></span>
                 }
-            </nav>
-        }
-    }
-    else
-    {
-        <NavLink class="nav-link" href="@Item.Url" title="@Item.Title" Match="@Item.Match">
-            @if (!string.IsNullOrEmpty(Item.Icon))
+                <span>@Item.Title</span>
+            </button>
+            @if (_expanded)
             {
-                <span class="bi @Item.Icon" aria-hidden="true"></span>
+                <nav class="nav nav-@(Level) flex-column">
+                    @foreach (var child in Item.OrderBy(m => m.Priority))
+                    {
+                        <NavMenuItem Item="child" Level="@(Level + 1)" />
+                    }
+                </nav>
             }
-            <span>@Item.Title</span>
-        </NavLink>
-    }
-</div>
+        }
+        else
+        {
+            <NavLink class="nav-link" href="@Item.Url" title="@Item.Title" Match="@(Item.Match ?? NavLinkMatch.Prefix)">
+                @if (!string.IsNullOrEmpty(Item.Icon))
+                {
+                    <span class="bi @Item.Icon" aria-hidden="true"></span>
+                }
+                <span>@Item.Title</span>
+            </NavLink>
+        }
+    </div>
+}
 
 @code {
+    /// <summary>
+    /// 父级菜单组件实例。
+    /// </summary>
+    [CascadingParameter]
+    private NavMenu? NavMenu { get; set; }
+
     /// <summary>
     /// 当前菜单项目实例。
     /// </summary>
@@ -47,14 +60,17 @@
     protected override ClassNameBuilder ClassName => "nav-item".AddClass("nav-collapse", _collapse);
 
     private bool _collapse;
-    protected override void OnInitialized()
+    private bool _authorized;
+    protected override async Task OnInitializedAsync()
     {
-        _collapse = Item.Any();
+        _authorized = await MenuDataProviderFactory.IsAuthorizedAsync(Item);
+        _collapse = NavMenu != null && !NavMenu.TopLevelOnly && Item.Any();
     }
 
     private bool _expanded;
     private void Collasped()
     {
         _expanded = !_expanded;
+        StateHasChanged();
     }
 }

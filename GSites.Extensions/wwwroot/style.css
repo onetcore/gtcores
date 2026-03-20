@@ -1,99 +1,117 @@
-
 .nav-item {
     font-size: 0.9rem;
     padding-bottom: 0.25rem;
 }
 
-    .nav-item .nav-link {
-        color: var(--bs-body-color);
-        background: none;
-        border: none;
-        border-radius: 4px;
-        height: 2.2rem;
-        display: flex;
-        align-items: center;
-        line-height: 2.2rem;
-        width: 100%;
-        padding: 0 0.75rem;
-        position: relative;
-    }
+.nav-item .nav-link {
+    color: var(--bs-body-color);
+    background: none;
+    border: none;
+    border-radius: 4px;
+    height: 2.2rem;
+    display: flex;
+    align-items: center;
+    line-height: 2.2rem;
+    width: 100%;
+    padding: 0 0.75rem;
+    position: relative;
+}
 
-    .nav-item a.active {
-        background-color: rgba(var(--bs-emphasis-color-rgb), 0.1);
-        text-decoration: none;
-    }
+.nav-item a.active {
+    background-color: rgba(var(--bs-emphasis-color-rgb), 0.1);
+    text-decoration: none;
+}
 
-        .nav-item a.active:before {
-            background-color: var(--bs-primary);
-            content: '';
-            width: 4px;
-            height: 1rem;
-            left: 0;
-            position: absolute;
-            border-radius: 5px;
-        }
+.nav-item a.active:before {
+    background-color: var(--bs-primary);
+    content: '';
+    width: 4px;
+    height: 1rem;
+    left: 0;
+    position: absolute;
+    border-radius: 5px;
+}
 
-    .nav-item .nav-link:not(.active):hover {
-        background-color: rgba(var(--bs-emphasis-color-rgb), 0.05);
-        color: var(--bs-body-color);
-        text-decoration: none;
-    }
+.nav-item .nav-link:not(.active):hover {
+    background-color: rgba(var(--bs-emphasis-color-rgb), 0.05);
+    color: var(--bs-body-color);
+    text-decoration: none;
+}
 
-    .nav-item .nav-link > .bi:first-of-type {
-        margin-right: 0.5rem;
-    }
+.nav-item .nav-link>.bi:first-of-type {
+    margin-right: 0.5rem;
+}
 
-    .nav-item .nav-link > .badge {
-        position: absolute;
-        right: 0.75rem;
-    }
+.nav-item .nav-link>.badge {
+    position: absolute;
+    right: 0.75rem;
+}
+
+.nav-collapse>.nav-link::after {
+    content: "\f285";
+    font-family: bootstrap-icons;
+    right: 0.75rem;
+    position: absolute;
+    font-size: 0.75rem;
+}
+
+.nav-collapse>.expanded::after {
+    content: "\f282";
+    transition: transform 0.2s ease;
+}
 
 .nav-1 {
     padding-top: 0.25rem;
 }
 
-    .nav-1 > .nav-item > .nav-link {
-        padding-left: 2rem;
-    }
+.nav-1>.nav-item>.nav-link {
+    padding-left: 2rem;
+}
 
-.mini, .icontext {
+.mini,
+.icontext {
     border-right: 1px solid var(--bs-secondary-bg);
 }
 
-    .mini .nav-item, .icontext .nav-item {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
+.mini .nav-item,
+.icontext .nav-item {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 
-    .mini .nav-link {
-        width: 2.5rem;
-        overflow: hidden;
-        justify-content: center;
-    }
+.mini .nav-link {
+    width: 2.5rem;
+    overflow: hidden;
+    justify-content: center;
+}
 
-    .icontext .nav-link {
-        width: 4rem;
-        flex-direction: column;
-        padding: 0.25rem;
-        height: auto;
-        line-height: 1.3;
-    }
+.icontext .nav-link {
+    width: 4rem;
+    flex-direction: column;
+    padding: 0.25rem;
+    height: auto;
+    line-height: 1.3;
+}
 
-    .mini .nav-item .nav-link .bi ,.icontext .nav-item .nav-link .bi{
-        margin: 0;
-        font-size: 1.2rem;
-    }
+.mini .nav-item .nav-link .bi,
+.icontext .nav-item .nav-link .bi {
+    margin: 0;
+    font-size: 1.2rem;
+}
 
-    .mini .nav-link > span:not(.bi) {
-        display: none;
-    }
+.mini .nav-link>span:not(.bi) {
+    display: none;
+}
 
-    .icontext .nav-link > span:not(.bi) {
-        white-space: nowrap;
-        overflow: hidden;
-    }
+.icontext .nav-link>span:not(.bi) {
+    white-space: nowrap;
+    overflow: hidden;
+}
 
-    .mini .nav-1, .mini .nav-2, .icontext .nav-1, .icontext .nav-2 {
-        display: none;
-    }
+.mini .nav-1,
+.mini .nav-2,
+.icontext .nav-1,
+.icontext .nav-2 {
+    display: none;
+}

@@ -10,5 +10,5 @@ public interface IAuthorizationService
     /// </summary>
     /// <param name="roleNames">角色名称列表。</param>
     /// <returns>返回是否具有访问权限。</returns>
-    bool IsAuthorized(params string[] roleNames);
+    Task<bool> IsAuthorizedAsync(params string[] roleNames);
 }

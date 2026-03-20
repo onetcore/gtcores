@@ -8,8 +8,11 @@ public static class MenuExtensions
 {
     internal static string ToIdString(this string id)
     {
-        id = "_" + id.ToLower().Trim();
-        id = id.Replace('/', '_').Replace('-', '_').Replace("__", "_").TrimEnd('_');
+        id = id.ToLower();
+        id = id.Replace('/', '_').Replace('-', '_').Trim(' ', '_');
+        id = id.Replace("__", "_");
+        if (!id.StartsWith("_"))
+            id = "_" + id;
         return id;
     }
 

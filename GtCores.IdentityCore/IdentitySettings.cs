@@ -19,4 +19,9 @@ public class IdentitySettings
     /// 是否允许用户注册。
     /// </summary>
     public bool EnabledRegister { get; set; } = true;
+
+    /// <summary>
+    /// 是否启用双重认证。
+    /// </summary>
+    public bool TwoFactorAuthenticationEnabled { get; set; }
 }

@@ -18,7 +18,8 @@
     <input type="checkbox" title="导航菜单" class="navbar-toggler" />
 
     <div class="nav-scrollable" onclick="document.querySelector('.navbar-toggler').click()">
-        <NavMenu class="p-2">
+        <NavMenu class="p-2" TopLevelOnly="@(ElementSettings.SidebarMode != SidebarMode.Full)" @rendermode="InteractiveServer"></NavMenu>
+        <nav class="nav flex-column p-2">
             <AuthorizeView>
                 <Authorized>
                     <div class="nav-item">
@@ -53,17 +54,13 @@
                     </div>
                 </NotAuthorized>
             </AuthorizeView>
-        </NavMenu>
-        <NavMenu @rendermode="InteractiveServer"></NavMenu>
+        </nav>
     </div>
 </div>
 
 @code {
     [CascadingParameter]
-    private ThemeSettings ThemeSettings { get; set; } = default!;
-
-    [Parameter]
-    public SidebarMode? Mode { get; set; }
+    private ElementSettings ElementSettings { get; set; } = default!;
 
     private string? currentUrl;
 
@@ -71,7 +68,6 @@
     {
         currentUrl = NavigationManager.ToBaseRelativePath(NavigationManager.Uri);
         NavigationManager.LocationChanged += OnLocationChanged;
-        Mode ??= ThemeSettings.SidebarMode;
     }
 
     private void OnLocationChanged(object? sender, LocationChangedEventArgs e)
@@ -85,5 +81,5 @@
         NavigationManager.LocationChanged -= OnLocationChanged;
     }
 
-    protected override ClassNameBuilder ClassName => "sidebar".AddClass(Mode?.ToLower());
+    protected override ClassNameBuilder ClassName => "sidebar".AddClass(ElementSettings.SidebarMode.ToLower());
 }

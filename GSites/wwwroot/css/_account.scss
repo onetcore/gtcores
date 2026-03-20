@@ -54,23 +54,6 @@ body:not([data-bs-theme]) .account {
     background-position: left 1em top 50%;
 }
 
-.account .form-floating>label,
-.account .checkbox,
-.account .form-floating .form-control {
-    color: var(--bs-secondary-color);
-}
-
-.account .form-floating>.form-control-plaintext::placeholder,
-.account .form-floating>.form-control::placeholder {
-    color: var(--bs-secondary-color);
-    text-align: end;
-}
-
-.account .form-floating>.form-control-plaintext:focus::placeholder,
-.account .form-floating>.form-control:focus::placeholder {
-    text-align: start;
-}
-
 .account-links {
     padding-left: 1rem;
     font-size: 0.75rem;

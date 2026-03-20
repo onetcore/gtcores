@@ -1,4 +1,4 @@
-﻿@page "/Account/Manage/DeletePersonalData"
+﻿@page "/Account/Manage/PersonalData/Delete"
 
 @using System.ComponentModel.DataAnnotations
 @using Microsoft.AspNetCore.Identity
@@ -9,15 +9,11 @@
 @inject IdentityRedirectManager RedirectManager
 @inject ILogger<DeletePersonalData> Logger
 
-<PageTitle>Delete Personal Data</PageTitle>
-
 <StatusMessage Message="@message" />
-
-<h3>Delete Personal Data</h3>
 
 <div class="alert alert-warning" role="alert">
     <p>
-        <strong>Deleting this data will permanently remove your account, and this cannot be recovered.</strong>
+        <strong>删除这些数据将永久删除您的账户，且此操作无法恢复。</strong>
     </p>
 </div>
 
@@ -28,14 +24,19 @@
         @if (requirePassword)
         {
             <div class="form-floating mb-3">
-                <InputText type="password" @bind-Value="Input.Password" id="Input.Password" class="form-control" autocomplete="current-password" aria-required="true" placeholder="Please enter your password." />
-                <label for="Input.Password" class="form-label">Password</label>
+                <InputText type="password" @bind-Value="Input.Password" id="Input.Password" class="form-control" autocomplete="current-password" aria-required="true" placeholder="请输入您的密码。" />
+                <label for="Input.Password" class="form-label">密码</label>
                 <ValidationMessage For="() => Input.Password" class="text-danger" />
             </div>
         }
-        <button class="w-100 btn btn-lg btn-danger" type="submit">Delete data and close my account</button>
+        <button class="w-100 btn btn-lg btn-danger" type="submit">删除数据并关闭我的账户</button>
     </EditForm>
 </div>
+
+<CurrentNavigation>
+    <li class="breadcrumb-item"><a href="Account/Manage/PersonalData">个人数据</a></li>
+    <li class="breadcrumb-item active" aria-current="page">删除个人数据</li
+</CurrentNavigation>
 
 @code {
     private string? message;
@@ -71,7 +72,7 @@
 
         if (requirePassword && !await UserManager.CheckPasswordAsync(user, Input.Password))
         {
-            message = "Error: Incorrect password.";
+            message = "Error: 密码错误。";
             return;
         }
 

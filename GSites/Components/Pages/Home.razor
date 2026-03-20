@@ -1,14 +1,53 @@
 ﻿@page "/"
+@using GSites.Extensions.Themes
 @rendermode InteractiveServer
 
 <TabSet>
     <Tab Title="基础">
-        <NavMenu  @rendermode="InteractiveServer"/>
+        <p>
+            菜单模式：@ElementSettings.SidebarMode
+            <select class="form-select" @onchange="e => OnSidebarModeChanged(e.Value)">
+                <option value="0">正常</option>
+                <option value="1">图标</option>
+                <option value="2">图标文字</option>
+            </select>
+        </p>
+        <NavMenu @rendermode="InteractiveServer" />
     </Tab>
     <Tab Title="高级">
-        高级配置
+        <p>
+            这里是一些高级设置。
+        </p>
+        <p>
+            模板色调：@ElementSettings.ThemeName
+            <select class="form-select" @onchange="e => OnThemeChanged(e.Value?.ToString())">
+                <option value="light">浅色</option>
+                <option value="dark">深色</option>
+                <option value="">自动</option>
+            </select>
+        </p>
     </Tab>
     <Tab Title="其他">
         其他配置
     </Tab>
 </TabSet>
+
+@code {
+    [CascadingParameter]
+    private ElementSettings ElementSettings { get; set; } = default!;
+
+    private void OnThemeChanged(string? themeName)
+    {
+        ElementSettings.ThemeName = themeName;
+        ElementSettings.CurrentNavigation = "Home/Overview";
+    }
+
+    private void OnSidebarModeChanged(object? sidebarMode)
+    {
+        if (Enum.TryParse<SidebarMode>(sidebarMode?.ToString(), out var mode))
+        {
+            ElementSettings.SidebarMode = mode;
+        }
+    }
+
+}

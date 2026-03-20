@@ -1,12 +1,13 @@
 ﻿@using GSites.Extensions.Themes
 @using Microsoft.AspNetCore.Authorization
+@using Microsoft.AspNetCore.Components.Sections
 @inherits LayoutComponentBase
 
 <div class="page">
-    <Sidebar />
+    <Sidebar @rendermode="InteractiveServer" />
     <main>
         <div class="top-row px-2">
-            <Breadcrumb style="font-size:larger;"></Breadcrumb>
+            <SectionOutlet SectionName="Breadcrumb"></SectionOutlet>
         </div>
 
         <article class="content px-2">
@@ -20,3 +21,7 @@
     <a href="." class="reload">Reload</a>
     <span class="dismiss">🗙</span>
 </div>
+
+<SectionContent SectionName="Breadcrumb">
+    <Breadcrumb style="font-size:larger;"></Breadcrumb>
+</SectionContent>

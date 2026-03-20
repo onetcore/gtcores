@@ -60,18 +60,20 @@ public class MenuDataProviderFactory : IMenuDataProviderFactory
      /// </summary>
      /// <param name="item">当前菜单项。</param>
      /// <returns>返回是否具有访问权限。</returns>
-    public bool IsAuthorized(NavMenuItem item)
+    public async Task<bool> IsAuthorizedAsync(NavMenuItem item)
     {
         if (item.IsAuthorized)
         {
-            if(item.Any())
-                return item.Any(x => IsAuthorized(x));
+            foreach (var child in item)
+            {
+                return await IsAuthorizedAsync(child);
+            }
             return true;
         }
         
         if (item.RoleNames != null && item.RoleNames.Length > 0)
         {
-            return authorizationService.IsAuthorized(item.RoleNames);
+            return await authorizationService.IsAuthorizedAsync(item.RoleNames);
         }
         return true;
     }

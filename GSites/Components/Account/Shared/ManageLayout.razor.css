@@ -1,0 +1,7 @@
+.card {
+    border-right: 0;
+    border-bottom: 0;
+    min-height: calc(100vh - 3.6rem);
+    border-radius: 0;
+    border-top-left-radius: 0.375rem;
+}

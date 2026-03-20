@@ -2,29 +2,22 @@
 @inject IMenuDataProviderFactory Factory
 @inject NavigationManager NavigationManager
 
-@if (_current != null)
-{
-    <nav aria-label="breadcrumb" @attributes="AdditionalAttributes">
-        <ol class="breadcrumb">
+<nav aria-label="breadcrumb" @attributes="AdditionalAttributes">
+    <ol class="breadcrumb">
+        @ChildContent
+        @if (_current != null)
+        {
             @foreach (var item in _parents)
             {
                 <li class="breadcrumb-item"><a href="@item.Url">@item.Title</a></li>
             }
             <li class="breadcrumb-item active" aria-current="page">
-                @if(ChildContent == null)
-                {
-                    @_current.Title
-                    <PageTitle>@_current.Title</PageTitle>
-                }
-                else
-                {
-                    @ChildContent
-                    <PageTitle>@ChildContent</PageTitle>
-                }
+                @_current.Title
+                <PageTitle>@_current.Title</PageTitle>
             </li>
-        </ol>
-    </nav>
-}
+        }
+    </ol>
+</nav>
 
 @code {
     /// <summary>

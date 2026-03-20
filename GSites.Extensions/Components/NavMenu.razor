@@ -1,15 +1,26 @@
 ﻿@using GSites.Extensions.Menus
 @inject IMenuDataProviderFactory Factory
 
-<nav @attributes="AdditionalAttributes">
-    @foreach (var item in _items)
-    {
-        <NavMenuItem Item="item" Level="1" />
-    }
-    @ChildContent
-</nav>
+<CascadingValue Value="this">
+    <nav @attributes="AdditionalAttributes">
+        @foreach (var item in _items)
+        {
+            <NavMenuItem Item="item" Level="1" />
+        }
+        @ChildContent
+    </nav>
+</CascadingValue>
 
 @code {
+    /// <summary>
+    /// 仅显示顶级菜单项。
+    /// </summary>
+    [Parameter]
+    public bool TopLevelOnly { get; set; }
+
+    /// <summary>
+    /// 菜单提供者。
+    /// </summary>
     [Parameter]
     public string Provider { get; set; } = NavMenuItemCollection.DefaultProviderName;
 

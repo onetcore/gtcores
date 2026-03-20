@@ -6,23 +6,20 @@
 @inject UserManager<User> UserManager
 @inject IdentityRedirectManager RedirectManager
 
-<PageTitle>Personal Data</PageTitle>
-
 <StatusMessage />
-<h3>Personal Data</h3>
 
 <div class="row">
-    <div class="col-md-6">
-        <p>Your account contains personal data that you have given us. This page allows you to download or delete that data.</p>
-        <p>
-            <strong>Deleting this data will permanently remove your account, and this cannot be recovered.</strong>
-        </p>
+    <div class="col-md-12">
+        <p>您的账户包含您提供给我们的个人数据。此页面允许您下载或删除这些数据。</p>
+        <div class="alert alert-warning" role="alert">
+            <strong>删除这些数据将永久删除您的账户，且此操作无法恢复。</strong>
+        </div>
         <form action="Account/Manage/DownloadPersonalData" method="post">
             <AntiforgeryToken />
-            <button class="btn btn-primary" type="submit">Download</button>
+            <button class="btn btn-primary" type="submit">下载数据</button>
         </form>
-        <p>
-            <a href="Account/Manage/DeletePersonalData" class="btn btn-danger">Delete</a>
+        <p class="mt-3 mb-0">
+            <a href="Account/Manage/PersonalData/Delete" class="btn btn-danger">删除数据</a>
         </p>
     </div>
 </div>
@@ -33,7 +30,7 @@
 
     protected override async Task OnInitializedAsync()
     {
-        var user  = await UserManager.GetUserAsync(HttpContext.User);
+        var user = await UserManager.GetUserAsync(HttpContext.User);
         if (user is null)
         {
             RedirectManager.RedirectToInvalidUser(UserManager, HttpContext);

@@ -27,5 +27,5 @@ public interface IMenuDataProviderFactory : IScopedService
      /// </summary>
      /// <param name="item">当前菜单项。</param>
      /// <returns>返回是否具有访问权限。</returns>
-    bool IsAuthorized(NavMenuItem item);
+    Task<bool> IsAuthorizedAsync(NavMenuItem item);
 }

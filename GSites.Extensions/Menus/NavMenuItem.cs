@@ -58,7 +58,7 @@ public class NavMenuItem : IEnumerable<NavMenuItem>
     /// <summary>
     /// 匹配方式。
     /// </summary>
-    public NavLinkMatch Match { get; private set; }
+    public NavLinkMatch? Match { get; private set; }
 
     /// <summary>
     /// 设置链接地址和匹配方式。
@@ -66,7 +66,7 @@ public class NavMenuItem : IEnumerable<NavMenuItem>
     /// <param name="url">链接地址。</param>
     /// <param name="match">匹配方式。</param>
     /// <returns>返回当前菜单。</returns>
-    public NavMenuItem Href(string url, NavLinkMatch match = default)
+    public NavMenuItem Href(string url, NavLinkMatch? match = null)
     {
         Url = url;
         Match = match;
@@ -83,7 +83,7 @@ public class NavMenuItem : IEnumerable<NavMenuItem>
     /// </summary>
     /// <param name="priority">优先级。</param>
     /// <returns>返回当前菜单。</returns>
-    public NavMenuItem SetPriority(int priority)
+    public NavMenuItem Ordered(int priority)
     {
         Priority = priority;
         return this;
@@ -139,7 +139,7 @@ public class NavMenuItem : IEnumerable<NavMenuItem>
         main.Title ??= item.Title;
         main.Icon ??= item.Icon;
         main.Url ??= item.Url;
-        main.Match = item.Match;
+        main.Match ??= item.Match;
         main.Priority = int.Min(item.Priority, main.Priority);
         foreach (var sub in item)
         {

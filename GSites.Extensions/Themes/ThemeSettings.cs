@@ -13,6 +13,6 @@
         /// <summary>
         /// 侧边栏模式。
         /// </summary>
-        public SidebarMode SidebarMode { get; set; }
+        public SidebarMode SidebarMode { get; set; } 
     }
 }

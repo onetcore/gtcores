@@ -1,9 +1,48 @@
-.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+.btn:focus,
+.btn:active:focus,
+.btn-link.nav-link:focus,
+.form-control:focus,
+.form-check-input:focus {
     box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
 }
 
 h1:focus {
     outline: none;
+}
+
+.input-group:not(.has-validation)> :not(:last-child):not(.dropdown-toggle):not(.dropdown-menu):not(.form-floating),
+.input-group:not(.has-validation)>.dropdown-toggle:nth-last-child(n+3),
+.input-group:not(.has-validation)>.form-floating:not(:last-child)>.form-control,
+.input-group:not(.has-validation)>.form-floating:not(:last-child)>.form-select {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    border-right: 0;
+}
+
+.input-group-append>.input-group-text {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+}
+
+.form-control:disabled~.input-group-append>.input-group-text {
+    background-color: var(--bs-secondary-bg);
+}
+
+.form-floating>label,
+.checkbox,
+.form-floating .form-control {
+    color: var(--bs-secondary-color);
+}
+
+.form-floating>.form-control-plaintext::placeholder,
+.form-floating>.form-control::placeholder {
+    color: var(--bs-secondary-color);
+    text-align: end;
+}
+
+.form-floating>.form-control-plaintext:focus::placeholder,
+.form-floating>.form-control:focus::placeholder {
+    text-align: start;
 }
 
 .valid.modified:not([type=checkbox]) {
@@ -14,18 +53,22 @@ h1:focus {
     outline: 1px solid #e50000;
 }
 
-    .invalid:not(:focus)::placeholder {
-        color: transparent !important;
-    }
+.invalid:not(:focus)::placeholder {
+    color: transparent !important;
+}
 
-    .invalid + label + .text-danger {
-        position: absolute;
-        right: 0.8rem;
-        top: 1rem;
-    }
+.invalid+label+.text-danger {
+    position: absolute;
+    right: 0.8rem;
+    top: 1rem;
+}
 
 .validation-message {
     color: #e50000;
+}
+
+.alert>p:last-of-type {
+    margin-bottom: 0;
 }
 
 .blazor-error-boundary {
@@ -34,6 +77,6 @@ h1:focus {
     color: white;
 }
 
-    .blazor-error-boundary::after {
-        content: "很抱歉，发生了未知的错误！ "
-    }
+.blazor-error-boundary::after {
+    content: "很抱歉，发生了未知的错误！ "
+}

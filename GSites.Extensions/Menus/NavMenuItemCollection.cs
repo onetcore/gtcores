@@ -93,6 +93,8 @@ public class NavMenuItemCollection : IEnumerable<NavMenuItem>
 
     internal void Update(NavMenuItem item)
     {
+        if (item.Priority == 0)
+            item.Ordered(_items.Count + 1);
         _items.AddOrUpdate(item.Id, item, (_, __) => item);
     }
 }

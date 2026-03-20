@@ -6,7 +6,7 @@ namespace GSites.Extensions.Menus;
 /// <summary>
 /// 默认菜单。
 /// </summary>
-public class DefaultMenuDataProvider : MenuDataProvider
+public class DefaultMenuDataProvider : MenuDataProviderBase
 {
     /// <summary>
     /// 添加菜单项目。
@@ -14,6 +14,6 @@ public class DefaultMenuDataProvider : MenuDataProvider
     /// <param name="menu">当前菜单集合。</param>
     public override void Initialized(NavMenuItemCollection menu)
     {
-        menu.AddMenu("/", "首页", IconName.House, match: NavLinkMatch.All, action: item => item.SetPriority(-1));
+        menu.AddMenu("/", "首页", IconName.House, match: NavLinkMatch.All, action: item => item.Ordered(-1));
     }
 }
