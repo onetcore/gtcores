@@ -1,7 +1,8 @@
 ﻿@implements ITab
+@inherits GSiteContentComponentBase
 
-<li>
-    <a @onclick="ActivateTab" class="nav-link @TitleCssClass" role="button">
+<li class="@ClassName">
+    <a @onclick="ActivateTab" class="nav-link @TitleClass" role="button">
         @Title
     </a>
 </li>
@@ -9,14 +10,14 @@
 @code {
     [CascadingParameter]
     private TabSet? ContainerTabSet { get; set; }
+
     /// <summary>
     /// 标题。
     /// </summary>
     [Parameter]
     public string? Title { get; set; }
 
-    private string? TitleCssClass =>
-        ContainerTabSet?.ActiveTab == this ? "active" : null;
+    private string? TitleClass => ContainerTabSet?.ActiveTab == this ? "active" : null;
 
     protected override void OnInitialized()
     {

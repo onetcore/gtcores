@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Components;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.JSInterop;
 
 namespace GSites.Extensions.Components;
@@ -18,17 +19,12 @@ public abstract class ComponentBase : Microsoft.AspNetCore.Components.ComponentB
     /// 获取属性字符串。
     /// </summary>
     /// <param name="name">属性名称。</param>
-    /// <param name="value">返回属性字符串值。</param>
     /// <returns>返回获取属性结果。</returns>
-    protected bool GetAttributeStringValue(string name, out string? value)
+    protected string? GetAttribute(string name)
     {
-        if (AdditionalAttributes?.TryGetValue(name, out var attr) == true && attr is string str)
-        {
-            value = str;
-            return true;
-        }
-        value = null;
-        return false;
+        if (AdditionalAttributes?.TryGetValue(name, out var value) == true)
+            return value?.ToString();
+        return null;
     }
 
     /// <summary>
@@ -63,17 +59,17 @@ public abstract class ComponentBase : Microsoft.AspNetCore.Components.ComponentB
     /// 删除属性。
     /// </summary>
     /// <param name="name">属性名称。</param>
-    protected void RemoveAttribute(string name)=>AdditionalAttributes?.Remove(name);
+    protected void RemoveAttribute(string name) => AdditionalAttributes?.Remove(name);
 
     /// <summary>
     /// 获取当前样式名称。
     /// </summary>
-    protected virtual ClassNameBuilder? ClassName => null;
+    protected virtual ClassName? ClassName => null;
 
     /// <summary>
     /// 样式构建实例。
     /// </summary>
-    protected virtual StyleBuilder? Style => null;
+    protected virtual Style? Style => null;
 
     /// <summary>
     /// JavaScript运行时。
@@ -90,23 +86,19 @@ public abstract class ComponentBase : Microsoft.AspNetCore.Components.ComponentB
     /// <summary>
     /// 元素ID。
     /// </summary>
-    protected string? Id
-    {
-        get
-        {
-            if (_id == null && AdditionalAttributes?.TryGetValue("id", out var id) == true)
-            {
-                _id = id?.ToString();
-            }
-            return _id;
-        }
-    }
+    protected string? Id => _id ??= GetAttribute("id");
 
     /// <summary>
     /// 子内容。
     /// </summary>
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
+
+    /// <summary>
+    /// 组件上下文。
+    /// </summary>
+    [CascadingParameter]
+    protected ComponentContext Context { get; set; } = default!;
 
     /// <summary>
     /// 参数设置。
@@ -117,18 +109,12 @@ public abstract class ComponentBase : Microsoft.AspNetCore.Components.ComponentB
         AdditionalAttributes ??= new(StringComparer.OrdinalIgnoreCase);
         if (ClassName != null)
         {
-            if (GetAttributeStringValue("class", out var className))
-            {
-                ClassName.AddClass(className);
-            }
+            ClassName.AddClass(GetAttribute("class"));
             AdditionalAttributes["class"] = ClassName;
         }
         if (Style != null)
         {
-            if (GetAttributeStringValue("style", out var style))
-            {
-                Style.AddStyle(style);
-            }
+            Style.AddStyle(GetAttribute("style"));
             AdditionalAttributes["style"] = Style;
         }
     }

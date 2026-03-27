@@ -40,6 +40,11 @@
     font-size: 0.75rem;
 }
 
+.mini,
+.icontext {
+    border-right: 1px solid var(--bs-secondary-bg);
+}
+
 .mini .navbar-brand,
 .icontext .navbar-brand {
     width: 4rem;

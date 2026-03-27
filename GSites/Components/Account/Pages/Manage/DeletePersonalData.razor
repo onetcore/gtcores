@@ -1,4 +1,4 @@
-﻿@page "/Account/Manage/PersonalData/Delete"
+﻿@page "/Account/Manage/DeletePersonalData"
 
 @using System.ComponentModel.DataAnnotations
 @using Microsoft.AspNetCore.Identity
@@ -33,10 +33,8 @@
     </EditForm>
 </div>
 
-<CurrentNavigation>
-    <li class="breadcrumb-item"><a href="Account/Manage/PersonalData">个人数据</a></li>
-    <li class="breadcrumb-item active" aria-current="page">删除个人数据</li
-</CurrentNavigation>
+<Breadcrumb Home="管理用户" Href="Account/Manage" Current="Account/Manage/PersonalData" Provider="Account">删除个人数据</Breadcrumb>
+
 
 @code {
     private string? message;

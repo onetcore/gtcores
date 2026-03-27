@@ -10,17 +10,12 @@ namespace GSites.Extensions.Menus;
 public class NavMenuItemCollection : IEnumerable<NavMenuItem>
 {
     private readonly ConcurrentDictionary<string, NavMenuItem> _items = new(StringComparer.OrdinalIgnoreCase);
-    public NavMenuItemCollection(string providerName = DefaultProviderName)
+    public NavMenuItemCollection(string providerName = MenuDataProviderBase.DefaultProviderName)
     {
         ProviderName = providerName;
         Root = new NavMenuItem(this);
         _items.TryAdd(string.Empty, Root);
     }
-
-    /// <summary>
-    /// 默认菜单提供者名称。
-    /// </summary>
-    public const string DefaultProviderName = "administration";
 
     /// <summary>
     /// 提供者名称。

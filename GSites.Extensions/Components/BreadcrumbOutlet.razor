@@ -1,0 +1,36 @@
+﻿@using GSites.Extensions.Menus
+@using Microsoft.AspNetCore.Components.Sections
+@inherits GSiteComponentBase
+
+<SectionOutlet SectionId="BreadcrumbId"></SectionOutlet>
+@if (Provider != null)
+{
+    <Breadcrumb Provider="@Provider" Home="@Home" Href="@Href" Icon="@Icon"></Breadcrumb>
+}
+@code {
+    internal static object BreadcrumbId = new();
+
+    /// <summary>
+    /// 菜单提供者。
+    /// </summary>
+    [Parameter]
+    public string? Provider { get; set; }
+
+    /// <summary>
+    /// 首页标题。
+    /// </summary>
+    [Parameter]
+    public string? Home { get; set; }
+
+    /// <summary>
+    /// 首页链接地址。
+    /// </summary>
+    [Parameter]
+    public string? Href { get; set; }
+
+    /// <summary>
+    /// 首页图标。
+    /// </summary>
+    [Parameter]
+    public string? Icon { get; set; }
+}

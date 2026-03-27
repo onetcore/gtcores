@@ -6,9 +6,14 @@ namespace GSites.Extensions.Menus;
 public abstract class MenuDataProviderBase : IMenuDataProvider
 {
     /// <summary>
+    /// 默认提供者名称。
+    /// </summary>
+    public const string DefaultProviderName = "Default";
+
+    /// <summary>
     /// 提供者名称。
     /// </summary>
-    public virtual string Name => NavMenuItemCollection.DefaultProviderName;
+    public virtual string Name => DefaultProviderName;
 
     /// <summary>
     /// 添加菜单项目。

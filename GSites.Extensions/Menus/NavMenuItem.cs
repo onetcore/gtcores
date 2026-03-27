@@ -175,7 +175,7 @@ public class NavMenuItem : IEnumerable<NavMenuItem>
     /// <returns>返回当前菜单实例。</returns>
     public NavMenuItem AddMenu(string id, string title, string? icon = null, string? url = null, NavLinkMatch match = default, Action<NavMenuItem>? action = null)
     {
-        var item = new NavMenuItem(id, this);
+        var item = GetOrCreateMenuItem(id);
         item.Title = title;
         item.Url = url ?? id;
         item.Match = match;
@@ -192,14 +192,16 @@ public class NavMenuItem : IEnumerable<NavMenuItem>
     /// <returns>返回当前菜单实例。</returns>
     public NavMenuItem AddMenu(string id, Action<NavMenuItem> action)
     {
-        if(Menu.TryGetMenuItem(id, out var item))
-        {
-            action.Invoke(item!);
-            return this;
-        }
-        item = new NavMenuItem(id, this);
+        var item = GetOrCreateMenuItem(id);
         action.Invoke(item);
         return AddMenu(item);
+    }
+
+    private NavMenuItem GetOrCreateMenuItem(string id)
+    {
+        if (!Menu.TryGetMenuItem(id, out var item))
+            item = new(id, this);
+        return item!;
     }
 
     /// <summary>

@@ -1,8 +1,6 @@
 ﻿@page "/weather"
 @attribute [StreamRendering]
 
-<PageTitle>Weather</PageTitle>
-
 <h1>Weather</h1>
 
 <p>This component demonstrates showing data.</p>
@@ -53,6 +51,9 @@ else
             Summary = summaries[Random.Shared.Next(summaries.Length)]
         }).ToArray();
     }
+
+    [CascadingParameter]
+    private ComponentContext Context { get; set; } = default!;
 
     private class WeatherForecast
     {

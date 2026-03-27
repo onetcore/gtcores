@@ -1,7 +1,7 @@
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using GSites.Extensions.Menus;
 using GSites.Extensions.Themes;
-using GtCores;
 using GtCores.IdentityCore.Settings;
 using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.DependencyInjection;
@@ -11,43 +11,46 @@ namespace GSites.Extensions;
 /// <summary>
 /// 元素配置。
 /// </summary>
-public class ElementSettings : INotifyPropertyChanged
+public class ComponentContext : INotifyPropertyChanged
 {
-    internal ElementSettings(IServiceProvider serviceProvider)
+    internal ComponentContext(IServiceProvider serviceProvider)
     {
         var themeSettings = serviceProvider.GetRequiredService<ISettingsManager>().GetSettings<ThemeSettings>();
         ThemeName = themeSettings.Name;
         SidebarMode = themeSettings.SidebarMode;
+        ServiceProvider = serviceProvider;
     }
 
-    private string? _currentNavigation;
+    private string? _current;
     /// <summary>
-    /// 主菜单导航标识。
+    /// 当前菜单导航标识。
     /// </summary>
-    public string? CurrentNavigation
+    public string? Current
     {
-        get => _currentNavigation;
+        get => _current;
         set
         {
-            if (_currentNavigation == value)
+            if (_current == value)
                 return;
-            _currentNavigation = value;
+            if (Parent == null)
+                Parent = value;
+            _current = value;
             OnPropertyChanged();
         }
     }
 
-    private string? _subNavigation;
+    private string? _parent;
     /// <summary>
-    /// 子导航标识。
+    /// 父级菜单导航标识。
     /// </summary>
-    public string? SubNavigation
+    public string? Parent
     {
-        get => _subNavigation;
+        get => _parent;
         set
         {
-            if (_subNavigation == value)
+            if (_parent == value)
                 return;
-            _subNavigation = value;
+            _parent = value;
             OnPropertyChanged();
         }
     }
@@ -68,11 +71,11 @@ public class ElementSettings : INotifyPropertyChanged
         }
     }
 
-    private SidebarMode _sidebarMode;
+    private DisplayMode _sidebarMode;
     /// <summary>
     /// 侧边栏模式。
     /// </summary>
-    public SidebarMode SidebarMode
+    public DisplayMode SidebarMode
     {
         get => _sidebarMode;
         set
@@ -84,6 +87,28 @@ public class ElementSettings : INotifyPropertyChanged
         }
     }
 
+    private string? _currentUrl;
+    /// <summary>
+    /// 当前URL地址。
+    /// </summary>
+    public string CurrentUrl
+    {
+        get
+        {
+            if (_currentUrl == null)
+            {
+                var navigationManager = ServiceProvider.GetRequiredService<NavigationManager>()!;
+                _currentUrl = navigationManager.ToBaseRelativePath(navigationManager.Uri);
+            }
+            return _current!;
+        }
+    }
+
+    /// <summary>
+    /// 当前服务提供者实例。
+    /// </summary>
+    public IServiceProvider ServiceProvider { get; }
+
     /// <summary>
     /// 属性变更事件。
     /// </summary>
@@ -94,18 +119,4 @@ public class ElementSettings : INotifyPropertyChanged
     /// <param name="propertyName">属性名称。</param>
     protected virtual void OnPropertyChanged([CallerMemberName] string? propertyName = default)
        => PropertyChanged?.Invoke(this, new(propertyName));
-}
-
-public class ServiceConfigurer : IServiceConfigurer
-{
-    public void ConfigureServices(IServiceBuilder builder)
-    {
-        builder.Services.AddCascadingValue(service =>
-        {
-            var elementSettings = new ElementSettings(service);
-            var source = new CascadingValueSource<ElementSettings>(elementSettings, false);
-            elementSettings.PropertyChanged += (s, e) => source.NotifyChangedAsync();
-            return source;
-        });
-    }
 }

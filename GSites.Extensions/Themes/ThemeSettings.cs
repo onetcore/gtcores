@@ -1,4 +1,6 @@
-﻿namespace GSites.Extensions.Themes
+﻿using GSites.Extensions.Menus;
+
+namespace GSites.Extensions.Themes
 {
     /// <summary>
     /// 模板配置。
@@ -13,6 +15,6 @@
         /// <summary>
         /// 侧边栏模式。
         /// </summary>
-        public SidebarMode SidebarMode { get; set; } 
+        public DisplayMode SidebarMode { get; set; } 
     }
 }

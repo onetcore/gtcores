@@ -1,9 +1,9 @@
-namespace GSites.Extensions.Themes
+namespace GSites.Extensions.Menus
 {
     /// <summary>
-    /// 侧边栏模式。
+    /// 显示模式。
     /// </summary>
-    public enum SidebarMode
+    public enum DisplayMode
     {
         /// <summary>
         /// 全部显示。

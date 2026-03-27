@@ -1,36 +1,80 @@
 ﻿@using GSites.Extensions.Menus
+@using Microsoft.AspNetCore.Components.Sections
 @inject IMenuDataProviderFactory Factory
 @inject NavigationManager NavigationManager
+@inherits GSiteContentComponentBase
 
-<nav aria-label="breadcrumb" @attributes="AdditionalAttributes">
-    <ol class="breadcrumb">
-        @ChildContent
-        @if (_current != null)
-        {
-            @foreach (var item in _parents)
+<SectionContent SectionId="BreadcrumbOutlet.BreadcrumbId">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            @if (Home != null)
             {
-                <li class="breadcrumb-item"><a href="@item.Url">@item.Title</a></li>
+                <li class="breadcrumb-item">
+                    <a href="@Href">
+                        <Icon class="@Icon"></Icon>
+                        @Home
+                    </a>
+                </li>
             }
-            <li class="breadcrumb-item active" aria-current="page">
-                @_current.Title
-                <PageTitle>@_current.Title</PageTitle>
-            </li>
-        }@_current?.Parent?.Title
-    </ol>
-</nav>
+            @if (_current != null)
+            {
+                @foreach (var item in _parents)
+                {
+                    <li class="breadcrumb-item"><a href="@item.Url">@item.Title</a></li>
+                }
+                @if (ChildContent == null)
+                {
+                    <li class="breadcrumb-item active" aria-current="page">
+                        @_current.Title
+                        <PageTitle>@_current.Title</PageTitle>
+                    </li>
+                }
+                else
+                {
+                    <li class="breadcrumb-item"><a href="@_current.Url">@_current.Title</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">
+                        @ChildContent
+                        <PageTitle>@ChildContent</PageTitle>
+                    </li>
+                }
+            }
+        </ol>
+    </nav>
+</SectionContent>
 
 @code {
     /// <summary>
     /// 菜单提供者。
     /// </summary>
     [Parameter]
-    public string Provider { get; set; } = NavMenuItemCollection.DefaultProviderName;
+    public string Provider { get; set; } = MenuDataProviderBase.DefaultProviderName;
+
+    /// <summary>
+    /// 首页标题。
+    /// </summary>
+    [Parameter]
+    public string? Home { get; set; }
+
+    /// <summary>
+    /// 首页链接地址。
+    /// </summary>
+    [Parameter]
+    public string? Href { get; set; }
+
+    /// <summary>
+    /// 首页图标。
+    /// </summary>
+    [Parameter]
+    public string? Icon { get; set; }
 
     /// <summary>
     /// 菜单Id。
     /// </summary>
     [Parameter]
     public string? Current { get; set; }
+
+    [CascadingParameter]
+    public ComponentContext Context { get; set; } = default!;
 
     private GSites.Extensions.Menus.NavMenuItem? _current;
     private List<GSites.Extensions.Menus.NavMenuItem> _parents = new();
@@ -40,6 +84,7 @@
         _current = Factory.GetCurrent(Current, Provider);
         if (_current != null)
         {
+            Context.Current = _current.Id;
             var parent = _current.Parent;
             while (!parent.IsRoot)
             {

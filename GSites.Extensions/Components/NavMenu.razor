@@ -1,4 +1,5 @@
 ﻿@using GSites.Extensions.Menus
+@inject NavigationManager NavigationManager
 @inject IMenuDataProviderFactory Factory
 
 <CascadingValue Value="this">
@@ -13,24 +14,57 @@
 
 @code {
     /// <summary>
-    /// 仅显示顶级菜单项。
+    /// 显示模式。
     /// </summary>
     [Parameter]
-    public bool TopLevelOnly { get; set; }
+    public DisplayMode DisplayMode { get; set; }
+
+    /// <summary>
+    /// 当前激活菜单标识。
+    /// </summary>
+    [Parameter]
+    public string? Current { get; set; }
 
     /// <summary>
     /// 菜单提供者。
     /// </summary>
     [Parameter]
-    public string Provider { get; set; } = NavMenuItemCollection.DefaultProviderName;
+    public string Provider { get; set; } = MenuDataProviderBase.DefaultProviderName;
 
-    protected override ClassNameBuilder ClassName => "nav flex-column";
+    /// <summary>
+    /// 当前样式名称。
+    /// </summary>
+    protected override ClassName? ClassName => "nav flex-column";
 
     private IEnumerable<GSites.Extensions.Menus.NavMenuItem> _items = default!;
-    override protected void OnInitialized()
+    private GSites.Extensions.Menus.NavMenuItem? _current;
+    protected override void OnInitialized()
     {
-        _items = Factory.GetNavMenuItems(Provider)
-        .OrderBy(m => m.Priority)
-        .ToList();
+        var menu = Factory.GetNavMenuItems(Provider);
+        _items = menu.OrderBy(m => m.Priority).ToList();
+        Current ??= NavigationManager.ToBaseRelativePath(NavigationManager.Uri);
+        menu.TryGetMenuItem(Current, out _current);
+    }
+
+    internal bool IsCurrent(GSites.Extensions.Menus.NavMenuItem item)
+    {
+        var current = _current;
+        while (current?.IsRoot == false)
+        {
+            if (current.Id == item.Id)
+                return true;
+            current = current.Parent;
+        }
+        return false;
+    }
+
+    internal void OnActivedCurrent(GSites.Extensions.Menus.NavMenuItem current)
+    {
+        if (current != _current)
+        {
+            Current = current.Id;
+            _current = current;
+            StateHasChanged();
+        }
     }
 }

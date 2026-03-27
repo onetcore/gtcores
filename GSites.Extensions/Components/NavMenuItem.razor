@@ -1,18 +1,20 @@
 ﻿@using GSites.Extensions.Menus
 @using GSites.Extensions.Themes
 @inject IMenuDataProviderFactory MenuDataProviderFactory
+@inherits GSiteComponentBase
 
 @if (_authorized)
 {
-    <div id="@Item.Id" @attributes="AdditionalAttributes">
+    <div id="@Item.Id" class="@ClassName">
         @if (_collapse)
         {
-            <button class="nav-link @Bool(_expanded, "expanded")" href="@Item.Url" @onclick="Collasped"
-                    @onclick:preventDefault="true" @onclick:stopPropagation="true" title="@Item.Title">
-                @if (!string.IsNullOrEmpty(Item.Icon))
-                {
-                    <span class="bi @Item.Icon" aria-hidden="true"></span>
-                }
+            <button class="@("nav-link".AddClass("expanded", _expanded).AddClass("active", _active))"
+                    href="@Item.Url"
+                    @onclick="OnCollasped"
+                    @onclick:preventDefault="true"
+                    @onclick:stopPropagation="true"
+                    title="@Item.Title">
+                <Icon Class="@Item.Icon"></Icon>
                 <span>@Item.Title</span>
             </button>
             @if (_expanded)
@@ -27,11 +29,8 @@
         }
         else
         {
-            <NavLink class="nav-link" href="@Item.Url" title="@Item.Title" Match="@(Item.Match ?? NavLinkMatch.Prefix)">
-                @if (!string.IsNullOrEmpty(Item.Icon))
-                {
-                    <span class="bi @Item.Icon" aria-hidden="true"></span>
-                }
+            <NavLink class="nav-link" @onclick="OnActived" href="@Item.Url" title="@Item.Title" Match="@(Item.Match?? NavLinkMatch.Prefix)">
+                <Icon Class="@Item.Icon"></Icon>
                 <span>@Item.Title</span>
             </NavLink>
         }
@@ -57,18 +56,33 @@
     [Parameter]
     public int Level { get; set; }
 
-    protected override ClassNameBuilder ClassName => "nav-item".AddClass("nav-collapse", _collapse);
+    /// <summary>
+    /// 当前样式名称。
+    /// </summary>
+    protected override ClassName ClassName => "nav-item".AddClass("nav-collapse", _collapse);
 
     private bool _collapse;
     private bool _authorized;
+    private bool _active;
     protected override async Task OnInitializedAsync()
     {
         _authorized = await MenuDataProviderFactory.IsAuthorizedAsync(Item);
-        _collapse = NavMenu != null && !NavMenu.TopLevelOnly && Item.Any();
+        if (_authorized)
+        {
+            _collapse = Item.Any() && NavMenu?.DisplayMode == DisplayMode.Full;
+            _active = NavMenu?.IsCurrent(Item) == true;
+            if (_active && _collapse)
+                _expanded = true;
+        }
+    }
+
+    private void OnActived()
+    {
+        NavMenu?.OnActivedCurrent(Item);
     }
 
     private bool _expanded;
-    private void Collasped()
+    private void OnCollasped()
     {
         _expanded = !_expanded;
         StateHasChanged();

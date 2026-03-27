@@ -1,11 +1,12 @@
 ﻿@page "/"
+@using GSites.Extensions.Menus
 @using GSites.Extensions.Themes
 @rendermode InteractiveServer
 
 <TabSet>
     <Tab Title="基础">
         <p>
-            菜单模式：@ElementSettings.SidebarMode
+            菜单模式：@Context.SidebarMode
             <select class="form-select" @onchange="e => OnSidebarModeChanged(e.Value)">
                 <option value="0">正常</option>
                 <option value="1">图标</option>
@@ -19,7 +20,7 @@
             这里是一些高级设置。
         </p>
         <p>
-            模板色调：@ElementSettings.ThemeName
+            模板色调：@Context.ThemeName
             <select class="form-select" @onchange="e => OnThemeChanged(e.Value?.ToString())">
                 <option value="light">浅色</option>
                 <option value="dark">深色</option>
@@ -29,24 +30,26 @@
     </Tab>
     <Tab Title="其他">
         其他配置
+
+        @Context.Current;
     </Tab>
 </TabSet>
 
 @code {
     [CascadingParameter]
-    private ElementSettings ElementSettings { get; set; } = default!;
+    private ComponentContext Context { get; set; } = default!;
 
     private void OnThemeChanged(string? themeName)
     {
-        ElementSettings.ThemeName = themeName;
-        ElementSettings.CurrentNavigation = "Home/Overview";
+        Context.ThemeName = themeName;
+        Context.Current = "Home/Overview";
     }
 
     private void OnSidebarModeChanged(object? sidebarMode)
     {
-        if (Enum.TryParse<SidebarMode>(sidebarMode?.ToString(), out var mode))
+        if (Enum.TryParse<DisplayMode>(sidebarMode?.ToString(), out var mode))
         {
-            ElementSettings.SidebarMode = mode;
+            Context.SidebarMode = mode;
         }
     }
 

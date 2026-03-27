@@ -1,4 +1,5 @@
-﻿@using GSites.Extensions.Themes
+﻿@using GSites.Components.Pages
+@using GSites.Extensions.Themes
 @using Microsoft.AspNetCore.Authorization
 @using Microsoft.AspNetCore.Components.Sections
 @inherits LayoutComponentBase
@@ -7,7 +8,7 @@
     <Sidebar @rendermode="InteractiveServer" />
     <main>
         <div class="top-row px-2">
-            <SectionOutlet SectionName="Breadcrumb"></SectionOutlet>
+            <BreadcrumbOutlet Provider="@MenuDataProvider.DefaultProviderName" />
         </div>
 
         <article class="content px-2">
@@ -21,7 +22,3 @@
     <a href="." class="reload">Reload</a>
     <span class="dismiss">🗙</span>
 </div>
-
-<SectionContent SectionName="Breadcrumb">
-    <Breadcrumb style="font-size:larger;"></Breadcrumb>
-</SectionContent>
