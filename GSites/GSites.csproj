@@ -24,4 +24,8 @@
     <ProjectReference Include="..\GtCores\GtCores.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Components/Account/Pages/Admin/" />
+  </ItemGroup>
+
 </Project>

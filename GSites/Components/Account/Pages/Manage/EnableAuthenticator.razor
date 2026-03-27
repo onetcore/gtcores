@@ -66,10 +66,7 @@ else
     </div>
 }
 
-<CurrentNavigation>
-    <li class="breadcrumb-item"><a href="Account/Manage/TwoFactorAuthentication">双重认证</a></li>
-    <li class="breadcrumb-item active" aria-current="page">启用认证器</li>
-</CurrentNavigation>
+<Breadcrumb Home="账户管理" Href="Account/Manage" Current="Account/Manage/TwoFactorAuthentication" Provider="Account">启用认证器</Breadcrumb>
 
 @code {
     private const string AuthenticatorUriFormat = "otpauth://totp/{0}:{1}?secret={2}&issuer={0}&digits=6";

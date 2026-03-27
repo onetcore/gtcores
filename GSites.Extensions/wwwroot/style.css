@@ -47,6 +47,10 @@
     right: 0.75rem;
 }
 
+.nav-collapse.expanded {
+    flex-grow: 1;
+}
+
 .nav-collapse>.nav-link::after {
     content: "\f285";
     font-family: bootstrap-icons;
@@ -55,7 +59,7 @@
     font-size: 0.75rem;
 }
 
-.nav-collapse>.expanded::after {
+.nav-collapse.expanded>.nav-link::after {
     content: "\f282";
     transition: transform 0.2s ease;
 }

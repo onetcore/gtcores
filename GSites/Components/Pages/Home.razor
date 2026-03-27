@@ -30,8 +30,6 @@
     </Tab>
     <Tab Title="其他">
         其他配置
-
-        @Context.Current;
     </Tab>
 </TabSet>
 
@@ -42,7 +40,7 @@
     private void OnThemeChanged(string? themeName)
     {
         Context.ThemeName = themeName;
-        Context.Current = "Home/Overview";
+        StateHasChanged();
     }
 
     private void OnSidebarModeChanged(object? sidebarMode)
@@ -50,6 +48,7 @@
         if (Enum.TryParse<DisplayMode>(sidebarMode?.ToString(), out var mode))
         {
             Context.SidebarMode = mode;
+            StateHasChanged();
         }
     }
 

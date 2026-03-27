@@ -1,3 +1,5 @@
+using System.Collections;
+using System.Collections.Concurrent;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using GSites.Extensions.Menus;
@@ -11,7 +13,7 @@ namespace GSites.Extensions;
 /// <summary>
 /// 元素配置。
 /// </summary>
-public class ComponentContext : INotifyPropertyChanged
+public class ComponentContext : IEnumerable<string>, INotifyPropertyChanged
 {
     internal ComponentContext(IServiceProvider serviceProvider)
     {
@@ -21,37 +23,21 @@ public class ComponentContext : INotifyPropertyChanged
         ServiceProvider = serviceProvider;
     }
 
-    private string? _current;
+    private readonly ConcurrentDictionary<string, object?> _data = new(StringComparer.OrdinalIgnoreCase);
     /// <summary>
-    /// 当前菜单导航标识。
+    /// 索引器，获取或设置指定键的值。
     /// </summary>
-    public string? Current
+    /// <param name="key">索引键。</param>
+    /// <returns>返回当前索引值。</returns>
+    public object? this[string key]
     {
-        get => _current;
+        get => _data.TryGetValue(key, out var value) ? value : null;
         set
         {
-            if (_current == value)
+            if (_data.TryGetValue(key, out var oldValue) && Equals(oldValue, value))
                 return;
-            if (Parent == null)
-                Parent = value;
-            _current = value;
-            OnPropertyChanged();
-        }
-    }
-
-    private string? _parent;
-    /// <summary>
-    /// 父级菜单导航标识。
-    /// </summary>
-    public string? Parent
-    {
-        get => _parent;
-        set
-        {
-            if (_parent == value)
-                return;
-            _parent = value;
-            OnPropertyChanged();
+            _data[key] = value!;
+            OnPropertyChanged(key);
         }
     }
 
@@ -100,7 +86,7 @@ public class ComponentContext : INotifyPropertyChanged
                 var navigationManager = ServiceProvider.GetRequiredService<NavigationManager>()!;
                 _currentUrl = navigationManager.ToBaseRelativePath(navigationManager.Uri);
             }
-            return _current!;
+            return _currentUrl!;
         }
     }
 
@@ -119,4 +105,18 @@ public class ComponentContext : INotifyPropertyChanged
     /// <param name="propertyName">属性名称。</param>
     protected virtual void OnPropertyChanged([CallerMemberName] string? propertyName = default)
        => PropertyChanged?.Invoke(this, new(propertyName));
+
+    /// <summary>
+    /// 获取枚举器。
+    /// </summary>
+    /// <returns>返回字符串枚举器。</returns>
+    public IEnumerator<string> GetEnumerator()
+    {
+        return _data.Keys.GetEnumerator();
+    }
+
+    IEnumerator IEnumerable.GetEnumerator()
+    {
+        return GetEnumerator();
+    }
 }

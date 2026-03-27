@@ -1,9 +1,10 @@
 ﻿@using GSites.Extensions.Menus
 @inject NavigationManager NavigationManager
 @inject IMenuDataProviderFactory Factory
+@inherits GSiteContentComponentBase
 
 <CascadingValue Value="this">
-    <nav @attributes="AdditionalAttributes">
+    <nav class="@ClassName">
         @foreach (var item in _items)
         {
             <NavMenuItem Item="item" Level="1" />
@@ -20,30 +21,35 @@
     public DisplayMode DisplayMode { get; set; }
 
     /// <summary>
-    /// 当前激活菜单标识。
-    /// </summary>
-    [Parameter]
-    public string? Current { get; set; }
-
-    /// <summary>
     /// 菜单提供者。
     /// </summary>
     [Parameter]
     public string Provider { get; set; } = MenuDataProviderBase.DefaultProviderName;
 
+    protected override void BuildClassName(ClassName className)
+    {
+        className.AddClass("nav flex-column");
+    }
+
     /// <summary>
-    /// 当前样式名称。
+    /// 组件上下文。
     /// </summary>
-    protected override ClassName? ClassName => "nav flex-column";
+    [CascadingParameter]
+    public ComponentContext Context { get; set; } = default!;
 
     private IEnumerable<GSites.Extensions.Menus.NavMenuItem> _items = default!;
     private GSites.Extensions.Menus.NavMenuItem? _current;
+    private NavMenuItemCollection menu = default!;
     protected override void OnInitialized()
     {
-        var menu = Factory.GetNavMenuItems(Provider);
+        menu = Factory.GetNavMenuItems(Provider);
         _items = menu.OrderBy(m => m.Priority).ToList();
-        Current ??= NavigationManager.ToBaseRelativePath(NavigationManager.Uri);
-        menu.TryGetMenuItem(Current, out _current);
+    }
+
+    protected override void OnParametersSet()
+    {
+        var currentId = Context[Provider]?.ToString() ?? NavigationManager.ToBaseRelativePath(NavigationManager.Uri);
+        menu.TryGetMenuItem(currentId, out _current);
     }
 
     internal bool IsCurrent(GSites.Extensions.Menus.NavMenuItem item)
@@ -62,7 +68,6 @@
     {
         if (current != _current)
         {
-            Current = current.Id;
             _current = current;
             StateHasChanged();
         }

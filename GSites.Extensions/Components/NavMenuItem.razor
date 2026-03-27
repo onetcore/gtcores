@@ -5,19 +5,15 @@
 
 @if (_authorized)
 {
-    <div id="@Item.Id" class="@ClassName">
-        @if (_collapse)
+    <div id="@Item.Id" class="@("nav-item".AddClass("nav-collapse", _collapsed).AddClass("expanded", _active))">
+        @if (_collapsed)
         {
-            <button class="@("nav-link".AddClass("expanded", _expanded).AddClass("active", _active))"
-                    href="@Item.Url"
-                    @onclick="OnCollasped"
-                    @onclick:preventDefault="true"
-                    @onclick:stopPropagation="true"
-                    title="@Item.Title">
+            <button class="@("nav-link".AddClass("active", _active))" href="@Item.Url"
+                    @onclick="OnActived" @onclick:preventDefault="true" @onclick:stopPropagation="true" title="@Item.Title">
                 <Icon Class="@Item.Icon"></Icon>
                 <span>@Item.Title</span>
             </button>
-            @if (_expanded)
+            @if (_active)
             {
                 <nav class="nav nav-@(Level) flex-column">
                     @foreach (var child in Item.OrderBy(m => m.Priority))
@@ -29,7 +25,7 @@
         }
         else
         {
-            <NavLink class="nav-link" @onclick="OnActived" href="@Item.Url" title="@Item.Title" Match="@(Item.Match?? NavLinkMatch.Prefix)">
+            <NavLink class="@("nav-link".AddClass("active", _active))" @onclick="OnActived" href="@Item.Url" title="@Item.Title" Match="@(Item.Match??NavLinkMatch.Prefix)">
                 <Icon Class="@Item.Icon"></Icon>
                 <span>@Item.Title</span>
             </NavLink>
@@ -56,35 +52,25 @@
     [Parameter]
     public int Level { get; set; }
 
-    /// <summary>
-    /// 当前样式名称。
-    /// </summary>
-    protected override ClassName ClassName => "nav-item".AddClass("nav-collapse", _collapse);
-
-    private bool _collapse;
     private bool _authorized;
-    private bool _active;
     protected override async Task OnInitializedAsync()
     {
         _authorized = await MenuDataProviderFactory.IsAuthorizedAsync(Item);
+    }
+
+    private bool _active;
+    private bool _collapsed;
+    protected override void OnParametersSet()
+    {
         if (_authorized)
         {
-            _collapse = Item.Any() && NavMenu?.DisplayMode == DisplayMode.Full;
+            _collapsed = Item.Any() && NavMenu?.DisplayMode == DisplayMode.Full == true;
             _active = NavMenu?.IsCurrent(Item) == true;
-            if (_active && _collapse)
-                _expanded = true;
         }
     }
 
     private void OnActived()
     {
         NavMenu?.OnActivedCurrent(Item);
-    }
-
-    private bool _expanded;
-    private void OnCollasped()
-    {
-        _expanded = !_expanded;
-        StateHasChanged();
     }
 }

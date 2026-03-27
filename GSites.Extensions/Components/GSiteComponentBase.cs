@@ -17,7 +17,7 @@ public abstract class GSiteComponentBase : Microsoft.AspNetCore.Components.Compo
     /// <summary>
     /// 获取当前样式名称。
     /// </summary>
-    protected virtual ClassName? ClassName
+    protected virtual ClassName ClassName
     {
         get
         {
@@ -26,7 +26,7 @@ public abstract class GSiteComponentBase : Microsoft.AspNetCore.Components.Compo
                 _className = Class ?? new ClassName();
                 BuildClassName(_className!);
             }
-            return _className;
+            return _className!;
         }
     }
 

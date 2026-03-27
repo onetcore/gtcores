@@ -84,7 +84,7 @@
         _current = Factory.GetCurrent(Current, Provider);
         if (_current != null)
         {
-            Context.Current = _current.Id;
+            Context[Provider] = _current.Id;
             var parent = _current.Parent;
             while (!parent.IsRoot)
             {

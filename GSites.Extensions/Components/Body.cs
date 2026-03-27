@@ -19,7 +19,9 @@ public class Body : GSiteContentComponentBase
     {
         builder.OpenElement(0, "body");
         builder.AddAttribute(1, "data-bs-theme", Context?.ThemeName);
-        builder.AddContent(2, ChildContent);
+        if (ClassName.Any())
+            builder.AddClass(2, ClassName);
+        builder.AddContent(3, ChildContent);
         builder.CloseElement();
     }
 }

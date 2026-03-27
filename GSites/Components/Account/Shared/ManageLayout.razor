@@ -1,5 +1,8 @@
-﻿@inherits LayoutComponentBase
+﻿@using GSites.Extensions.Menus
+@inherits LayoutComponentBase
 @layout GSites.Components.Layout.MainLayout
+
+<Breadcrumb Home="账户管理" Href="Account/Manage" Provider="Account"></Breadcrumb>
 
 <div class="card">
     <div class="card-body row">
@@ -12,4 +15,12 @@
     </div>
 </div>
 
-<Breadcrumb Home="账户管理" Href="Account/Manage" Provider="Account"></Breadcrumb>
+@code{
+    [CascadingParameter]
+    private ComponentContext Context{get;set;} = default!;
+
+    protected override void OnParametersSet()
+    {
+        Context[MenuDataProviderBase.DefaultProviderName] = "Account/Manage";
+    }
+}

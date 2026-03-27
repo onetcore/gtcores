@@ -98,7 +98,7 @@ public abstract class ComponentBase : Microsoft.AspNetCore.Components.ComponentB
     /// 组件上下文。
     /// </summary>
     [CascadingParameter]
-    protected ComponentContext Context { get; set; } = default!;
+    public ComponentContext Context { get; set; } = default!;
 
     /// <summary>
     /// 参数设置。
